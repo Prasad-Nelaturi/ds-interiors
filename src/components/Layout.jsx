@@ -130,7 +130,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/98 backdrop-blur-xl shadow-lg shadow-black/5">
+      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white backdrop-blur-xl shadow-lg shadow-black/5">
         <div className="container mx-auto px-4 sm:px-6 py-3">
           <div className="flex justify-between items-center">
             <Link
@@ -146,18 +146,18 @@ const Layout = () => {
                 setIsMenuOpen(false);
               }}
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl overflow-hidden">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
                 <img
-                  src="https://images.scalebranding.com/letter-ds-logo-8b102564-b059-4978-978d-b92777b79c7e.jpg"
+                  src="logo3.png"
                   alt="D S Interiors Logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
-              <div className="hidden sm:block">
-                <h1 className="font-bold text-orange-600 text-lg sm:text-xl tracking-tight">
+              <div>
+                <h1 className="font-bold text-orange-600 text-lg sm:text-xl md:text-2xl tracking-tight">
                   D S Interiors
                 </h1>
-                <p className="text-amber-600 text-xs tracking-wide">
+                <p className="text-blue-900 text-xs sm:text-sm tracking-wide">
                   INTERIOR DESIGN STUDIO
                 </p>
               </div>
@@ -381,16 +381,18 @@ const Layout = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12">
             <div>
               <Link to="/" className="flex items-center gap-3 mb-6 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center overflow-hidden">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
                   <img
-                    src="https://images.scalebranding.com/letter-ds-logo-8b102564-b059-4978-978d-b92777b79c7e.jpg"
-                    alt="Logo"
-                    className="w-full h-full object-cover"
+                    src="logo3.png"
+                    alt="D S Interiors Logo"
+                    className="w-full h-full object-contain"
                   />
                 </div>
-                <span className="font-semibold text-xl tracking-tight">
-                  D S Interiors
-                </span>
+                <div>
+                  <h1 className="font-bold text-orange-600 text-lg sm:text-xl md:text-2xl tracking-tight">
+                    D S Interiors
+                  </h1>
+                </div>
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Creating beautiful spaces that inspire and delight. Transforming
