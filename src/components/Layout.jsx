@@ -42,7 +42,7 @@ const Layout = () => {
     experience: "12+ Years",
     phone: "+91 90107 99991",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
-    email: "dsinteriors2010@gmail.com",
+    email: "dsinteriorshyd1@gmail.com",
   };
 
   const servicesList = [
@@ -131,7 +131,7 @@ const Layout = () => {
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white backdrop-blur-xl shadow-lg shadow-black/5">
-        <div className="container mx-auto px-4 sm:px-6 py-3">
+        <div className="container mx-auto px-4 sm:px-6 py-2">
           <div className="flex justify-between items-center">
             <Link
               to="/"
@@ -157,7 +157,7 @@ const Layout = () => {
                 <h1 className="font-bold text-orange-600 text-lg sm:text-xl md:text-2xl tracking-tight">
                   D S Interiors
                 </h1>
-                <p className="text-blue-900 text-xs sm:text-sm tracking-wide">
+                <p className="text-blue-900 text-xs tracking-wide">
                   INTERIOR DESIGN STUDIO
                 </p>
               </div>
@@ -375,7 +375,7 @@ const Layout = () => {
       </main>
 
       {/* Footer with Services Dropdown */}
-      <footer className="bg-gray-900 mx-4 sm:mx-6 rounded-t-3xl text-white pt-16 sm:pt-20 pb-10 relative overflow-hidden">
+      <footer className="bg-gray-900 mx-4 sm:mx-6 rounded-t-3xl text-white py-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12">
@@ -491,7 +491,7 @@ const Layout = () => {
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
             <p>
-              &copy; 2024 D S Interiors. All rights reserved. | Designed with{" "}
+              &copy; 2026 D S Interiors. All rights reserved. | Designed with{" "}
               <Heart className="w-3 h-3 inline text-amber-500" /> for luxury
               living
             </p>

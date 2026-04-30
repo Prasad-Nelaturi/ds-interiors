@@ -65,7 +65,7 @@ const ContactUs = () => {
   const companyInfo = {
     name: "D S Interiors",
     phone: "+91 90107 99991",
-    email: "dsinteriors2010@gmail.com",
+    email: "dsinteriorshyd1@gmail.com",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
     hours: "Mon - Sat: 9AM - 7PM",
     sunday: "Sunday: Closed",
@@ -478,7 +478,7 @@ const ContactUs = () => {
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
                   Follow Us
                 </h3>
-                <div className="flex gap-2 sm:gap-3 flex-wrap">
+                <div className="flex justify-between gap-2 sm:gap-3 flex-wrap">
                   {[
                     {
                       icon: <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />,
@@ -524,42 +524,6 @@ const ContactUs = () => {
                   ))}
                 </div>
               </motion.div>
-
-              {/* Trust Badges */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                viewport={{ once: true }}
-                className="mt-6 sm:mt-8 p-4 sm:p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl sm:rounded-2xl"
-              >
-                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 justify-between">
-                  <div className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
-                      500+
-                    </div>
-                    <div className="text-xs text-gray-600">Projects</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
-                      200+
-                    </div>
-                    <div className="text-xs text-gray-600">Happy Clients</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
-                      12+
-                    </div>
-                    <div className="text-xs text-gray-600">Years</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
-                      24/7
-                    </div>
-                    <div className="text-xs text-gray-600">Support</div>
-                  </div>
-                </div>
-              </motion.div>
             </motion.div>
 
             {/* RIGHT COLUMN - Contact Form (keep as is) */}
@@ -570,7 +534,7 @@ const ContactUs = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 border border-gray-100">
+              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-8 border border-gray-100">
                 <div className="mb-5 sm:mb-6">
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                     Send Us a Message
@@ -597,7 +561,7 @@ const ContactUs = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                         placeholder="John Doe"
                       />
                     </div>
@@ -616,7 +580,7 @@ const ContactUs = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -635,7 +599,7 @@ const ContactUs = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                         placeholder="+91 98765 43210"
                       />
                     </div>
@@ -653,7 +617,7 @@ const ContactUs = () => {
                         value={formData.service}
                         onChange={handleChange}
                         required
-                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all appearance-none bg-white"
+                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all appearance-none bg-white"
                       >
                         <option value="">Select a service</option>
                         {services.map((service, idx) => (
@@ -678,7 +642,7 @@ const ContactUs = () => {
                         onChange={handleChange}
                         required
                         rows="3"
-                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
+                        className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
                         placeholder="Tell us about your project..."
                       ></textarea>
                     </div>
@@ -751,6 +715,42 @@ const ContactUs = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Trust Badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="mt-6 sm:mt-8 p-4 sm:p-6 bg-gradient-to-r from-amber-100 to-orange-200 rounded-xl sm:rounded-2xl shadow-2xl"
+              >
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 justify-between">
+                  <div className="text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
+                      500+
+                    </div>
+                    <div className="text-xs text-gray-600">Projects</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
+                      200+
+                    </div>
+                    <div className="text-xs text-gray-600">Happy Clients</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
+                      12+
+                    </div>
+                    <div className="text-xs text-gray-600">Years</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-amber-600">
+                      24/7
+                    </div>
+                    <div className="text-xs text-gray-600">Support</div>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>

@@ -74,7 +74,7 @@ const DSInteriorsWebsite = () => {
     experience: "12+ Years",
     phone: "+91 90107 99991",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
-    email: "dsinteriors2010@gmail.com",
+    email: "dsinteriorshyd1@gmail.com",
   };
 
   const services = [
@@ -330,7 +330,7 @@ const DSInteriorsWebsite = () => {
 
         <div className="container mx-auto px-6 relative z-20">
           <AnimatedSection id="hero">
-            <div className="max-w-3xl">
+            <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-8 border border-white/20">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
                 <span className="text-white text-sm tracking-wide">
@@ -338,12 +338,12 @@ const DSInteriorsWebsite = () => {
                 </span>
               </div>
               <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                Where Dreams
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-600">
-                  Take Shape
+                DS Interiors
+                <span className="block py-1 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600">
+                  Design. Style. Comfort.
                 </span>
               </h1>
-              <p className="text-lg text-white/80 mb-10 max-w-xl leading-relaxed">
+              <p className="text-lg text-white mb-10 max-w-xl leading-relaxed">
                 Transform your space with India's finest interior design studio.
                 Creating bespoke environments that inspire and elevate.
               </p>
@@ -773,7 +773,7 @@ const DSInteriorsWebsite = () => {
       </section>
 
       {/* About Section with Luxury Layout */}
-      <section ref={aboutRef} className="py-24 relative overflow-hidden">
+      <section ref={aboutRef} className="py-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-50 rounded-full blur-3xl opacity-50 -z-10"></div>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -938,7 +938,7 @@ const DSInteriorsWebsite = () => {
       {/* ===== MODERN SERVICES SECTION ===== */}
       <section
         ref={servicesRef}
-        className="py-24 md:py-32 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
+        className="py-8 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -1108,7 +1108,7 @@ const DSInteriorsWebsite = () => {
       </section>
 
       {/* Portfolio Section with Masonry Layout */}
-      <section ref={portfolioRef} className="py-24">
+      <section ref={portfolioRef} className="py-12">
         <div className="container mx-auto px-6">
           <AnimatedSection id="portfolio">
             <div className="text-center max-w-2xl mx-auto mb-16">
@@ -1135,7 +1135,7 @@ const DSInteriorsWebsite = () => {
             <div className="lg:col-span-2 lg:row-span-2">
               <AnimatedSection id="portfolio">
                 <div
-                  className="group relative overflow-hidden cursor-pointer rounded-3xl shadow-2xl h-[400px] md:h-[500px] lg:h-[600px]"
+                  className="group relative overflow-hidden cursor-pointer rounded-3xl shadow-2xl h-[300px] md:h-[400px] lg:h-[500px]"
                   onMouseEnter={() => setHoveredPortfolio(portfolio[0].id)}
                   onMouseLeave={() => setHoveredPortfolio(null)}
                   onClick={() => setSelectedImage(portfolio[0])}
@@ -1173,7 +1173,7 @@ const DSInteriorsWebsite = () => {
             {portfolio.slice(1).map((item, idx) => (
               <AnimatedSection key={item.id} id="portfolio">
                 <div
-                  className="group relative overflow-hidden cursor-pointer rounded-2xl shadow-lg h-[300px] md:h-[280px] lg:h-[280px]"
+                  className="group relative overflow-hidden cursor-pointer rounded-2xl shadow-lg h-[300px] md:h-[280px] lg:h-[238px]"
                   onMouseEnter={() => setHoveredPortfolio(item.id)}
                   onMouseLeave={() => setHoveredPortfolio(null)}
                   onClick={() => setSelectedImage(item)}
@@ -1304,7 +1304,7 @@ const DSInteriorsWebsite = () => {
       {/* ===== MODERN CONTACT SECTION WITH LUXURY DESIGN ===== */}
       <section
         ref={contactRef}
-        className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+        className="py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
       >
         {/* Background Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-amber-100/30 to-transparent rounded-full blur-3xl"></div>
@@ -1585,29 +1585,6 @@ const DSInteriorsWebsite = () => {
                     </motion.a>
                   ))}
                 </motion.div>
-
-                {/* Trust Badge */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.7 }}
-                  className="mt-8 flex items-center gap-4 text-xs text-gray-400"
-                >
-                  <span className="flex items-center gap-1">
-                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
-                    24/7 Support
-                  </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
-                    Free Consultation
-                  </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
-                    No Hidden Fees
-                  </span>
-                </motion.div>
               </div>
             </AnimatedSection>
 
@@ -1663,6 +1640,30 @@ const DSInteriorsWebsite = () => {
                   <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-amber-200 rounded-br-xl"></div>
                 </div>
               </motion.div>
+
+                              {/* Trust Badge */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  className="bg-white p-4 rounded-2xl rounded-2xl shadow-2xl overflow-hidden border border-gray-100 mt-8 flex items-center gap-4 text-sm justify-center text-gray-600"
+                >
+                  <span className="flex items-center gap-1">
+                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
+                    24/7 Support
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
+                    Free Consultation
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
+                    No Hidden Fees
+                  </span>
+                </motion.div>
+
             </AnimatedSection>
           </div>
         </div>
