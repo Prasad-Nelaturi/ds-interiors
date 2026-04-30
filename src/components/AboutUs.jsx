@@ -1,34 +1,21 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Award,
   Check,
   Users,
-  Clock,
   Heart,
   Sparkles,
   Building,
-  Palette,
-  Crown,
   ArrowRight,
   ChevronRight,
   Play,
   Star,
   Quote,
-  Coffee,
-  Smile,
   Target,
   Eye,
-  Zap,
-  Shield,
-  TrendingUp,
-  Globe,
-  MessageCircle,
-  Briefcase,
 } from "lucide-react";
 
 const AboutUs = () => {
-  const [activeVideo, setActiveVideo] = useState(false);
 
   const team = [
     {
