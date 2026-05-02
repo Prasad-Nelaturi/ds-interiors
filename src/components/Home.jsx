@@ -55,10 +55,10 @@ const DSInteriorsWebsite = () => {
   const [isCarouselPlaying, setIsCarouselPlaying] = useState(true);
 
   const [selectedVideo, setSelectedVideo] = useState(null);
-const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-const [isPlaying, setIsPlaying] = useState(false);
-const [isMuted, setIsMuted] = useState(true);
-const modalVideoRef = useRef(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const modalVideoRef = useRef(null);
 
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
@@ -70,6 +70,7 @@ const modalVideoRef = useRef(null);
   const videoRef = useRef(null);
   const autoPlayInterval = useRef(null);
   const carouselInterval = useRef(null);
+  const [noTransition, setNoTransition] = useState(false);
 
   const companyInfo = {
     name: "D S Interiors",
@@ -146,6 +147,13 @@ const modalVideoRef = useRef(null);
       name: "Neha Gupta",
       role: "Interior Designer",
       text: "Incredible creativity and execution. They turned our outdated office into a modern workspace that inspires everyone.",
+      rating: 5,
+      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    },
+    {
+      name: "Priya",
+      role: "Business Owner",
+      text: "Professional, creative, and delivered on time. Highly recommended! They understood our vision and brought it to life beautifully.",
       rating: 5,
       videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     },
@@ -269,15 +277,13 @@ const modalVideoRef = useRef(null);
     },
   ];
 
-  // Carousel auto-play
   useEffect(() => {
-    if (isCarouselPlaying) {
-      carouselInterval.current = setInterval(() => {
-        setActiveSlide((prev) => (prev + 1) % carouselImages.length);
-      }, 5000);
-    }
-    return () => clearInterval(carouselInterval.current);
-  }, [isCarouselPlaying, carouselImages.length]);
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => prev + 1);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -352,115 +358,103 @@ const modalVideoRef = useRef(null);
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Hero Section with Endless Carousel */}
-      {/* Hero Section with Endless Carousel - Instant Transition */}
+      {/* Hero Section - Smooth Endless Slider */}
       <section
         ref={heroRef}
         className="relative min-h-screen flex items-center overflow-hidden"
       >
-        {/* Carousel Background - Crossfade without blank screen */}
-        <div className="absolute inset-0">
-          {carouselImages.map((image, idx) => (
-            <motion.div
-              key={idx}
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: idx === activeSlide ? 1 : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
+        {/* SLIDER */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="flex h-full"
+            animate={{ x: `-${activeSlide * 100}%` }}
+            transition={
+              noTransition
+                ? { duration: 0 }
+                : { duration: 1.7, ease: [0.22, 1, 0.36, 1] }
+            }
+            onAnimationComplete={() => {
+              if (activeSlide === carouselImages.length) {
+                setNoTransition(true);
+                setActiveSlide(0);
+
+                requestAnimationFrame(() => {
+                  setNoTransition(false);
+                });
+              }
+            }}
+          >
+            {/* ORIGINAL SLIDES */}
+            {carouselImages.map((img, i) => (
+              <div key={i} className="min-w-full h-full relative">
+                <img
+                  src={img.url}
+                  alt={img.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/0 to-black/30" />
+              </div>
+            ))}
+
+            {/* CLONE FIRST SLIDE */}
+            <div className="min-w-full h-full relative">
               <img
-                src={image.url}
-                alt={image.title}
+                src={carouselImages[0].url}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 z-10"></div>
-            </motion.div>
-          ))}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
+            </div>
+          </motion.div>
         </div>
 
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-          {carouselImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                setActiveSlide(idx);
-                setIsCarouselPlaying(false);
-                setTimeout(() => setIsCarouselPlaying(true), 5000);
-              }}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === activeSlide
-                  ? "w-8 bg-amber-400"
-                  : "w-2 bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Carousel Navigation Arrows */}
-        <button
-          onClick={() => {
-            setActiveSlide(
-              (prev) =>
-                (prev - 1 + carouselImages.length) % carouselImages.length,
-            );
-            setIsCarouselPlaying(false);
-            setTimeout(() => setIsCarouselPlaying(true), 5000);
-          }}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/40 transition-all duration-300"
-        >
-          <ChevronLeft className="w-6 h-6 text-white" />
-        </button>
-        <button
-          onClick={() => {
-            setActiveSlide((prev) => (prev + 1) % carouselImages.length);
-            setIsCarouselPlaying(false);
-            setTimeout(() => setIsCarouselPlaying(true), 5000);
-          }}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/40 transition-all duration-300"
-        >
-          <ChevronRight className="w-6 h-6 text-white" />
-        </button>
-
+        {/* CONTENT */}
         <div className="container mx-auto px-6 relative z-20">
           <AnimatedSection id="hero">
             <div className="max-w-4xl">
               <motion.div
                 key={activeSlide}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
+                transition={{ duration: 0.5 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-8 border border-white/20">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-6 border border-white/20">
                   <Sparkles className="w-4 h-4 text-yellow-400" />
-                  <span className="text-white text-sm tracking-wide">
+                  <span className="text-white text-sm">
                     Since 2012 • Award Winning Studio
                   </span>
                 </div>
-                <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
-                  DS Interiors
-                  <span className="block py-1 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                    {carouselImages[activeSlide].title}
-                  </span>
-                </h1>
-                <p className="text-xl text-white/90 mb-3">
-                  {carouselImages[activeSlide].subtitle}
-                </p>
-                <p className="text-base md:text-lg text-white/70 mb-10 max-w-xl leading-relaxed">
-                  We design simple, beautiful spaces for your home. Comfort,
-                  style, and quality in every corner.
-                </p>
+
+                {(() => {
+                  const currentIndex = activeSlide % carouselImages.length;
+
+                  return (
+                    <>
+                      <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
+                        DS Interiors
+                        <span className="py-1 block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                          {carouselImages[currentIndex].title}
+                        </span>
+                      </h1>
+
+                      <p className="text-xl text-white/90 mb-3">
+                        {carouselImages[currentIndex].subtitle}
+                      </p>
+                    </>
+                  );
+                })()}
+
                 <div className="flex flex-wrap gap-5">
                   <button
                     onClick={() => setShowContact(true)}
-                    className="group px-6 py-3 bg-white text-gray-900 rounded-full hover:bg-gradient-to-r from-amber-400 to-orange-500 hover:text-white transition-all duration-300 shadow-2xl flex items-center gap-2 font-semibold"
+                    className="group px-6 py-3 bg-white text-gray-900 rounded-full hover:bg-gradient-to-r from-amber-400 to-orange-500 hover:text-white transition-all duration-300 shadow-xl flex items-center gap-2 font-semibold"
                   >
                     Start Your Journey
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
                   </button>
+
                   <button
                     onClick={() => scrollToSection(portfolioRef)}
-                    className="px-6 py-3 border-2 border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold"
+                    className="px-6 py-3 border border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold"
                   >
                     Explore Portfolio
                   </button>
@@ -469,6 +463,38 @@ const modalVideoRef = useRef(null);
             </div>
           </AnimatedSection>
         </div>
+
+        {/* INDICATORS */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+          {carouselImages.map((_, idx) => {
+            const currentIndex = activeSlide % carouselImages.length;
+
+            return (
+              <button
+                key={idx}
+                onClick={() => setActiveSlide(idx)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  idx === currentIndex ? "w-8 bg-amber-400" : "w-2 bg-white/50"
+                }`}
+              />
+            );
+          })}
+        </div>
+
+        {/* ARROWS */}
+        <button
+          onClick={() => setActiveSlide((prev) => prev - 1)}
+          className="absolute left-6 bottom-1 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-3 rounded-full hover:bg-white/40 transition"
+        >
+          <ChevronLeft className="text-white" />
+        </button>
+
+        <button
+          onClick={() => setActiveSlide((prev) => prev + 1)}
+          className="absolute right-6 bottom-1 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-3 rounded-full hover:bg-white/40 transition"
+        >
+          <ChevronRight className="text-white" />
+        </button>
       </section>
 
       {/* ===== TRUST BADGES - MINIMAL & DECENT ===== */}
@@ -877,208 +903,226 @@ const modalVideoRef = useRef(null);
         `}</style>
       </section>
 
-{/* Customer Reviews Section with Videos - Horizontal Scrollable */}
-<section ref={testimonialsRef} className="py-12 relative overflow-hidden">
-  <div className="container mx-auto px-6 relative z-10">
-    <AnimatedSection id="testimonials">
-      <div className="text-center max-w-2xl mx-auto mb-12">
-        <div className="inline-block px-4 py-1 bg-amber-500/20 rounded-full mb-4 backdrop-blur-sm">
-          <span className="text-amber-700 text-lg font-medium tracking-wide">
-            Customer Reviews
-          </span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          What Our Clients{" "}
-          <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
-            Say
-          </span>
-        </h2>
-        <p className="text-gray-600 text-lg">
-          Don't just take our word for it — hear from our satisfied clients
-        </p>
-      </div>
-    </AnimatedSection>
-
-    {/* Horizontal Scrollable Cards with Videos */}
-    <div className="relative group">
-      <div
-        className="flex overflow-x-auto scrollbar-hide gap-6 pb-6 px-2 scroll-smooth"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {customerReviews.map((review, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            whileHover={{ y: -5 }}
-            className="flex-shrink-0 w-70 md:w-86 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
-            onClick={() => {
-              setSelectedVideo(review);
-              setIsVideoModalOpen(true);
-              setIsPlaying(true);
-            }}
-          >
-            {/* Video Thumbnail with Play Button */}
-            <div className="relative h-48 bg-gray-900 group/video">
-              <video
-                src={review.videoUrl}
-                className="w-full h-full object-cover"
-                loop
-                muted
-                playsInline
-              />
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 group-hover/video:bg-black/40 transition-all duration-300">
-                <div className="w-14 h-14 rounded-full bg-white/30 backdrop-blur flex items-center justify-center group-hover/video:scale-110 transition-all duration-300">
-                  <Play className="w-7 h-7 text-white ml-0.5" />
-                </div>
+      {/* Customer Reviews Section with Videos - Horizontal Scrollable */}
+      <section ref={testimonialsRef} className="py-8 relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection id="testimonials">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="inline-block px-4 py-1 bg-amber-500/20 rounded-full mb-4 backdrop-blur-sm">
+                <span className="text-amber-700 text-lg font-medium tracking-wide">
+                  Customer Reviews
+                </span>
               </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                What Our Clients{" "}
+                <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
+                  Say
+                </span>
+              </h2>
+              <p className="text-gray-600 text-lg">
+                Don't just take our word for it — hear from our satisfied
+                clients
+              </p>
             </div>
+          </AnimatedSection>
 
-            <div className="p-4">            
-              {/* Customer Name & Role */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-bold text-gray-900">{review.name}</h4>
-                  <p className="text-xs text-gray-500">{review.role}</p>
-                </div>
-                <div className="text-amber-500">
-                  <Quote className="w-5 h-5 opacity-50" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
+          {/* Horizontal Scrollable Cards with Videos */}
+          <div className="relative group">
+            <div
+              className="flex overflow-x-auto scrollbar-hide gap-6 pb-6 pt-1 px-2 scroll-smooth"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {customerReviews.map((review, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className="flex-shrink-0 w-60 md:w-76 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
+                  onClick={() => {
+                    setSelectedVideo(review);
+                    setIsVideoModalOpen(true);
+                    setIsPlaying(true);
+                  }}
+                >
+                  {/* Video Thumbnail with Play Button */}
+                  <div className="relative h-38 bg-gray-900 group/video">
+                    <video
+                      src={review.videoUrl}
+                      className="w-full h-full object-cover"
+                      loop
+                      muted
+                      playsInline
+                    />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 group-hover/video:bg-black/40 transition-all duration-300">
+                      <div className="w-14 h-14 rounded-full bg-white/30 backdrop-blur flex items-center justify-center group-hover/video:scale-110 transition-all duration-300">
+                        <Play className="w-7 h-7 text-white ml-0.5" />
+                      </div>
+                    </div>
+                  </div>
 
-    {/* Scroll Hint (Mobile) */}
-    <div className="text-center mt-6 lg:hidden">
-      <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
-        <ChevronLeft className="w-3 h-3" />
-        Scroll to see more reviews
-        <ChevronRight className="w-3 h-3" />
-      </p>
-    </div>
-  </div>
-</section>
-
-{/* Video Modal with Pay Button and Sound Controls */}
-<AnimatePresence>
-  {isVideoModalOpen && selectedVideo && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
-      onClick={() => {
-        setIsVideoModalOpen(false);
-        setIsPlaying(false);
-        if (modalVideoRef.current) {
-          modalVideoRef.current.pause();
-        }
-      }}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="relative max-w-4xl w-full bg-black rounded-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <button
-          onClick={() => {
-            setIsVideoModalOpen(false);
-            setIsPlaying(false);
-            if (modalVideoRef.current) {
-              modalVideoRef.current.pause();
-            }
-          }}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-amber-500 hover:text-white transition-all duration-300"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Video Player */}
-        <div className="relative">
-          <video
-            ref={modalVideoRef}
-            src={selectedVideo.videoUrl}
-            className="w-full h-auto max-h-[60vh] object-contain"
-            autoPlay
-            playsInline
-          />
-          
-          {/* Video Controls Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-            <div className="flex items-center justify-between">
-              {/* Play/Pause Button */}
-              <button
-                onClick={() => {
-                  if (modalVideoRef.current) {
-                    if (isPlaying) {
-                      modalVideoRef.current.pause();
-                    } else {
-                      modalVideoRef.current.play();
-                    }
-                    setIsPlaying(!isPlaying);
-                  }
-                }}
-                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
-              >
-                {isPlaying ? (
-                  <Pause className="w-5 h-5 text-white" />
-                ) : (
-                  <Play className="w-5 h-5 text-white ml-0.5" />
-                )}
-              </button>
-
-              {/* Sound Mute/Unmute Button */}
-              <button
-                onClick={() => {
-                  if (modalVideoRef.current) {
-                    modalVideoRef.current.muted = !isMuted;
-                    setIsMuted(!isMuted);
-                  }
-                }}
-                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
-              >
-                {isMuted ? (
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51c.66-1.24 1.03-2.65 1.03-4.15 0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM9.6 9.6l-1.1-1.1-2.5 2.5H3v6h3l3 3h1v-6.4l2.5-2.5-.9-.9z" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Review Info Below Video */}
-        <div className="py-4 px-6 bg-white">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">{selectedVideo.name}</h3>
-              <p className="text-sm text-gray-500">{selectedVideo.role}</p>
-            </div>
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                  <div className="p-4">
+                    {/* Customer Name & Role */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-bold text-gray-900">
+                          {review.name}
+                        </h4>
+                        <p className="text-xs text-gray-500">{review.role}</p>
+                      </div>
+                      <div className="text-amber-500">
+                        <Quote className="w-5 h-5 opacity-50" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
-          <p className="text-gray-600 leading-relaxed">
-            {selectedVideo.text}
-          </p>
+
+          {/* Scroll Hint (Mobile) */}
+          <div className="text-center mt-6 lg:hidden">
+            <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
+              <ChevronLeft className="w-3 h-3" />
+              Scroll to see more reviews
+              <ChevronRight className="w-3 h-3" />
+            </p>
+          </div>
         </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+      </section>
+
+      {/* Video Modal with Pay Button and Sound Controls */}
+      <AnimatePresence>
+        {isVideoModalOpen && selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+            onClick={() => {
+              setIsVideoModalOpen(false);
+              setIsPlaying(false);
+              if (modalVideoRef.current) {
+                modalVideoRef.current.pause();
+              }
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-4xl w-full bg-black rounded-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setIsVideoModalOpen(false);
+                  setIsPlaying(false);
+                  if (modalVideoRef.current) {
+                    modalVideoRef.current.pause();
+                  }
+                }}
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-amber-500 hover:text-white transition-all duration-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Video Player */}
+              <div className="relative">
+                <video
+                  ref={modalVideoRef}
+                  src={selectedVideo.videoUrl}
+                  className="w-full h-auto max-h-[60vh] object-contain"
+                  autoPlay
+                  playsInline
+                />
+
+                {/* Video Controls Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <div className="flex items-center justify-between">
+                    {/* Play/Pause Button */}
+                    <button
+                      onClick={() => {
+                        if (modalVideoRef.current) {
+                          if (isPlaying) {
+                            modalVideoRef.current.pause();
+                          } else {
+                            modalVideoRef.current.play();
+                          }
+                          setIsPlaying(!isPlaying);
+                        }
+                      }}
+                      className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-5 h-5 text-white" />
+                      ) : (
+                        <Play className="w-5 h-5 text-white ml-0.5" />
+                      )}
+                    </button>
+
+                    {/* Sound Mute/Unmute Button */}
+                    <button
+                      onClick={() => {
+                        if (modalVideoRef.current) {
+                          modalVideoRef.current.muted = !isMuted;
+                          setIsMuted(!isMuted);
+                        }
+                      }}
+                      className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
+                    >
+                      {isMuted ? (
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51c.66-1.24 1.03-2.65 1.03-4.15 0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM9.6 9.6l-1.1-1.1-2.5 2.5H3v6h3l3 3h1v-6.4l2.5-2.5-.9-.9z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Review Info Below Video */}
+              <div className="py-4 px-6 bg-white">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      {selectedVideo.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {selectedVideo.role}
+                    </p>
+                  </div>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-yellow-400"
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  {selectedVideo.text}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* About Section with Luxury Layout */}
       <section ref={aboutRef} className="py-12 relative overflow-hidden">
