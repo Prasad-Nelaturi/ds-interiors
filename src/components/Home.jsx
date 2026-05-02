@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ConsultationButton from "../components/ConsultationButton";
+import TrustedClients from '../components/TrustedClients';
+
 import {
   Star,
   Phone,
@@ -86,7 +89,6 @@ const DSInteriorsWebsite = () => {
     email: "dsinteriorshyd1@gmail.com",
   };
 
-  // Hero Carousel Images - Endless Loop
   const carouselImages = [
     {
       url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600",
@@ -371,7 +373,10 @@ const DSInteriorsWebsite = () => {
             transition={
               noTransition
                 ? { duration: 0 }
-                : { duration: 1.7, ease: [0.22, 1, 0.36, 1] }
+                : {
+                    duration: 4,
+                    ease: "easeInOut",
+                  }
             }
             onAnimationComplete={() => {
               if (activeSlide === carouselImages.length) {
@@ -444,13 +449,7 @@ const DSInteriorsWebsite = () => {
                 })()}
 
                 <div className="flex flex-wrap gap-5">
-                  <button
-                    onClick={() => setShowContact(true)}
-                    className="group px-6 py-3 bg-white text-gray-900 rounded-full hover:bg-gradient-to-r from-amber-400 to-orange-500 hover:text-white transition-all duration-300 shadow-xl flex items-center gap-2 font-semibold"
-                  >
-                    Start Your Journey
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
-                  </button>
+                  <ConsultationButton />
 
                   <button
                     onClick={() => scrollToSection(portfolioRef)}
@@ -495,6 +494,95 @@ const DSInteriorsWebsite = () => {
         >
           <ChevronRight className="text-white" />
         </button>
+      </section>
+
+      {/* Customer Reviews Section with Videos - Horizontal Scrollable */}
+      <section ref={testimonialsRef} className="py-8 relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection id="testimonials">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="inline-block px-4 py-1 bg-amber-500/20 rounded-full mb-4 backdrop-blur-sm">
+                <span className="text-amber-700 text-lg font-medium tracking-wide">
+                  Customer Reviews
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                What Our Clients{" "}
+                <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
+                  Say
+                </span>
+              </h2>
+              <p className="text-gray-600 text-lg">
+                Don't just take our word for it — hear from our satisfied
+                clients
+              </p>
+            </div>
+          </AnimatedSection>
+
+          {/* Horizontal Scrollable Cards with Videos */}
+          <div className="relative group">
+            <div
+              className="flex overflow-x-auto scrollbar-hide gap-6 pb-6 pt-1 px-2 scroll-smooth"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {customerReviews.map((review, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className="flex-shrink-0 w-60 md:w-76 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
+                  onClick={() => {
+                    setSelectedVideo(review);
+                    setIsVideoModalOpen(true);
+                    setIsPlaying(true);
+                  }}
+                >
+                  {/* Video Thumbnail with Play Button */}
+                  <div className="relative h-38 bg-gray-900 group/video">
+                    <video
+                      src={review.videoUrl}
+                      className="w-full h-full object-cover"
+                      loop
+                      muted
+                      playsInline
+                    />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 group-hover/video:bg-black/40 transition-all duration-300">
+                      <div className="w-14 h-14 rounded-full bg-white/30 backdrop-blur flex items-center justify-center group-hover/video:scale-110 transition-all duration-300">
+                        <Play className="w-7 h-7 text-white ml-0.5" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4">
+                    {/* Customer Name & Role */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-bold text-gray-900">
+                          {review.name}
+                        </h4>
+                        <p className="text-xs text-gray-500">{review.role}</p>
+                      </div>
+                      <div className="text-amber-500">
+                        <Quote className="w-5 h-5 opacity-50" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Scroll Hint (Mobile) */}
+          <div className="text-center mt-6 lg:hidden">
+            <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
+              <ChevronLeft className="w-3 h-3" />
+              Scroll to see more reviews
+              <ChevronRight className="w-3 h-3" />
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* ===== TRUST BADGES - MINIMAL & DECENT ===== */}
@@ -901,95 +989,6 @@ const DSInteriorsWebsite = () => {
             transition-delay: 200ms;
           }
         `}</style>
-      </section>
-
-      {/* Customer Reviews Section with Videos - Horizontal Scrollable */}
-      <section ref={testimonialsRef} className="py-8 relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <AnimatedSection id="testimonials">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <div className="inline-block px-4 py-1 bg-amber-500/20 rounded-full mb-4 backdrop-blur-sm">
-                <span className="text-amber-700 text-lg font-medium tracking-wide">
-                  Customer Reviews
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                What Our Clients{" "}
-                <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
-                  Say
-                </span>
-              </h2>
-              <p className="text-gray-600 text-lg">
-                Don't just take our word for it — hear from our satisfied
-                clients
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* Horizontal Scrollable Cards with Videos */}
-          <div className="relative group">
-            <div
-              className="flex overflow-x-auto scrollbar-hide gap-6 pb-6 pt-1 px-2 scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {customerReviews.map((review, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="flex-shrink-0 w-60 md:w-76 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
-                  onClick={() => {
-                    setSelectedVideo(review);
-                    setIsVideoModalOpen(true);
-                    setIsPlaying(true);
-                  }}
-                >
-                  {/* Video Thumbnail with Play Button */}
-                  <div className="relative h-38 bg-gray-900 group/video">
-                    <video
-                      src={review.videoUrl}
-                      className="w-full h-full object-cover"
-                      loop
-                      muted
-                      playsInline
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 group-hover/video:bg-black/40 transition-all duration-300">
-                      <div className="w-14 h-14 rounded-full bg-white/30 backdrop-blur flex items-center justify-center group-hover/video:scale-110 transition-all duration-300">
-                        <Play className="w-7 h-7 text-white ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4">
-                    {/* Customer Name & Role */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          {review.name}
-                        </h4>
-                        <p className="text-xs text-gray-500">{review.role}</p>
-                      </div>
-                      <div className="text-amber-500">
-                        <Quote className="w-5 h-5 opacity-50" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Scroll Hint (Mobile) */}
-          <div className="text-center mt-6 lg:hidden">
-            <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
-              <ChevronLeft className="w-3 h-3" />
-              Scroll to see more reviews
-              <ChevronRight className="w-3 h-3" />
-            </p>
-          </div>
-        </div>
       </section>
 
       {/* Video Modal with Pay Button and Sound Controls */}
@@ -1413,10 +1412,9 @@ const DSInteriorsWebsite = () => {
               </p>
               <button
                 onClick={() => scrollToSection(contactRef)}
-                className="inline-flex items-center gap-2 px-8 py-3 bg-white text-orange-600 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                className="inline-flex items-center"
               >
-                <span>Get Free Consultation</span>
-                <ChevronRight className="w-5 h-5" />
+                <ConsultationButton />
               </button>
             </div>
           </div>
@@ -1458,6 +1456,8 @@ const DSInteriorsWebsite = () => {
     }
   `}</style>
       </section>
+
+<TrustedClients />
 
       {/* Portfolio Section with Masonry Layout */}
       <section ref={portfolioRef} className="py-12">

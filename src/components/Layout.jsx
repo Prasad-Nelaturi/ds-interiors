@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import ConsultationButton from "../components/ConsultationButton";
 import {
   Phone,
   X,
@@ -13,6 +14,15 @@ import {
   Ruler,
   Sparkles,
   ChevronRight,
+  Briefcase,
+  Image,
+  Mail,
+  Info,
+  FolderKanban,
+  Grid,
+  BookOpen,
+  Users,
+  Factory,
 } from "lucide-react";
 
 const Layout = () => {
@@ -20,18 +30,19 @@ const Layout = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+  const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const dropdownRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
+  const moreDropdownRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
   const contactRef = useRef(null);
-
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,39 +105,50 @@ const Layout = () => {
     },
   ];
 
-  // Close dropdown when clicking outside
+  const moreList = [
+    {
+      name: "Blogs",
+      icon: <BookOpen className="w-4 h-4" />,
+      description: "Latest design trends & insights",
+      path: "/blogs",
+    },
+    {
+      name: "Careers",
+      icon: <Users className="w-4 h-4" />,
+      description: "Join our creative team",
+      path: "/careers",
+    },
+    {
+      name: "Modular Factory",
+      icon: <Factory className="w-4 h-4" />,
+      description: "State-of-the-art manufacturing",
+      path: "/modular-factory",
+    },
+  ];
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsServicesDropdownOpen(false);
+      }
+      if (
+        moreDropdownRef.current &&
+        !moreDropdownRef.current.contains(event.target)
+      ) {
+        setIsMoreDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const scrollToSection = useCallback(
-    (ref) => {
-      if (location.pathname !== "/") {
-        navigate("/");
-        setTimeout(() => {
-          ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
-      } else {
-        ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-      setIsMenuOpen(false);
-      setIsServicesDropdownOpen(false);
-      setIsMobileServicesOpen(false);
-    },
-    [location.pathname, navigate],
-  );
-
   const handleServiceClick = (servicePath) => {
     navigate(servicePath);
     setIsMenuOpen(false);
     setIsServicesDropdownOpen(false);
+    setIsMoreDropdownOpen(false);
     setIsMobileServicesOpen(false);
+    setIsMobileMoreOpen(false);
   };
 
   const copyAddress = () => {
@@ -143,15 +165,16 @@ const Layout = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5"
-            : "bg-white bg-transparent"
+            ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
+            : "bg-transparent bg-white py-3"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center">
+            {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-2 sm:gap-3 group cursor-pointer"
+              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
               onClick={() => {
                 if (isHomePage && heroRef.current) {
                   heroRef.current.scrollIntoView({
@@ -162,46 +185,63 @@ const Layout = () => {
                 setIsMenuOpen(false);
               }}
             >
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
+              <div className="w-10 h-10 sm:w-12 sm:h-12">
                 <img
                   src="logo3.png"
                   alt="D S Interiors Logo"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div>
-                <h1 className="font-bold text-orange-600 text-lg sm:text-xl md:text-2xl tracking-tight">
+              <div className="hidden sm:block">
+                <h1
+                  className={`font-bold text-sm sm:text-base md:text-lg tracking-tight transition-colors duration-300 ${
+                    scrolled ? "text-orange-600" : "text-orange-600"
+                  }`}
+                >
                   D S Interiors
                 </h1>
-                <p className="text-blue-900 text-xs tracking-wide">
+                <p
+                  className={`text-[10px] tracking-wide transition-colors duration-300 ${
+                    scrolled ? "text-blue-900" : "text-blue-900"
+                  }`}
+                >
                   INTERIOR DESIGN STUDIO
                 </p>
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 lg:gap-10">
+            {/* Desktop Navigation - Center */}
+            <div className="hidden lg:flex items-center gap-5 xl:gap-8 absolute left-1/2 -translate-x-1/2">
               <Link
                 to="/"
-                onClick={() => {
-                  if (isHomePage && heroRef.current) {
-                    heroRef.current.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
-                }}
-                className="text-gray-700 hover:text-gray-900 transition-all duration-300 text-sm font-bold tracking-wide relative group"
+                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  scrolled
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
+                }`}
               >
                 Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
+                <span
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                    scrolled ? "bg-orange-500" : "bg-orange-500"
+                  }`}
+                ></span>
               </Link>
+
               <Link
                 to="/about"
-                className="text-gray-700 hover:text-gray-900 transition-all duration-300 text-sm font-bold tracking-wide relative group"
+                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  scrolled
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
+                }`}
               >
-                About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
+                About Us
+                <span
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                    scrolled ? "bg-orange-500" : "bg-orange-500"
+                  }`}
+                ></span>
               </Link>
 
               {/* Services Dropdown */}
@@ -210,37 +250,43 @@ const Layout = () => {
                   onClick={() =>
                     setIsServicesDropdownOpen(!isServicesDropdownOpen)
                   }
-                  className="flex items-center gap-1 text-gray-700 hover:text-gray-900 transition-all duration-300 text-sm font-bold tracking-wide relative group"
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                    scrolled
+                      ? "text-gray-700 hover:text-orange-600"
+                      : "text-gray-700 hover:text-orange-600"
+                  }`}
                 >
                   Services
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${isServicesDropdownOpen ? "rotate-180" : ""}`}
+                    className={`w-3 h-3 transition-transform duration-300 ${isServicesDropdownOpen ? "rotate-180" : ""}`}
                   />
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
+                  <span
+                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      scrolled ? "bg-orange-500" : "bg-orange-500"
+                    }`}
+                  ></span>
                 </button>
 
-                {/* Dropdown Menu */}
                 {isServicesDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-[28px] w-80 bg-white rounded-2xl shadow-3xl border border-gray-300 overflow-hidden z-50 animate-fadeInUp">
+                  <div className="absolute top-full left-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
                     <div className="py-2">
                       {servicesList.map((service, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleServiceClick(service.path)}
-                          className="w-full px-4 py-3 flex items-start gap-3 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 transition-all duration-300 group"
+                          className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left"
                         >
-                          <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+                          <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center text-orange-500">
                             {service.icon}
                           </div>
-                          <div className="flex-1 text-left">
-                            <p className="text-sm font-semibold text-gray-900 group-hover:text-amber-600">
+                          <div>
+                            <p className="text-sm font-medium text-gray-800">
                               {service.name}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-400">
                               {service.description}
                             </p>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-all" />
                         </button>
                       ))}
                     </div>
@@ -249,108 +295,178 @@ const Layout = () => {
               </div>
 
               <Link
-                to="/contact"
-                className="text-gray-700 hover:text-gray-900 transition-all duration-300 text-sm font-bold tracking-wide relative group"
+                to="/projects"
+                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  scrolled
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
+                }`}
               >
-                Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
+                Our Projects
+                <span
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                    scrolled ? "bg-orange-500" : "bg-orange-500"
+                  }`}
+                ></span>
               </Link>
+
               <Link
-                to="/blogs"
-                className="text-gray-700 hover:text-gray-900 transition-all duration-300 text-sm font-bold tracking-wide relative group"
+                to="/gallery"
+                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  scrolled
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
+                }`}
               >
-                Blogs
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
+                Gallery
+                <span
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                    scrolled ? "bg-orange-500" : "bg-orange-500"
+                  }`}
+                ></span>
               </Link>
+
+              <Link
+                to="/contact"
+                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  scrolled
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
+                }`}
+              >
+                Contact Us
+                <span
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                    scrolled ? "bg-orange-500" : "bg-orange-500"
+                  }`}
+                ></span>
+              </Link>
+
+              {/* More Dropdown */}
+              <div className="relative" ref={moreDropdownRef}>
+                <button
+                  onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                    scrolled
+                      ? "text-gray-700 hover:text-orange-600"
+                      : "text-gray-700 hover:text-orange-600"
+                  }`}
+                >
+                  More
+                  <ChevronDown
+                    className={`w-3 h-3 transition-transform duration-300 ${isMoreDropdownOpen ? "rotate-180" : ""}`}
+                  />
+                  <span
+                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      scrolled ? "bg-orange-500" : "bg-orange-500"
+                    }`}
+                  ></span>
+                </button>
+
+                {isMoreDropdownOpen && (
+                  <div className="absolute top-full right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                    <div className="py-2">
+                      {moreList.map((item, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleServiceClick(item.path)}
+                          className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left"
+                        >
+                          <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center text-orange-500">
+                            {item.icon}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-800">
+                              {item.name}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              {item.description}
+                            </p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <button
-              onClick={() => setShowContact(true)}
-              className="hidden md:flex items-center gap-2 px-4 lg:px-6 py-2.5 rounded-full text-sm font-medium
-             relative overflow-hidden group
-             bg-gradient-to-r from-orange-500 to-amber-500 text-white
-             shadow-md hover:shadow-lg
-             transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-            >
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-20 transition duration-500
-                   bg-gradient-to-r from-orange-400 to-amber-400 blur-xl"
-              ></span>
-              <span className="absolute -left-1/2 top-0 w-1/2 h-full bg-white/30 skew-x-12 blur-md group-hover:animate-shine"></span>
-              <span className="relative z-10 flex items-center gap-2">
-                <Phone className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                <span>Get Quote</span>
-              </span>
-            </button>
+            {/* Free Quote Button - Hidden on mobile, visible on desktop */}
+            <div className="flex items-center gap-3">
+              <div className="hidden lg:block">
+                <ConsultationButton
+                  variant={scrolled ? "secondary" : "primary"}
+                  size="sm"
+                >
+                  Free Quote
+                </ConsultationButton>
+              </div>
 
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-orange-400 hover:bg-orange-100 transition"
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`lg:hidden p-2 rounded-lg transition ${
+                  scrolled
+                    ? "text-orange-500 hover:bg-orange-100"
+                    : "text-gray-600 hover:bg-white/10"
+                }`}
+              >
+                {isMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu with Services Dropdown */}
+          {/* Mobile Menu */}
           <div
-            className={`md:hidden fixed inset-x-0 top-[73px] bg-white/98 backdrop-blur-xl shadow-xl transition-all duration-500 overflow-y-auto max-h-[calc(100vh-73px)] ${
-              isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            className={`lg:hidden fixed left-0 right-0 bg-white shadow-xl transition-all duration-500 overflow-y-auto ${
+              isMenuOpen
+                ? "top-[55px] opacity-100 visible"
+                : "top-[-100%] opacity-0 invisible"
             }`}
+            style={{ maxHeight: "calc(100vh - 60px)" }}
           >
-            <div className="py-4 px-4 sm:px-6 space-y-3 bg-gray-50 rounded-b-2xl">
+            <div className="py-4 px-4 space-y-2">
               <Link
                 to="/"
-                onClick={() => {
-                  if (isHomePage && heroRef.current) {
-                    heroRef.current.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left text-gray-700 py-3 border-b border-gray-100 font-bold"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Home
               </Link>
+
               <Link
                 to="/about"
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-gray-700 py-3 border-b border-gray-100 font-bold"
+                className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
-                About
+                About Us
               </Link>
 
               {/* Mobile Services Dropdown */}
-              <div className="border-b border-gray-100">
+              <div>
                 <button
                   onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                  className="flex items-center justify-between w-full text-left text-gray-700 py-3 font-bold"
+                  className="flex items-center justify-between w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
                 >
                   <span>Services</span>
                   <ChevronDown
-                    className={`w-5 h-5 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""}`}
                   />
                 </button>
 
                 {isMobileServicesOpen && (
-                  <div className="pb-3 space-y-2">
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-orange-200 pl-3">
                     {servicesList.map((service, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleServiceClick(service.path)}
-                        className="w-full pl-4 py-2 flex items-center gap-3 hover:bg-amber-50 rounded-lg transition"
+                        className="w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
                       >
-                        <div className="w-6 h-6 bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center text-amber-600">
-                          {service.icon}
-                        </div>
-                        <span className="text-sm text-gray-700">
-                          {service.name}
-                        </span>
+                        {service.name}
                       </button>
                     ))}
                   </div>
@@ -358,116 +474,125 @@ const Layout = () => {
               </div>
 
               <Link
+                to="/projects"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
+              >
+                Our Projects
+              </Link>
+
+              <Link
+                to="/gallery"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
+              >
+                Gallery
+              </Link>
+
+              <Link
                 to="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-gray-700 py-3 border-b border-gray-100 font-bold"
+                className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
-                Contact
+                Contact Us
               </Link>
-              <Link
-                to="/blogs"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-gray-700 py-3 border-b border-gray-100 font-bold"
-              >
-                Blogs
-              </Link>
-              <button
-                onClick={() => {
-                  setShowContact(true);
-                  setIsMenuOpen(false);
-                }}
-                className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full font-medium"
-              >
-                Get a Quote
-              </button>
+
+              {/* Mobile More Dropdown */}
+              <div>
+                <button
+                  onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
+                  className="flex items-center justify-between w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
+                >
+                  <span>More</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${isMobileMoreOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {isMobileMoreOpen && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-orange-200 pl-3">
+                    {moreList.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleServiceClick(item.path)}
+                        className="w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-3">
+                <ConsultationButton
+                  variant="secondary"
+                  size="default"
+                  fullWidth
+                >
+                  Free Quote
+                </ConsultationButton>
+              </div>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <main className="pt-[73px]">
+      <main className="pt-0">
         <Outlet context={{ heroRef, aboutRef, servicesRef, contactRef }} />
       </main>
 
-      {/* Footer with Services Dropdown */}
-      <footer className="bg-gray-900 mx-4 sm:mx-6 rounded-t-3xl text-white py-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12">
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <Link to="/" className="flex items-center gap-3 mb-6 group">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
-                  <img
-                    src="logo3.png"
-                    alt="D S Interiors Logo"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div>
-                  <h1 className="font-bold text-orange-600 text-lg sm:text-xl md:text-2xl tracking-tight">
-                    D S Interiors
-                  </h1>
-                </div>
-              </Link>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Creating beautiful spaces that inspire and delight. Transforming
-                visions into reality since 2012.
+              <h3 className="text-orange-500 font-bold text-xl mb-4">
+                D S Interiors
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Creating beautiful spaces that inspire since 2012.
               </p>
             </div>
-
             <div>
-              <h4 className="font-semibold text-lg mb-6 relative inline-block">
-                Quick Links
-                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-amber-500"></span>
-              </h4>
-              <ul className="space-y-3">
+              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <Link
-                    to="/"
-                    className="text-gray-400 hover:text-amber-400 transition text-sm block"
-                  >
+                  <Link to="/" className="hover:text-orange-400">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/about"
-                    className="text-gray-400 hover:text-amber-400 transition text-sm block"
-                  >
-                    About
+                  <Link to="/about" className="hover:text-orange-400">
+                    About Us
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/contact"
-                    className="text-gray-400 hover:text-amber-400 transition text-sm block"
-                  >
-                    Contact
+                  <Link to="/projects" className="hover:text-orange-400">
+                    Our Projects
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/blogs"
-                    className="text-gray-400 hover:text-amber-400 transition text-sm block"
-                  >
-                    Blogs
+                  <Link to="/gallery" className="hover:text-orange-400">
+                    Gallery
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="hover:text-orange-400">
+                    Contact Us
                   </Link>
                 </li>
               </ul>
             </div>
-
             <div>
-              <h4 className="font-semibold text-lg mb-6 relative inline-block">
-                Our Services
-                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-amber-500"></span>
-              </h4>
-              <ul className="space-y-2">
+              <h4 className="font-semibold mb-4">Services</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
                 {servicesList.slice(0, 4).map((service, idx) => (
                   <li key={idx}>
                     <button
                       onClick={() => handleServiceClick(service.path)}
-                      className="text-gray-400 hover:text-amber-400 transition text-sm block"
+                      className="hover:text-orange-400"
                     >
                       {service.name}
                     </button>
@@ -475,250 +600,25 @@ const Layout = () => {
                 ))}
               </ul>
             </div>
-
             <div>
-              <h4 className="font-semibold text-lg mb-6 relative inline-block">
-                Business Hours
-                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-amber-500"></span>
-              </h4>
-              <div className="space-y-2">
-                <p className="text-gray-400 text-sm">
-                  Monday - Saturday: 9AM - 7PM
-                </p>
-                <p className="text-gray-400 text-sm">Sunday: Closed</p>
-                <div className="pt-4">
-                  <p className="text-amber-400 text-sm font-medium">
-                    Emergency Contact
-                  </p>
-                  <a
-                    href={`tel:${companyInfo.phone}`}
-                    className="text-gray-300 text-sm hover:text-amber-400 transition-colors duration-300 block"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log("Calling:", companyInfo.phone);
-                    }}
-                  >
-                    {companyInfo.phone}
-                  </a>
-                </div>
-              </div>
+              <h4 className="font-semibold mb-4">Contact</h4>
+              <p className="text-gray-400 text-sm">{companyInfo.phone}</p>
+              <p className="text-gray-400 text-sm mt-2">{companyInfo.email}</p>
+              <p className="text-gray-400 text-sm mt-2">
+                {companyInfo.address}
+              </p>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+          <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm">
             <p>
+              {" "}
               &copy; 2026 D S Interiors. All rights reserved. | Designed with{" "}
               <Heart className="w-3 h-3 inline text-amber-500" /> for luxury
-              living
+              living.
             </p>
           </div>
         </div>
       </footer>
-
-      {/* Contact Modal */}
-      {/* Contact Modal */}
-      {showContact && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl animate-fadeInUp mx-4">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
-                Contact Us
-              </h3>
-              <button
-                onClick={() => setShowContact(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-5">
-              {/* Phone Section */}
-              <div>
-                <p className="text-gray-500 text-sm mb-1">Phone</p>
-                <a
-                  href={`tel:${companyInfo.phone}`}
-                  className="text-gray-900 font-medium text-base sm:text-lg hover:text-orange-600 transition-colors flex items-center gap-2"
-                >
-                  <Phone className="w-4 h-4 text-orange-500" />
-                  {companyInfo.phone}
-                </a>
-              </div>
-
-              {/* Email Section - FIXED */}
-              <div>
-                <p className="text-gray-500 text-sm mb-2">Email</p>
-                <div className="space-y-2">
-                  {/* Direct mailto link */}
-                  <a
-                    href={`mailto:${companyInfo.email}?subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`}
-                    className="text-gray-900 text-sm sm:text-base break-all hover:text-orange-600 transition-colors flex items-center gap-2 group"
-                    onClick={(e) => {
-                      // Fallback for devices that don't handle mailto properly
-                      setTimeout(() => {
-                        if (!window.location.href.includes("mailto:")) {
-                          alert(
-                            "Please configure your email client or use Gmail/Outlook web version",
-                          );
-                        }
-                      }, 100);
-                    }}
-                  >
-                    <svg
-                      className="w-4 h-4 text-orange-500 flex-shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                    {companyInfo.email}
-                  </a>
-
-                  {/* Alternative buttons for webmail services */}
-                  <div className="flex flex-col sm:flex-row gap-2 mt-3">
-                    <button
-                      onClick={() => {
-                        window.open(
-                          `https://mail.google.com/mail/?view=cm&fs=1&to=${companyInfo.email}&su=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`,
-                          "_blank",
-                        );
-                      }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm hover:bg-red-100 transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                      </svg>
-                      Gmail
-                    </button>
-                    <button
-                      onClick={() => {
-                        window.open(
-                          `https://outlook.live.com/mail/0/deeplink/compose?to=${companyInfo.email}&subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`,
-                          "_blank",
-                        );
-                      }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm hover:bg-blue-100 transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z" />
-                      </svg>
-                      Outlook
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(companyInfo.email);
-                        alert("Email address copied to clipboard!");
-                      }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                        />
-                      </svg>
-                      Copy Email
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Address Section */}
-              <div>
-                <p className="text-gray-500 text-sm mb-1">Address</p>
-                <p className="text-gray-900 text-sm">{companyInfo.address}</p>
-                <button
-                  onClick={copyAddress}
-                  className="text-amber-600 text-xs mt-2 flex items-center gap-1 hover:gap-2 transition-all"
-                >
-                  {copied ? (
-                    <>
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                      </svg>
-                      <span>Copy Address</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Call Button */}
-            <button
-              onClick={() =>
-                (window.location.href = `tel:${companyInfo.phone}`)
-              }
-              className="w-full py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-medium mt-6 flex items-center justify-center gap-2"
-            >
-              <Phone className="w-4 h-4" />
-              Call Now
-            </button>
-          </div>
-        </div>
-      )}
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.3s ease-out;
-        }
-      `}</style>
     </div>
   );
 };
