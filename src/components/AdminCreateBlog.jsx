@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createClient } from "@sanity/client";
-import { Upload, X, Image as ImageIcon, Lock, Eye, EyeOff } from "lucide-react";
+import { Upload, X, Lock, Eye, EyeOff } from "lucide-react";
 
 const sanityClient = createClient({
   projectId: process.env.REACT_APP_SANITY_PROJECT_ID,
