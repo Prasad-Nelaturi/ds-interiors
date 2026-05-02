@@ -147,7 +147,7 @@ const Layout = () => {
             : "bg-white bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 py-1">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <Link
               to="/"
