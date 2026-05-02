@@ -757,7 +757,7 @@ const ContactUs = () => {
       </section>
 
       {/* ===== MAP SECTION ===== */}
-      <section className="py-8 sm:py-12 bg-gray-50">
+      <section className="py-6 sm:py-8 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -766,7 +766,7 @@ const ContactUs = () => {
             viewport={{ once: true }}
             className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden"
           >
-            <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]">
+            <div className="relative h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px]">
               <iframe
                 title="D S Interiors Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.5!2d78.3!3d17.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI0JzAwLjAiTiA3OMKwMTgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
