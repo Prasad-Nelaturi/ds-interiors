@@ -166,7 +166,7 @@ const Layout = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
-            : "bg-transparent bg-white py-3"
+            : "bg-transparent bg-white py-2"
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -214,10 +214,10 @@ const Layout = () => {
             <div className="hidden lg:flex items-center gap-5 xl:gap-8 absolute left-1/2 -translate-x-1/2">
               <Link
                 to="/"
-                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-600 hover:text-orange-600"
+                    : "text-gray-600 hover:text-orange-600"
                 }`}
               >
                 Home
@@ -230,10 +230,10 @@ const Layout = () => {
 
               <Link
                 to="/about"
-                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-600 hover:text-orange-600"
+                    : "text-gray-600 hover:text-orange-600"
                 }`}
               >
                 About Us
@@ -250,10 +250,10 @@ const Layout = () => {
                   onClick={() =>
                     setIsServicesDropdownOpen(!isServicesDropdownOpen)
                   }
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                     scrolled
-                      ? "text-gray-700 hover:text-orange-600"
-                      : "text-gray-700 hover:text-orange-600"
+                      ? "text-gray-600 hover:text-orange-600"
+                      : "text-gray-600 hover:text-orange-600"
                   }`}
                 >
                   Services
@@ -268,7 +268,7 @@ const Layout = () => {
                 </button>
 
                 {isServicesDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                  <div className="absolute top-full left-0 mt-[1.4rem] w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
                     <div className="py-2">
                       {servicesList.map((service, idx) => (
                         <button
@@ -296,10 +296,10 @@ const Layout = () => {
 
               <Link
                 to="/projects"
-                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-600 hover:text-orange-600"
+                    : "text-gray-600 hover:text-orange-600"
                 }`}
               >
                 Our Projects
@@ -312,10 +312,10 @@ const Layout = () => {
 
               <Link
                 to="/gallery"
-                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-600 hover:text-orange-600"
+                    : "text-gray-600 hover:text-orange-600"
                 }`}
               >
                 Gallery
@@ -328,10 +328,10 @@ const Layout = () => {
 
               <Link
                 to="/contact"
-                className={`transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-600 hover:text-orange-600"
+                    : "text-gray-600 hover:text-orange-600"
                 }`}
               >
                 Contact Us
@@ -346,10 +346,10 @@ const Layout = () => {
               <div className="relative" ref={moreDropdownRef}>
                 <button
                   onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-medium tracking-wide relative group whitespace-nowrap ${
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
                     scrolled
-                      ? "text-gray-700 hover:text-orange-600"
-                      : "text-gray-700 hover:text-orange-600"
+                      ? "text-gray-600 hover:text-orange-600"
+                      : "text-gray-600 hover:text-orange-600"
                   }`}
                 >
                   More
@@ -364,7 +364,7 @@ const Layout = () => {
                 </button>
 
                 {isMoreDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                  <div className="absolute top-full right-0 mt-[1.4rem] w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
                     <div className="py-2">
                       {moreList.map((item, idx) => (
                         <button
@@ -395,7 +395,7 @@ const Layout = () => {
             <div className="flex items-center gap-3">
               <div className="hidden lg:block">
                 <ConsultationButton
-                  variant={scrolled ? "secondary" : "primary"}
+                  variant={scrolled ? "secondary" : "secondary"}
                   size="sm"
                 >
                   Free Quote
@@ -422,7 +422,7 @@ const Layout = () => {
 
           {/* Mobile Menu */}
           <div
-            className={`lg:hidden fixed left-0 right-0 bg-white shadow-xl transition-all duration-500 overflow-y-auto ${
+            className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${
               isMenuOpen
                 ? "top-[55px] opacity-100 visible"
                 : "top-[-100%] opacity-0 invisible"

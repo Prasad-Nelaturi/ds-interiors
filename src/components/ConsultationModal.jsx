@@ -1,309 +1,315 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   X,
-  Sparkles,
-  Users,
   Phone,
-  ArrowRight,
-  Check,
-  Home,
-  Building,
-  Palette,
-  Crown,
-  Ruler,
+  Mail,
   MapPin,
-  ChevronRight,
+  Copy,
+  Check,
+  Clock,
+  ExternalLink,
 } from "lucide-react";
 import { useConsultation } from "./context/ConsultationContext";
 
 const ConsultationModal = () => {
-  const {
-    showConsultationModal,
-    closeConsultation,
-    step,
-    formData,
-    formErrors,
-    isSubmitting,
-    handleNameChange,
-    handleContactChange,
-    handleStep1Submit,
-    handleFinalSubmit,
-    setServiceType,
-    setBudget,
-    setLocation,
-    goToStep1,
-  } = useConsultation();
+  const { showConsultationModal, closeConsultation } = useConsultation();
+  const [copiedField, setCopiedField] = React.useState(null);
+  const [showEmailOptions, setShowEmailOptions] = React.useState(false);
+
+  const companyInfo = {
+    phone: "+91 90107 99991",
+    email: "dsinteriorshyd1@gmail.com",
+    address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
+    hours: "Mon - Sat: 9AM - 7PM",
+  };
+
+  const copyToClipboard = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  // Method 1: Direct mailto (works on most devices)
+  const openEmailClient = () => {
+    window.location.href = `mailto:${companyInfo.email}?subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`;
+  };
+
+  // Method 2: Gmail web
+  const openGmail = () => {
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${companyInfo.email}&su=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`,
+      "_blank",
+    );
+    setShowEmailOptions(false);
+    closeConsultation();
+  };
+
+  // Method 3: Outlook web
+  const openOutlook = () => {
+    window.open(
+      `https://outlook.live.com/mail/0/deeplink/compose?to=${companyInfo.email}&subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`,
+      "_blank",
+    );
+    setShowEmailOptions(false);
+    closeConsultation();
+  };
+
+  // Method 4: Yahoo Mail
+  const openYahooMail = () => {
+    window.open(
+      `https://compose.mail.yahoo.com/?to=${companyInfo.email}&subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`,
+      "_blank",
+    );
+    setShowEmailOptions(false);
+    closeConsultation();
+  };
+
+  const handleEmailClick = () => {
+    setShowEmailOptions(true);
+  };
 
   if (!showConsultationModal) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-3xl max-w-3xl shadow-2xl overflow-hidden"
-      >
-        {/* Modal Header */}
-        <div className="relative bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-5">
-          <button
-            onClick={closeConsultation}
-            className="absolute right-4 top-4 text-white/80 hover:text-white transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="text-white font-bold text-xl">
-                Free Consultation
-              </h3>
-              <p className="text-white/80 text-sm">Step {step} of 2</p>
-            </div>
-          </div>
-          <div className="flex gap-1 mt-4">
-            <div
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 1 ? "bg-white" : "bg-white/30"}`}
-            />
-            <div
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 2 ? "bg-white" : "bg-white/30"}`}
-            />
-          </div>
-        </div>
-
-        {/* Step 1 - Basic Info */}
-        {step === 1 && (
-          <form onSubmit={handleStep1Submit} className="p-6">
-            <div className="space-y-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Full Name <span className="text-orange-500">*</span>
-                </label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleNameChange(e.target.value)}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
-                      formErrors.name
-                        ? "border-red-400 focus:border-red-400 focus:ring-red-200"
-                        : formData.name
-                          ? "border-green-400 focus:border-green-400 focus:ring-green-200"
-                          : "border-gray-200 focus:border-orange-400 focus:ring-orange-200"
-                    }`}
-                    placeholder="Enter your full name"
-                    required
-                  />
-                  {formData.name && !formErrors.name && (
-                    <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
-                  )}
-                </div>
-                {formErrors.name && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <X className="w-3 h-3" />
-                    {formErrors.name}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Contact Number <span className="text-orange-500">*</span>
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="tel"
-                    value={formData.contact}
-                    onChange={(e) => handleContactChange(e.target.value)}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 ${
-                      formErrors.contact
-                        ? "border-red-400 focus:border-red-400 focus:ring-red-200"
-                        : formData.contact && !formErrors.contact
-                          ? "border-green-400 focus:border-green-400 focus:ring-green-200"
-                          : "border-gray-200 focus:border-orange-400 focus:ring-orange-200"
-                    }`}
-                    placeholder="98765 43210"
-                    required
-                  />
-                  {formData.contact && !formErrors.contact && (
-                    <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
-                  )}
-                </div>
-                <p className="text-xs text-gray-400 mt-1 flex items-center gap-2">
-                  <span>📱 Valid formats: 9876543210 | +91 98765 43210</span>
-                </p>
-                {formErrors.contact && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <X className="w-3 h-3" />
-                    {formErrors.contact}
-                  </p>
-                )}
-              </div>
-            </div>
-
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="bg-white rounded-2xl max-w-md w-full shadow-xl overflow-hidden"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 py-3 bg-gradient-to-r from-orange-500 to-amber-500">
+            <h3 className="text-white font-semibold text-base">Contact Us</h3>
             <button
-              type="submit"
-              disabled={
-                !formData.name ||
-                !formData.contact ||
-                formErrors.name ||
-                formErrors.contact
-              }
-              className={`w-full mt-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
-                !formData.name ||
-                !formData.contact ||
-                formErrors.name ||
-                formErrors.contact
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:scale-[1.02]"
-              }`}
+              onClick={closeConsultation}
+              className="text-white/80 hover:text-white transition"
             >
-              Continue
-              <ArrowRight className="w-4 h-4" />
+              <X className="w-4 h-4" />
             </button>
-          </form>
-        )}
+          </div>
 
-        {/* Step 2 - Project Details */}
-        {step === 2 && (
-          <div className="p-6">
-            <div className="space-y-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Service Type
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    {
-                      value: "Residential Design",
-                      icon: <Home className="w-4 h-4" />,
-                    },
-                    {
-                      value: "Commercial Space",
-                      icon: <Building className="w-4 h-4" />,
-                    },
-                    {
-                      value: "Interior Styling",
-                      icon: <Palette className="w-4 h-4" />,
-                    },
-                    {
-                      value: "Luxury Villa",
-                      icon: <Crown className="w-4 h-4" />,
-                    },
-                    {
-                      value: "Space Planning",
-                      icon: <Ruler className="w-4 h-4" />,
-                    },
-                    {
-                      value: "3D Visualization",
-                      icon: <Sparkles className="w-4 h-4" />,
-                    },
-                  ].map((service) => (
-                    <button
-                      key={service.value}
-                      type="button"
-                      onClick={() => setServiceType(service.value)}
-                      className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border transition-all duration-200 text-sm ${
-                        formData.serviceType === service.value
-                          ? "border-orange-500 bg-orange-50 text-orange-600"
-                          : "border-gray-200 hover:border-orange-300 text-gray-600"
-                      }`}
-                    >
-                      {service.icon}
-                      <span className="text-xs">{service.value}</span>
-                    </button>
-                  ))}
+          {/* Content */}
+          <div className="p-5 space-y-3">
+            {/* Phone */}
+            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Phone className="w-4 h-4 text-orange-500" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400">Phone</p>
+                  <a
+                    href={`tel:${companyInfo.phone}`}
+                    className="text-gray-800 text-sm font-medium hover:text-orange-600"
+                  >
+                    {companyInfo.phone}
+                  </a>
                 </div>
               </div>
-
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Budget Range
-                </label>
-                <div className="grid grid-cols-4 gap-3">
-                  {["₹ 5L - 10L", "₹ 10L - 20L", "₹ 20L - 30L", "₹ 30L - 40L"].map(
-                    (budget) => (
-                      <button
-                        key={budget}
-                        type="button"
-                        onClick={() => setBudget(budget)}
-                        className={`py-2 px-3 rounded-xl border transition-all duration-200 text-sm ${
-                          formData.budget === budget
-                            ? "border-orange-500 bg-orange-50 text-orange-600"
-                            : "border-gray-200 hover:border-orange-300 text-gray-600"
-                        }`}
-                      >
-                        {budget}
-                      </button>
-                    ),
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Location / City
-                </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={formData.location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200 transition"
-                    placeholder="e.g., Hyderabad, Mumbai, Delhi"
-                    required
-                  />
-                </div>
-              </div>
+              <button
+                onClick={() => copyToClipboard(companyInfo.phone, "phone")}
+                className="p-1"
+              >
+                {copiedField === "phone" ? (
+                  <Check className="w-3.5 h-3.5 text-green-500" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 text-gray-400 hover:text-orange-500" />
+                )}
+              </button>
             </div>
 
-            <div className="flex gap-3 mt-8">
+            {/* Email - Shows options on click */}
+            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Mail className="w-4 h-4 text-orange-500" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400">Email</p>
+                  <button
+                    onClick={handleEmailClick}
+                    className="text-gray-800 text-sm font-medium hover:text-orange-600 text-left flex items-center gap-1"
+                  >
+                    {companyInfo.email}
+                    <ExternalLink className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
               <button
-                onClick={goToStep1}
-                className="flex-1 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition"
+                onClick={() => copyToClipboard(companyInfo.email, "email")}
+                className="p-1"
               >
-                Back
-              </button>
-              <button
-                onClick={handleFinalSubmit}
-                disabled={
-                  isSubmitting ||
-                  !formData.serviceType ||
-                  !formData.budget ||
-                  !formData.location
-                }
-                className={`flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
-                  isSubmitting ||
-                  !formData.serviceType ||
-                  !formData.budget ||
-                  !formData.location
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:scale-[1.02]"
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Sending...
-                  </>
+                {copiedField === "email" ? (
+                  <Check className="w-3.5 h-3.5 text-green-500" />
                 ) : (
-                  <>
-                    <Phone className="w-4 h-4" />
-                    Send to WhatsApp
-                  </>
+                  <Copy className="w-3.5 h-3.5 text-gray-400 hover:text-orange-500" />
+                )}
+              </button>
+            </div>
+
+            {/* Address */}
+            <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition">
+              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-4 h-4 text-orange-500" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-400">Address</p>
+                <p className="text-gray-700 text-xs leading-relaxed">
+                  {companyInfo.address}
+                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <Clock className="w-3 h-3 text-gray-400" />
+                  <span className="text-gray-400 text-xs">
+                    {companyInfo.hours}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => copyToClipboard(companyInfo.address, "address")}
+                className="p-1 mt-1"
+              >
+                {copiedField === "address" ? (
+                  <Check className="w-3.5 h-3.5 text-green-500" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 text-gray-400 hover:text-orange-500" />
                 )}
               </button>
             </div>
           </div>
-        )}
-      </motion.div>
-    </div>
+
+          {/* Buttons */}
+          <div className="flex gap-2 p-5 pt-0">
+            <a
+              href={`tel:${companyInfo.phone}`}
+              className="flex-1 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg text-sm font-medium text-center hover:opacity-90 transition"
+            >
+              Call Now
+            </a>
+            <button
+              onClick={handleEmailClick}
+              className="flex-1 py-2 border border-orange-500 text-orange-600 rounded-lg text-sm font-medium text-center hover:bg-orange-50 transition"
+            >
+              Send Email
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Email Options Modal */}
+      {showEmailOptions && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-white rounded-2xl max-w-sm w-full shadow-xl overflow-hidden"
+          >
+            <div className="px-5 py-4 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Choose Email App
+              </h3>
+              <p className="text-xs text-gray-400 mt-1">
+                Select how you want to send email
+              </p>
+            </div>
+
+            <div className="p-3 space-y-2">
+              {/* Default Email Client */}
+              <button
+                onClick={() => {
+                  openEmailClient();
+                  setShowEmailOptions(false);
+                  closeConsultation();
+                }}
+                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group"
+              >
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-gray-800">Default Email App</p>
+                  <p className="text-xs text-gray-400">
+                    Outlook, Thunderbird, Apple Mail
+                  </p>
+                </div>
+              </button>
+
+              {/* Gmail */}
+              <button
+                onClick={openGmail}
+                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group"
+              >
+                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-red-600"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                  </svg>
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-gray-800">Gmail</p>
+                  <p className="text-xs text-gray-400">Open in web browser</p>
+                </div>
+              </button>
+
+              {/* Outlook */}
+              <button
+                onClick={openOutlook}
+                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group"
+              >
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-blue-600"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z" />
+                  </svg>
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-gray-800">Outlook</p>
+                  <p className="text-xs text-gray-400">Open in web browser</p>
+                </div>
+              </button>
+
+              {/* Yahoo Mail */}
+              <button
+                onClick={openYahooMail}
+                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group"
+              >
+                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-purple-600"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M22 6.5L16 14.5L22 22.5L16 22.5L12 17.5L8 22.5L2 22.5L8 14.5L2 6.5L8 6.5L12 11.5L16 6.5Z" />
+                  </svg>
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-gray-800">Yahoo Mail</p>
+                  <p className="text-xs text-gray-400">Open in web browser</p>
+                </div>
+              </button>
+            </div>
+
+            <div className="p-4 pt-2">
+              <button
+                onClick={() => setShowEmailOptions(false)}
+                className="w-full py-2 bg-red-100 border border-red-300 text-red-600 rounded-xl text-sm font-medium hover:bg-red-200 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </>
   );
 };
 

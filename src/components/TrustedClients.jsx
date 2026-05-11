@@ -1,11 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const TrustedClients = () => {
   const sectionRef = useRef(null);
   const scrollRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  const isInView = useInView(sectionRef, {
+    once: true,
+    amount: 0.2,
+  });
 
   const clients = [
     {
@@ -60,20 +63,42 @@ const TrustedClients = () => {
     },
   ];
 
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = direction === "left" ? -400 : 400;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
+  // duplicate for endless effect
+  const duplicatedClients = [...clients, ...clients];
+
+  // auto scroll - FASTER
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    let animationFrameId;
+
+    const speed = 1;
+
+    const scroll = () => {
+      if (!container) return;
+
+      container.scrollLeft += speed;
+
+      // seamless infinite reset
+      if (container.scrollLeft >= container.scrollWidth / 2) {
+        container.scrollLeft = 0;
+      }
+
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+
+    animationFrameId = requestAnimationFrame(scroll);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
-    >
+    <section ref={sectionRef} className="py-16 bg-gray-50">
       <div className="container mx-auto px-6">
-        {/* Section Header */}
+        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -81,62 +106,40 @@ const TrustedClients = () => {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Our Trusted{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">
-              Clients
-            </span>
+            Our Trusted <span className="text-orange-500">Clients</span>
           </h2>
           <p className="text-gray-500">Proudly serving industry leaders</p>
         </motion.div>
 
-        {/* Logo Slider with Navigation */}
-        <div className="relative group">
-          {/* Left Navigation Button */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-600 hover:bg-orange-500 hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-5 group-hover:translate-x-0"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* Scrollable Logos Container */}
+        {/* Logo Slider */}
+        <div className="relative overflow-hidden">
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto scrollbar-hide gap-8 py-8 px-4 scroll-smooth"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex gap-10 overflow-x-scroll scrollbar-hide"
           >
-            {clients.map((client, idx) => (
+            {duplicatedClients.map((client, idx) => (
               <motion.div
-                key={client.id}
-                initial={{ opacity: 0, scale: 0.8 }}
+                key={`${client.id}-${idx}`}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                transition={{
+                  duration: 0.4,
+                  delay: idx * 0.03,
+                }}
                 className="flex-shrink-0"
               >
-                <div className="w-28 h-28 md:w-32 md:h-32 hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110 cursor-pointer rounded-2xl">
-                  <img
-                    src={client.logo}
-                    alt={client.name}
-                    className="w-full h-full object-contain rounded-2xl filter grayscale hover:grayscale-0 transition-all duration-300"
-                  />
+                <div className="group">
+                  <div className="w-28 h-28 md:w-32 md:h-32 bg-gradient-to-r from-amber-200 to-orange-500 rounded-[50%] group-hover:rounded-2xl shadow-md flex items-center justify-center p-2 transition-all duration-300">
+                    <img
+                      src={client.logo}
+                      alt={client.name}
+                      className="w-full h-full object-contain rounded-[50%] group-hover:rounded-2xl transition-all duration-300"
+                    />
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Right Navigation Button */}
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-600 hover:bg-orange-500 hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-5 group-hover:translate-x-0"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Gradient Overlays for smooth edges */}
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none"></div>
         </div>
       </div>
 

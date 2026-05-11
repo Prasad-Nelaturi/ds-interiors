@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ConsultationButton from "../components/ConsultationButton";
-import TrustedClients from '../components/TrustedClients';
+import TrustedClients from "../components/TrustedClients";
+import ScrollingText from "../components/ScrollingText";
+import KitchenAppliances from "../components/KitchenAppliances";
 
 import {
   Star,
@@ -66,7 +68,6 @@ const DSInteriorsWebsite = () => {
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
-  const portfolioRef = useRef(null);
   const contactRef = useRef(null);
   const testimonialsRef = useRef(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -92,33 +93,21 @@ const DSInteriorsWebsite = () => {
   const carouselImages = [
     {
       url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600",
-      title: "Modern Living Room",
-      subtitle: "Elegant & Comfortable",
     },
     {
       url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1600",
-      title: "Luxury Bedroom",
-      subtitle: "Peaceful Retreat",
     },
     {
       url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600",
-      title: "Corporate Office",
-      subtitle: "Inspiring Workspace",
     },
     {
       url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600",
-      title: "Restaurant Design",
-      subtitle: "Welcoming Atmosphere",
     },
     {
       url: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1600",
-      title: "Modern Kitchen",
-      subtitle: "Functional & Stylish",
     },
     {
       url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600",
-      title: "Interior Styling",
-      subtitle: "Perfect Details",
     },
   ];
 
@@ -307,7 +296,6 @@ const DSInteriorsWebsite = () => {
       { ref: heroRef, id: "hero" },
       { ref: aboutRef, id: "about" },
       { ref: servicesRef, id: "services" },
-      { ref: portfolioRef, id: "portfolio" },
       { ref: testimonialsRef, id: "testimonials" },
       { ref: contactRef, id: "contact" },
     ];
@@ -413,52 +401,53 @@ const DSInteriorsWebsite = () => {
         </div>
 
         {/* CONTENT */}
-        <div className="container mx-auto px-6 relative z-20">
+        <div className="container mx-auto px-6 relative z-20 h-screen flex flex-col justify-end pb-20">
           <AnimatedSection id="hero">
-            <div className="max-w-4xl">
-              <motion.div
-                key={activeSlide}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-6 border border-white/20">
-                  <Sparkles className="w-4 h-4 text-yellow-400" />
-                  <span className="text-white text-sm">
-                    Since 2012 • Award Winning Studio
-                  </span>
+            <div className="max-w-4xl mx-auto text-center">
+              <div>
+                <div className="flex flex-col items-center justify-end">
+                  {(() => {
+                    const currentIndex = activeSlide % carouselImages.length;
+
+                    return (
+                      <div className="flex flex-col items-center justify-center text-center">
+                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gray-600/60 backdrop-blur-md rounded-full border border-white/20">
+                          <Sparkles className="w-4 h-4 text-yellow-400" />
+                          <span className="text-white text-sm">
+                            Since 2012 • Award Winning Studio
+                          </span>
+                        </div>
+
+                        <div className="relative">
+                          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white text-center leading-tight">
+                            We Reach{" "}
+                            <span className="text-white">Your Dreams</span>
+                          </h1>
+
+                          <p className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light tracking-wider max-w-4xl mx-auto leading-relaxed">
+                            {carouselImages[currentIndex].subtitle}
+                          </p>
+
+                          {/* Decorative elements */}
+                          <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-amber-500/50 to-transparent rounded-full hidden lg:block"></div>
+                          <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-amber-500/50 to-transparent rounded-full hidden lg:block"></div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  <div className="flex flex-wrap gap-5 justify-center mt-8">
+                    <ConsultationButton />
+
+                    <button
+                      onClick={() => scrollToSection(contactRef)}
+                      className="px-6 py-3 border-2 border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold uppercase tracking-wide"
+                    >
+                      Explore Portfolio
+                    </button>
+                  </div>
                 </div>
-
-                {(() => {
-                  const currentIndex = activeSlide % carouselImages.length;
-
-                  return (
-                    <>
-                      <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
-                        DS Interiors
-                        <span className="py-1 block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                          {carouselImages[currentIndex].title}
-                        </span>
-                      </h1>
-
-                      <p className="text-xl text-white/90 mb-3">
-                        {carouselImages[currentIndex].subtitle}
-                      </p>
-                    </>
-                  );
-                })()}
-
-                <div className="flex flex-wrap gap-5">
-                  <ConsultationButton />
-
-                  <button
-                    onClick={() => scrollToSection(portfolioRef)}
-                    className="px-6 py-3 border border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold"
-                  >
-                    Explore Portfolio
-                  </button>
-                </div>
-              </motion.div>
+              </div>
             </div>
           </AnimatedSection>
         </div>
@@ -501,15 +490,10 @@ const DSInteriorsWebsite = () => {
         <div className="container mx-auto px-6 relative z-10">
           <AnimatedSection id="testimonials">
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <div className="inline-block px-4 py-1 bg-amber-500/20 rounded-full mb-4 backdrop-blur-sm">
-                <span className="text-amber-700 text-lg font-medium tracking-wide">
-                  Customer Reviews
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h2 className="text-4xl md:text-5xl uppercase font-bold text-gray-900 mb-4">
                 What Our Clients{" "}
                 <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
-                  Say
+                  Say's
                 </span>
               </h2>
               <p className="text-gray-600 text-lg">
@@ -532,7 +516,7 @@ const DSInteriorsWebsite = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -5 }}
-                  className="flex-shrink-0 w-60 md:w-76 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
+                  className="flex-shrink-0 w-80 md:w-96 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
                   onClick={() => {
                     setSelectedVideo(review);
                     setIsVideoModalOpen(true);
@@ -540,7 +524,7 @@ const DSInteriorsWebsite = () => {
                   }}
                 >
                   {/* Video Thumbnail with Play Button */}
-                  <div className="relative h-38 bg-gray-900 group/video">
+                  <div className="relative h-58 bg-gray-900 group/video">
                     <video
                       src={review.videoUrl}
                       className="w-full h-full object-cover"
@@ -1286,6 +1270,8 @@ const DSInteriorsWebsite = () => {
         </div>
       </section>
 
+      <ScrollingText />
+
       {/* ===== MODERN SERVICES SECTION ===== */}
       <section
         ref={servicesRef}
@@ -1307,7 +1293,7 @@ const DSInteriorsWebsite = () => {
                 What We Do
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Our Premium{" "}
               <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
                 Services
@@ -1457,105 +1443,9 @@ const DSInteriorsWebsite = () => {
   `}</style>
       </section>
 
-<TrustedClients />
+      <TrustedClients />
 
-      {/* Portfolio Section with Masonry Layout */}
-      <section ref={portfolioRef} className="py-12">
-        <div className="container mx-auto px-6">
-          <AnimatedSection id="portfolio">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-5 py-2 mb-6 shadow-md border border-orange-100">
-                <Sparkles className="w-4 h-4 text-orange-500" />
-                <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                  Our Work
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Featured{" "}
-                <span className="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">
-                  Projects
-                </span>
-              </h2>
-              <p className="text-gray-600 text-lg">
-                Explore some of our finest interior design projects
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* ===== BALANCED PORTFOLIO GRID ===== */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Featured Card - Takes 2 columns on desktop */}
-            <div className="lg:col-span-2 lg:row-span-2">
-              <AnimatedSection id="portfolio">
-                <div
-                  className="group relative overflow-hidden cursor-pointer rounded-3xl shadow-2xl h-[300px] md:h-[400px] lg:h-[500px]"
-                  onMouseEnter={() => setHoveredPortfolio(portfolio[0].id)}
-                  onMouseLeave={() => setHoveredPortfolio(null)}
-                  onClick={() => setSelectedImage(portfolio[0])}
-                >
-                  <img
-                    src={portfolio[0].image}
-                    alt={portfolio[0].title}
-                    className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
-
-                  {/* Gradient Border Animation */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                    <div className="mb-2">
-                      <span className="px-3 py-1 rounded-full bg-amber-500 text-white text-xs font-bold">
-                        FEATURED
-                      </span>
-                    </div>
-                    <h3 className="text-white text-3xl md:text-4xl font-bold mb-2">
-                      {portfolio[0].title}
-                    </h3>
-                    <p className="text-gray-200 text-sm md:text-base mb-4">
-                      {portfolio[0].category}
-                    </p>
-                    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-gray-900 font-semibold hover:gap-3 transition-all duration-300">
-                      <span>Explore Project</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            </div>
-
-            {/* Other Cards */}
-            {portfolio.slice(1).map((item, idx) => (
-              <AnimatedSection key={item.id} id="portfolio">
-                <div
-                  className="group relative overflow-hidden cursor-pointer rounded-2xl shadow-lg h-[300px] md:h-[280px] lg:h-[238px]"
-                  onMouseEnter={() => setHoveredPortfolio(item.id)}
-                  onMouseLeave={() => setHoveredPortfolio(null)}
-                  onClick={() => setSelectedImage(item)}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                    <span className="text-amber-300 text-xs font-medium uppercase tracking-wider">
-                      {item.category}
-                    </span>
-                    <h4 className="text-white text-lg font-semibold mt-1">
-                      {item.title}
-                    </h4>
-                    <div className="flex items-center gap-1 text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <span>View</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
+      <KitchenAppliances />
 
       {/* ===== MODERN CONTACT SECTION WITH LUXURY DESIGN ===== */}
       <section
@@ -1572,7 +1462,7 @@ const DSInteriorsWebsite = () => {
             <AnimatedSection id="contact">
               <div>
                 {/* Animated Badge */}
-                <motion.div
+                <div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
@@ -1582,10 +1472,10 @@ const DSInteriorsWebsite = () => {
                     <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
                     Get In Touch
                   </span>
-                </motion.div>
+                </div>
 
                 {/* Title with Animation */}
-                <motion.h2
+                <h2
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
@@ -1596,10 +1486,10 @@ const DSInteriorsWebsite = () => {
                     {" "}
                     Your Project
                   </span>
-                </motion.h2>
+                </h2>
 
                 {/* Description */}
-                <motion.p
+                <p
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
@@ -1607,10 +1497,10 @@ const DSInteriorsWebsite = () => {
                 >
                   Ready to transform your space? Contact us for a consultation
                   and let's bring your vision to life.
-                </motion.p>
+                </p>
 
                 {/* Contact Details with Staggered Animation */}
-                <motion.div
+                <div
                   initial="hidden"
                   whileInView="visible"
                   variants={{
@@ -1754,10 +1644,10 @@ const DSInteriorsWebsite = () => {
                       </button>
                     </div>
                   </motion.div>
-                </motion.div>
+                </div>
 
                 {/* Social Icons with Modern Animations */}
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
@@ -1840,13 +1730,13 @@ const DSInteriorsWebsite = () => {
                       </span>
                     </motion.a>
                   ))}
-                </motion.div>
+                </div>
               </div>
             </AnimatedSection>
 
             {/* Right Column - Map with Modern Design */}
             <AnimatedSection id="contact">
-              <motion.div
+              <div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -1895,10 +1785,10 @@ const DSInteriorsWebsite = () => {
                   <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-amber-200 rounded-tl-xl"></div>
                   <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-amber-200 rounded-br-xl"></div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Trust Badge */}
-              <motion.div
+              <div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
@@ -1918,7 +1808,7 @@ const DSInteriorsWebsite = () => {
                   <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
                   No Hidden Fees
                 </span>
-              </motion.div>
+              </div>
             </AnimatedSection>
           </div>
         </div>
