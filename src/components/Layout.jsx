@@ -192,7 +192,7 @@ const Layout = () => {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="hidden sm:block">
+              <div>
                 <h1
                   className={`font-bold text-sm sm:text-base md:text-lg tracking-tight transition-colors duration-300 ${
                     scrolled ? "text-orange-600" : "text-orange-600"

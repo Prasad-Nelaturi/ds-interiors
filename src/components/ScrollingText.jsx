@@ -22,9 +22,9 @@ const ScrollingText = () => {
       <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-500/10 blur-[120px] rounded-full"></div>
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-amber-400/10 blur-[120px] rounded-full"></div>
 
-      <div className="relative z-20">
+      <div className="container mx-auto relative z-20">
         {/* ===== HEADER ===== */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center px-6 max-w-3xl mx-auto mb-20">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-5 py-2 mb-6 shadow-md border border-orange-100">
             <Sparkles className="w-4 h-4 text-orange-500" />
             <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -62,13 +62,13 @@ const ScrollingText = () => {
           <div className="marquee-wrapper">
             <div className="marquee-track">
               {loopTexts.map((text, index) => (
-                <div key={index} className="group flex items-center gap-8 px-8">
+                <div key={index} className="group flex items-center gap-2 md:gap-4 px-4 md:px-4">
                   {/* Text */}
-                  <h2 className="text-lG md:text-xl font-extrabold uppercase tracking-[0.18em] text-white/90 transition-all duration-500 group-hover:text-orange-400">
+                  <h2 className="text-sm md:text-xl font-extrabold uppercase tracking-[0.18em] text-white/90 transition-all duration-500 group-hover:text-orange-400">
                     {text}
                   </h2>
                   {/* Dot Divider */}
-                  <span className="text-orange-500 text-3xl md:text-4xl">
+                  <span className="text-orange-500 text-xl md:text-4xl">
                     ✦
                   </span>{" "}
                 </div>
