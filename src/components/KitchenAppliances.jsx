@@ -62,19 +62,19 @@ const KitchenAppliances = () => {
   ];
 
   return (
-    <section className="relative bg-[#0b0b0b] py-12 overflow-hidden">
+    <section className="container mx-auto bg-[#0b0b0b] relative py-12 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-orange-500/10 blur-[120px] rounded-full"></div>
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-amber-400/10 blur-[120px] rounded-full"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="px-6 relative z-10">
         {/* Header - Keep as is */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-center max-w-4xl mx-auto mb-20"
+          className="text-center max-w-5xl mx-auto mb-20"
         >
           <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
             Smart Kitchen
@@ -175,7 +175,7 @@ const KitchenAppliances = () => {
               viewport={{ once: true }}
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-xl bg-white/5 border border-white/10 hover:border-orange-400/40 transition-all duration-300 hover:scale-105">
+              <div className="relative overflow-hidden rounded-xl bg-gray-100/10 border-2 border-white hover:border-orange-400 transition-all duration-300 hover:scale-105">
                 {/* Small Image */}
                 <div className="h-24 overflow-hidden bg-gradient-to-br from-orange-500/10 to-amber-500/10">
                   <img

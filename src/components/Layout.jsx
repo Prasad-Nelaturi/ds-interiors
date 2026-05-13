@@ -160,10 +160,10 @@ const Layout = () => {
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className="container mx-auto min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`container mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
             : "bg-transparent bg-white py-2"
@@ -544,7 +544,7 @@ const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="container mx-auto bg-gray-900 text-white py-12">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>

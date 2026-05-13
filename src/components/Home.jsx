@@ -351,7 +351,7 @@ const DSInteriorsWebsite = () => {
       {/* Hero Section - Smooth Endless Slider */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center overflow-hidden"
+        className="container mx-auto relative min-h-screen flex items-center overflow-hidden"
       >
         {/* SLIDER */}
         <div className="absolute inset-0 overflow-hidden">
@@ -570,7 +570,7 @@ const DSInteriorsWebsite = () => {
       </section>
 
       {/* ===== TRUST BADGES - MINIMAL & DECENT ===== */}
-      <div className="relative overflow-hidden rounded-[0px] bg-gradient-to-r from-orange-500 to-amber-500">
+      <div className="container mx-auto relative overflow-hidden rounded-[0px] bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="relative z-10">
           {/* Desktop: Simple Grid Layout */}
           <div className="hidden lg:grid lg:grid-cols-4 gap-3 py-3 px-4">
@@ -704,7 +704,7 @@ const DSInteriorsWebsite = () => {
 `}</style>
 
       {/* Stats Section with Luxury Design & Water Drop Effect */}
-      <section className="py-6 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+      <section className="container mx-auto py-6 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
         {/* Animated Water Ripple Background */}
         <div className="absolute inset-1 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-violet-400/20"></div>
@@ -1275,7 +1275,7 @@ const DSInteriorsWebsite = () => {
       {/* ===== MODERN SERVICES SECTION ===== */}
       <section
         ref={servicesRef}
-        className="py-8 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
+        className="container mx-auto py-8 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
