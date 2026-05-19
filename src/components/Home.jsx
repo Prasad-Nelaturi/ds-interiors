@@ -722,7 +722,7 @@ const DSInteriorsWebsite = () => {
                 dropColor: "blue-400",
               },
               {
-                number: "200+",
+                number: "480+",
                 label: "Happy Clients",
                 icon: <Users className="w-6 h-6" />,
                 color: "from-emerald-500 to-teal-500",
@@ -1270,7 +1270,7 @@ const DSInteriorsWebsite = () => {
         </div>
       </section>
 
-      <ScrollingText />
+      <TrustedClients />
 
       {/* ===== MODERN SERVICES SECTION ===== */}
       <section
@@ -1443,7 +1443,7 @@ const DSInteriorsWebsite = () => {
   `}</style>
       </section>
 
-      <TrustedClients />
+      <ScrollingText />
 
       <KitchenAppliances />
 
