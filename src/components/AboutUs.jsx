@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 
 const AboutUs = () => {
-
   const team = [
     {
       name: "Sarah Johnson",
@@ -97,60 +96,67 @@ const AboutUs = () => {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* ===== MODERN HERO BANNER SECTION ===== */}
-      <section className="relative min-h-[100vh] py-16 flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-16">
         {/* Animated Background */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-black/0 z-10"></div>
+          <div className="absolute inset-0 bg-black/20 z-10"></div>
+
           <img
             src="https://cdn.mos.cms.futurecdn.net/Z5yngChp7VkWjDFcgzyFLf.gif"
             alt="Hero Banner"
             className="w-full h-full object-cover scale-110 animate-subtle-zoom"
           />
-          {/* Floating particles */}
+
+          {/* Floating glow */}
           <div className="absolute inset-0 z-20">
             <div className="absolute top-20 left-10 w-32 h-32 bg-amber-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+
             <div className="absolute bottom-20 right-10 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
           </div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-30">
+        {/* Content */}
+        <div className="container mx-auto px-6 relative z-30 flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl"
+            className="max-w-4xl text-center flex flex-col items-center"
           >
-            {/* Animated Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-6 border border-white/20">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2 bg-gray-600/60 backdrop-blur-md rounded-full my-4 border border-white/20">
               <Sparkles className="w-4 h-4 text-amber-400" />
+
               <span className="text-white/90 text-sm tracking-wide">
                 Since 2012 • Award Winning Studio
               </span>
             </div>
 
-              <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
-               Crafting Dreams
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-600">
-                  nto Reality
-                </span>
-              </h1>
+            {/* Heading */}
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              Crafting Dreams
+              <span className="block py-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-500">
+                into Reality
+              </span>
+            </h1>
 
-            <p className="text-xl text-white/80 mb-10 max-w-2xl leading-relaxed">
-              We don't just design spaces — we create experiences. With over a
-              decade of excellence, we've transformed thousands of homes and
-              businesses across India.
+            {/* Description */}
+            <p className="text-lg md:text-xl text-white/80 mb-8 max-w-3xl leading-relaxed">
+              We don't just design spaces — we create premium living experiences
+              that feel elegant, warm, and timeless.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-wrap justify-center gap-5 mb-12">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold shadow-2xl hover:shadow-3xl flex items-center gap-2 transition-all duration-300"
+                className="group px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold shadow-2xl flex items-center gap-2 transition-all duration-300"
               >
                 Start Your Journey
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
               </motion.button>
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -162,7 +168,7 @@ const AboutUs = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20">
+            <div className="flex flex-wrap justify-center gap-10 border-t border-white/20 pt-4 w-full">
               {[
                 {
                   number: "500+",
@@ -180,14 +186,17 @@ const AboutUs = () => {
                   icon: <Award className="w-5 h-5" />,
                 },
               ].map((stat, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className="text-amber-400">{stat.icon}</div>
-                  <div>
-                    <div className="text-white font-bold text-2xl">
-                      {stat.number}
-                    </div>
-                    <div className="text-white/60 text-sm">{stat.label}</div>
+                <div
+                  key={idx}
+                  className="flex flex-col items-center text-center"
+                >
+                  <div className="text-amber-400 mb-2">{stat.icon}</div>
+
+                  <div className="text-white font-bold text-3xl">
+                    {stat.number}
                   </div>
+
+                  <div className="text-white/60 text-sm">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -195,7 +204,7 @@ const AboutUs = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-40">
           <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
             <div className="w-1 h-2 bg-white/50 rounded-full mt-2 animate-scroll"></div>
           </div>

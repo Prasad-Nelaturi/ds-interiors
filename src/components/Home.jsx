@@ -4,6 +4,7 @@ import ConsultationButton from "../components/ConsultationButton";
 import TrustedClients from "../components/TrustedClients";
 import ScrollingText from "../components/ScrollingText";
 import KitchenAppliances from "../components/KitchenAppliances";
+import TestimonialsSlider from "../components/TestimonialsSlider"
 
 import {
   Star,
@@ -69,7 +70,6 @@ const DSInteriorsWebsite = () => {
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
   const contactRef = useRef(null);
-  const testimonialsRef = useRef(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
   const autoPlayInterval = useRef(null);
@@ -108,45 +108,6 @@ const DSInteriorsWebsite = () => {
     },
     {
       url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600",
-    },
-  ];
-
-  // Customer Reviews with Videos
-  const customerReviews = [
-    {
-      name: "Rajesh Kumar",
-      role: "Homeowner",
-      text: "Exceptional work! The team transformed our home into a masterpiece. Every detail was carefully considered and executed perfectly.",
-      rating: 5,
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    },
-    {
-      name: "Priya Sharma",
-      role: "Business Owner",
-      text: "Professional, creative, and delivered on time. Highly recommended! They understood our vision and brought it to life beautifully.",
-      rating: 5,
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    },
-    {
-      name: "Amit Singh",
-      role: "Architect",
-      text: "Best interior designers in Hyderabad. The attention to detail is amazing! A true pleasure to work with such talented professionals.",
-      rating: 5,
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    },
-    {
-      name: "Neha Gupta",
-      role: "Interior Designer",
-      text: "Incredible creativity and execution. They turned our outdated office into a modern workspace that inspires everyone.",
-      rating: 5,
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    },
-    {
-      name: "Priya",
-      role: "Business Owner",
-      text: "Professional, creative, and delivered on time. Highly recommended! They understood our vision and brought it to life beautifully.",
-      rating: 5,
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     },
   ];
 
@@ -296,7 +257,6 @@ const DSInteriorsWebsite = () => {
       { ref: heroRef, id: "hero" },
       { ref: aboutRef, id: "about" },
       { ref: servicesRef, id: "services" },
-      { ref: testimonialsRef, id: "testimonials" },
       { ref: contactRef, id: "contact" },
     ];
 
@@ -486,88 +446,7 @@ const DSInteriorsWebsite = () => {
       </section>
 
       {/* Customer Reviews Section with Videos - Horizontal Scrollable */}
-      <section ref={testimonialsRef} className="py-8 relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <AnimatedSection id="testimonials">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-4xl md:text-5xl uppercase font-bold text-gray-900 mb-4">
-                What Our Clients{" "}
-                <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
-                  Say's
-                </span>
-              </h2>
-              <p className="text-gray-600 text-lg">
-                Don't just take our word for it — hear from our satisfied
-                clients
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* Horizontal Scrollable Cards with Videos */}
-          <div className="relative group">
-            <div
-              className="flex overflow-x-auto scrollbar-hide gap-6 pb-6 pt-1 px-2 scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {customerReviews.map((review, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="flex-shrink-0 w-80 md:w-96 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer"
-                  onClick={() => {
-                    setSelectedVideo(review);
-                    setIsVideoModalOpen(true);
-                    setIsPlaying(true);
-                  }}
-                >
-                  {/* Video Thumbnail with Play Button */}
-                  <div className="relative h-58 bg-gray-900 group/video">
-                    <video
-                      src={review.videoUrl}
-                      className="w-full h-full object-cover"
-                      loop
-                      muted
-                      playsInline
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 group-hover/video:bg-black/40 transition-all duration-300">
-                      <div className="w-14 h-14 rounded-full bg-white/30 backdrop-blur flex items-center justify-center group-hover/video:scale-110 transition-all duration-300">
-                        <Play className="w-7 h-7 text-white ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4">
-                    {/* Customer Name & Role */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          {review.name}
-                        </h4>
-                        <p className="text-xs text-gray-500">{review.role}</p>
-                      </div>
-                      <div className="text-amber-500">
-                        <Quote className="w-5 h-5 opacity-50" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Scroll Hint (Mobile) */}
-          <div className="text-center mt-6 lg:hidden">
-            <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
-              <ChevronLeft className="w-3 h-3" />
-              Scroll to see more reviews
-              <ChevronRight className="w-3 h-3" />
-            </p>
-          </div>
-        </div>
-      </section>
+      <TestimonialsSlider/>
 
       {/* ===== TRUST BADGES - MINIMAL & DECENT ===== */}
       <div className="container mx-auto relative overflow-hidden rounded-[0px] bg-gradient-to-r from-orange-500 to-amber-500">

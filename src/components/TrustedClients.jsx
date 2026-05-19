@@ -10,7 +10,7 @@ const TrustedClients = () => {
     once: true,
     amount: 0.2,
   });
-
+  
   const clients = [
     {
       id: 1,
@@ -151,13 +151,13 @@ const TrustedClients = () => {
 
   return (
     <section ref={sectionRef} className="container mx-auto py-16 bg-gray-50">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-12 px-6"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             Our Trusted <span className="text-orange-500">Clients</span>
