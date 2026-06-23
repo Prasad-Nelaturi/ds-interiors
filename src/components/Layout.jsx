@@ -195,12 +195,12 @@ const Layout = () => {
               <div className="flex flex-col leading-tight">
                 <span
                   className={`font-bold text-lg tracking-tight transition-colors duration-300 ${
-                    scrolled ? "text-gray-800" : "text-gray-800"
+                    scrolled ? "text-orange-500" : "text-orange-500"
                   }`}
                 >
                   Dsigner Studio
                 </span>
-                <span className="text-xs font-medium text-orange-500 tracking-wider uppercase">
+                <span className="text-xs font-bold text-gray-800 tracking-wider uppercase">
                   Interiors
                 </span>
               </div>
