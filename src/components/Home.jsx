@@ -77,7 +77,7 @@ const DSInteriorsWebsite = () => {
   const [noTransition, setNoTransition] = useState(false);
 
   const companyInfo = {
-    name: "D S Interiors",
+    name: "Dsigner Studio Interiors",
     tagline: "Creating Spaces That Inspire",
     rating: 4.8,
     reviews: 128,
@@ -1058,7 +1058,7 @@ const DSInteriorsWebsite = () => {
                 <div className="space-y-4">
                   <p className="text-gray-600 leading-relaxed text-lg transform transition-all duration-500 hover:translate-x-2 hover:text-gray-800">
                     <span className="inline-block w-1 h-1 bg-amber-500 rounded-full mr-2 align-middle"></span>
-                    D S Interiors is a premier interior design studio based in
+                    Dsigner Studio Interiors is a premier interior design studio based in
                     Hyderabad, specializing in residential and commercial
                     spaces. We believe that great design transforms not just
                     spaces, but lives.

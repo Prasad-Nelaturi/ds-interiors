@@ -53,7 +53,7 @@ const Layout = () => {
   }, []);
 
   const companyInfo = {
-    name: "D S Interiors",
+    name: "Dsigner Studio Interiors",
     tagline: "Creating Spaces That Inspire",
     rating: 4.8,
     reviews: 128,
@@ -171,10 +171,10 @@ const Layout = () => {
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center">
-            {/* Logo */}
+            {/* Logo - Fixed */}
             <Link
               to="/"
-              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
+              className="flex items-center gap-3 flex-shrink-0 group"
               onClick={() => {
                 if (isHomePage && heroRef.current) {
                   heroRef.current.scrollIntoView({
@@ -185,62 +185,54 @@ const Layout = () => {
                 setIsMenuOpen(false);
               }}
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden group-hover:shadow-lg transition-all duration-300">
                 <img
-                  src="ds-lg.jpeg"
-                  alt="D S Interiors Logo"
-                  className="w-full h-full object-contain"
+                  src="/ds-lg.jpeg"
+                  alt="Dsigner Studio Interiors"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               </div>
-              <div>
-                <h1
-                  className={`font-bold text-sm sm:text-base md:text-lg tracking-tight transition-colors duration-300 ${
-                    scrolled ? "text-orange-600" : "text-orange-600"
+              <div className="flex flex-col leading-tight">
+                <span
+                  className={`font-bold text-lg tracking-tight transition-colors duration-300 ${
+                    scrolled ? "text-gray-800" : "text-gray-800"
                   }`}
                 >
-                  D S Interiors
-                </h1>
-                <p
-                  className={`text-[10px] tracking-wide transition-colors duration-300 ${
-                    scrolled ? "text-blue-900" : "text-blue-900"
-                  }`}
-                >
-                  INTERIOR DESIGN STUDIO
-                </p>
+                  Dsigner Studio
+                </span>
+                <span className="text-xs font-medium text-orange-500 tracking-wider uppercase">
+                  Interiors
+                </span>
               </div>
             </Link>
 
             {/* Desktop Navigation - Center */}
-            <div className="hidden lg:flex items-center gap-5 xl:gap-8 absolute left-1/2 -translate-x-1/2">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
               <Link
                 to="/"
-                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-600 hover:text-orange-600"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                 }`}
               >
                 Home
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    scrolled ? "bg-orange-500" : "bg-orange-500"
-                  }`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
               </Link>
 
               <Link
                 to="/about"
-                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-600 hover:text-orange-600"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                 }`}
               >
                 About Us
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    scrolled ? "bg-orange-500" : "bg-orange-500"
-                  }`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
               </Link>
 
@@ -250,10 +242,10 @@ const Layout = () => {
                   onClick={() =>
                     setIsServicesDropdownOpen(!isServicesDropdownOpen)
                   }
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                     scrolled
-                      ? "text-gray-600 hover:text-orange-600"
-                      : "text-gray-600 hover:text-orange-600"
+                      ? "text-gray-700 hover:text-orange-600"
+                      : "text-gray-700 hover:text-orange-600"
                   }`}
                 >
                   Services
@@ -261,26 +253,24 @@ const Layout = () => {
                     className={`w-3 h-3 transition-transform duration-300 ${isServicesDropdownOpen ? "rotate-180" : ""}`}
                   />
                   <span
-                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                      scrolled ? "bg-orange-500" : "bg-orange-500"
-                    }`}
+                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                   ></span>
                 </button>
 
                 {isServicesDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-[1.4rem] w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                  <div className="absolute top-full left-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                     <div className="py-2">
                       {servicesList.map((service, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleServiceClick(service.path)}
-                          className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left"
+                          className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left group"
                         >
-                          <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center text-orange-500">
+                          <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
                             {service.icon}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-800">
+                            <p className="text-sm font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
                               {service.name}
                             </p>
                             <p className="text-xs text-gray-400">
@@ -296,49 +286,43 @@ const Layout = () => {
 
               <Link
                 to="/projects"
-                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-600 hover:text-orange-600"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                 }`}
               >
                 Our Projects
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    scrolled ? "bg-orange-500" : "bg-orange-500"
-                  }`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
               </Link>
 
               <Link
                 to="/gallery"
-                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-600 hover:text-orange-600"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                 }`}
               >
                 Gallery
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    scrolled ? "bg-orange-500" : "bg-orange-500"
-                  }`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
               </Link>
 
               <Link
                 to="/contact"
-                className={`transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
-                    ? "text-gray-600 hover:text-orange-600"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                 }`}
               >
                 Contact Us
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    scrolled ? "bg-orange-500" : "bg-orange-500"
-                  }`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
               </Link>
 
@@ -346,10 +330,10 @@ const Layout = () => {
               <div className="relative" ref={moreDropdownRef}>
                 <button
                   onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-bold tracking-wide relative group whitespace-nowrap ${
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                     scrolled
-                      ? "text-gray-600 hover:text-orange-600"
-                      : "text-gray-600 hover:text-orange-600"
+                      ? "text-gray-700 hover:text-orange-600"
+                      : "text-gray-700 hover:text-orange-600"
                   }`}
                 >
                   More
@@ -357,26 +341,24 @@ const Layout = () => {
                     className={`w-3 h-3 transition-transform duration-300 ${isMoreDropdownOpen ? "rotate-180" : ""}`}
                   />
                   <span
-                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                      scrolled ? "bg-orange-500" : "bg-orange-500"
-                    }`}
+                    className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                   ></span>
                 </button>
 
                 {isMoreDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-[1.4rem] w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                  <div className="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                     <div className="py-2">
                       {moreList.map((item, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleServiceClick(item.path)}
-                          className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left"
+                          className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left group"
                         >
-                          <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center text-orange-500">
+                          <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
                             {item.icon}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-800">
+                            <p className="text-sm font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
                               {item.name}
                             </p>
                             <p className="text-xs text-gray-400">
@@ -407,14 +389,14 @@ const Layout = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`lg:hidden p-2 rounded-lg transition ${
                   scrolled
-                    ? "text-orange-500 hover:bg-orange-100"
-                    : "text-gray-600 hover:bg-white/10"
+                    ? "text-orange-500 hover:bg-orange-50"
+                    : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 {isMenuOpen ? (
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 ) : (
-                  <Menu className="w-5 h-5" />
+                  <Menu className="w-6 h-6" />
                 )}
               </button>
             </div>
@@ -549,7 +531,7 @@ const Layout = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-orange-500 font-bold text-xl mb-4">
-                D S Interiors
+                Dsigner Studio Interiors
               </h3>
               <p className="text-gray-400 text-sm">
                 Creating beautiful spaces that inspire since 2012.
@@ -612,7 +594,7 @@ const Layout = () => {
           <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm">
             <p>
               {" "}
-              &copy; 2026 D S Interiors. All rights reserved. | Designed with{" "}
+              &copy; 2026 Dsigner Studio Interiors. All rights reserved. | Designed with{" "}
               <Heart className="w-3 h-3 inline text-amber-500" /> for luxury
               living.
             </p>

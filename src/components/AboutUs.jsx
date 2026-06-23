@@ -271,7 +271,7 @@ const AboutUs = () => {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-                Founded in 2012, D S Interiors has evolved from a passionate
+                Founded in 2012, Dsigner Studio Interiors has evolved from a passionate
                 design studio into one of Hyderabad's most celebrated interior
                 design firms. Our journey is marked by creativity, innovation,
                 and an unwavering commitment to excellence.

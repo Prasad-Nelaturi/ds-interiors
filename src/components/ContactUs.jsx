@@ -63,7 +63,7 @@ const ContactUs = () => {
   }, []);
 
   const companyInfo = {
-    name: "D S Interiors",
+    name: "Dsigner Studio Interiors",
     phone: "+91 90107 99991",
     email: "dsinteriorshyd1@gmail.com",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
@@ -768,7 +768,7 @@ const ContactUs = () => {
           >
             <div className="relative h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px]">
               <iframe
-                title="D S Interiors Location"
+                title="Dsigner Studio Interiors Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.5!2d78.3!3d17.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI0JzAwLjAiTiA3OMKwMTgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
                 className="absolute inset-0 w-full h-full"
                 allowFullScreen=""
