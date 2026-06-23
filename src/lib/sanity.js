@@ -1,20 +1,16 @@
-// src/lib/sanity.js
 import { createClient } from '@sanity/client';
 
-// Sanity configuration
 const projectId = 'y4qd00ml';
 const dataset = 'production';
 const apiVersion = '2024-03-15';
 
-// Create Sanity client (works in both dev and production)
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Important for production - faster loading
+  useCdn: true,
 });
 
-// Get all blogs
 export async function getAllBlogs() {
   try {
     const blogs = await client.fetch(`
@@ -41,7 +37,6 @@ export async function getAllBlogs() {
   }
 }
 
-// Get featured blogs
 export async function getFeaturedBlogs() {
   try {
     const featured = await client.fetch(`
@@ -64,7 +59,6 @@ export async function getFeaturedBlogs() {
   }
 }
 
-// Search blogs
 export async function searchBlogs(searchTerm) {
   try {
     const results = await client.fetch(`

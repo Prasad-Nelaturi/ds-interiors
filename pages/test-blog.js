@@ -1,4 +1,3 @@
-// pages/test-blog.js
 import { getAllBlogs } from '../lib/sanity';
 import { useEffect, useState } from 'react';
 
