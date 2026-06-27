@@ -16,112 +16,106 @@ const TrustedClients = () => {
     {
       id: 1,
       name: "Lansum Eldorado",
-      logo: "/trusted-clients/1-lansum-eldorado.jpeg",
-      fallback: "https://via.placeholder.com/200x200/FF6B35/FFFFFF?text=Lansum",
+      logo: "/1-lansum-eldorado.jpeg",
+      fallback: "https://via.placeholder.com/200x200/FF6B35/FFFFFF?text=Lansum"
     },
     {
       id: 2,
       name: "Prestige Beverly Hills",
-      logo: "/trusted-clients/2-prestige-beverly-hills.jpeg",
-      fallback:
-        "https://via.placeholder.com/200x200/4A90D9/FFFFFF?text=Prestige",
+      logo: "/2-prestige-beverly-hills.jpeg",
+      fallback: "https://via.placeholder.com/200x200/4A90D9/FFFFFF?text=Prestige"
     },
     {
       id: 4,
       name: "Vishnu Vistara",
-      logo: "/trusted-clients/4-vishnu-vistara.gif",
-      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Vishnu",
+      logo: "/4-vishnu-vistara.gif",
+      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Vishnu"
     },
     {
       id: 5,
       name: "Pruthvi Aditya Belmont Greene Villas",
-      logo: "/trusted-clients/5-pruthvi-aditya-belmont-greene-villas.jpeg",
-      fallback:
-        "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Pruthvi",
+      logo: "/5-pruthvi-aditya-belmont-greene-villas.jpeg",
+      fallback: "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Pruthvi"
     },
     {
       id: 6,
       name: "Aparna Sarovar",
-      logo: "/trusted-clients/6-aparna-sarovar.jpg",
-      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=Aparna",
+      logo: "/6-aparna-sarovar.jpg",
+      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=Aparna"
     },
     {
       id: 7,
       name: "MY Home Jewel",
-      logo: "/trusted-clients/7-my-home-jewel.jpg",
-      fallback:
-        "https://via.placeholder.com/200x200/F39C12/FFFFFF?text=MY+Home",
+      logo: "/7-my-home-jewel.jpg",
+      fallback: "https://via.placeholder.com/200x200/F39C12/FFFFFF?text=MY+Home"
     },
     {
       id: 8,
       name: "MY Home Vihanga",
-      logo: "/trusted-clients/8-my-home-vihanga.jpg",
-      fallback:
-        "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Vihanga",
+      logo: "/8-my-home-vihanga.jpg",
+      fallback: "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Vihanga"
     },
     {
       id: 9,
       name: "MY Home Avatar",
-      logo: "/trusted-clients/9-my-home-avatar.jpg",
-      fallback: "https://via.placeholder.com/200x200/3498DB/FFFFFF?text=Avatar",
+      logo: "/9-my-home-avatar.jpg",
+      fallback: "https://via.placeholder.com/200x200/3498DB/FFFFFF?text=Avatar"
     },
     {
       id: 10,
       name: "Ramky Cosmos",
-      logo: "/trusted-clients/10-ramky-cosmos.webp",
-      fallback: "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ramky",
+      logo: "/10-ramky-cosmos.webp",
+      fallback: "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ramky"
     },
     {
       id: 11,
       name: "SMR Vinay Iconia",
-      logo: "/trusted-clients/11-smr-vinay-iconia-masjid-banda.jpg",
-      fallback: "https://via.placeholder.com/200x200/9B59B6/FFFFFF?text=SMR",
+      logo: "/11-smr-vinay-iconia-masjid-banda.jpg",
+      fallback: "https://via.placeholder.com/200x200/9B59B6/FFFFFF?text=SMR"
     },
     {
       id: 12,
       name: "Prajay Megapolis",
-      logo: "/trusted-clients/12-prajay-megapolis.jpg",
-      fallback: "https://via.placeholder.com/200x200/E67E22/FFFFFF?text=Prajay",
+      logo: "/12-prajay-megapolis.jpg",
+      fallback: "https://via.placeholder.com/200x200/E67E22/FFFFFF?text=Prajay"
     },
     {
       id: 13,
       name: "Mahindra Ashvita Lifespaces",
-      logo: "/trusted-clients/13-mahindra-ashvita-lifespaces.webp",
-      fallback:
-        "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Mahindra",
+      logo: "/13-mahindra-ashvita-lifespaces.webp",
+      fallback: "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Mahindra"
     },
     {
       id: 14,
       name: "Mahindra Ashvita Lifespaces",
-      logo: "/trusted-clients/14-mahindra-ashvita-lifespaces.jpg",
-      fallback:
-        "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ashvita",
+      logo: "/14-mahindra-ashvita-lifespaces.jpg",
+      fallback: "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ashvita"
     },
     {
       id: 15,
       name: "EPIL Corner Stone",
-      logo: "/trusted-clients/15-epil-corner-stone.jpg",
-      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=EPIL",
+      logo: "/15-epil-corner-stone.jpg",
+      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=EPIL"
     },
     {
       id: 16,
       name: "Vajra Pratik",
-      logo: "/trusted-clients/16-vajra-pratik.png",
-      fallback: "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Vajra",
+      logo: "/16-vajra-pratik.png",
+      fallback: "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Vajra"
     },
     {
       id: 17,
       name: "Avani Homes",
-      logo: "/trusted-clients/17-avani-homes.jpg",
-      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Avani",
+      logo: "/17-avani-homes.jpg",
+      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Avani"
     },
   ];
 
   // Handle image error
   const handleImageError = (clientId) => {
-    setImageErrors((prev) => ({
+    setImageErrors(prev => ({
       ...prev,
-      [clientId]: true,
+      [clientId]: true
     }));
   };
 
@@ -241,12 +235,7 @@ const TrustedClients = () => {
                         {imageErrors[client.id] ? (
                           // Fallback with client name initials
                           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white text-4xl font-bold">
-                            {client.name
-                              .split(" ")
-                              .map((word) => word[0])
-                              .join("")
-                              .slice(0, 3)
-                              .toUpperCase()}
+                            {client.name.split(' ').map(word => word[0]).join('').slice(0, 3).toUpperCase()}
                           </div>
                         ) : (
                           <img
