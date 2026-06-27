@@ -23,6 +23,12 @@ import {
   BookOpen,
   Users,
   Factory,
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  Linkedin,
+  MapPin,
 } from "lucide-react";
 
 const Layout = () => {
@@ -526,55 +532,121 @@ const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="container mx-auto bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-orange-500 font-bold text-xl mb-4">
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Main Footer Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            {/* Column 1 - Brand & Social */}
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h3 className="text-orange-500 font-bold text-2xl mb-4">
                 Dsigner Studio Interiors
               </h3>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
                 Creating beautiful spaces that inspire since 2012.
               </p>
+
+              {/* Social Icons - Fully Responsive */}
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61590853052566"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
+                </a>
+                <a
+                  href="https://www.instagram.com/dsignerstudiointeriors/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/dsigner-studio-interiors-889670417/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
+                </a>
+                <a
+                  href=" https://www.youtube.com/@DsignerstudioInteriors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
+                </a>
+              </div>
             </div>
+
+            {/* Column 2 - Quick Links */}
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <h4 className="text-white font-semibold text-lg mb-4">
+                Quick Links
+              </h4>
+              <ul className="space-y-3">
                 <li>
-                  <Link to="/" className="hover:text-orange-400">
+                  <Link
+                    to="/"
+                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                  >
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link to="/about" className="hover:text-orange-400">
+                  <Link
+                    to="/about"
+                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                  >
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/projects" className="hover:text-orange-400">
+                  <Link
+                    to="/projects"
+                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                  >
                     Our Projects
                   </Link>
                 </li>
                 <li>
-                  <Link to="/gallery" className="hover:text-orange-400">
+                  <Link
+                    to="/gallery"
+                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                  >
                     Gallery
                   </Link>
                 </li>
                 <li>
-                  <Link to="/contact" className="hover:text-orange-400">
+                  <Link
+                    to="/contact"
+                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
+                  >
                     Contact Us
                   </Link>
                 </li>
               </ul>
             </div>
+
+            {/* Column 3 - Services */}
             <div>
-              <h4 className="font-semibold mb-4">Services</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <h4 className="text-white font-semibold text-lg mb-4">
+                Services
+              </h4>
+              <ul className="space-y-3">
                 {servicesList.slice(0, 4).map((service, idx) => (
                   <li key={idx}>
                     <button
                       onClick={() => handleServiceClick(service.path)}
-                      className="hover:text-orange-400"
+                      className="text-gray-400 hover:text-orange-400 transition-colors text-sm text-left"
                     >
                       {service.name}
                     </button>
@@ -582,21 +654,43 @@ const Layout = () => {
                 ))}
               </ul>
             </div>
+
+            {/* Column 4 - Contact */}
             <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <p className="text-gray-400 text-sm">{companyInfo.phone}</p>
-              <p className="text-gray-400 text-sm mt-2">{companyInfo.email}</p>
-              <p className="text-gray-400 text-sm mt-2">
-                {companyInfo.address}
-              </p>
+              <h4 className="text-white font-semibold text-lg mb-4">Contact</h4>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-400 text-sm break-words">
+                    {companyInfo.phone}
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-400 text-sm break-all">
+                    {companyInfo.email}
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-400 text-sm">
+                    {companyInfo.address}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm">
-            <p>
-              {" "}
-              &copy; 2026 Dsigner Studio Interiors. All rights reserved. | Designed with{" "}
-              <Heart className="w-3 h-3 inline text-amber-500" /> for luxury
-              living.
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-800 pt-8">
+            <p className="text-center text-gray-400 text-sm flex flex-wrap items-center justify-center gap-1">
+              &copy; 2026 Dsigner Studio Interiors. All rights reserved.
+              <span className="hidden sm:inline">|</span>
+              <span className="flex items-center gap-1">
+                Designed with
+                <Heart className="w-4 h-4 text-amber-500 animate-pulse" />
+                for luxury living.
+              </span>
             </p>
           </div>
         </div>

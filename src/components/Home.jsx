@@ -4,7 +4,9 @@ import ConsultationButton from "../components/ConsultationButton";
 import TrustedClients from "../components/TrustedClients";
 import ScrollingText from "../components/ScrollingText";
 import KitchenAppliances from "../components/KitchenAppliances";
-import TestimonialsSlider from "../components/TestimonialsSlider"
+import TestimonialsSlider from "../components/TestimonialsSlider";
+import WhyChooseUs from "../components/WhyChooseUs";
+import Gallery from "../components/Gallery";
 
 import {
   Star,
@@ -45,9 +47,11 @@ import {
   Calendar,
   Briefcase,
   ChevronLeft,
+  Trophy,
 } from "lucide-react";
 
 const DSInteriorsWebsite = () => {
+  // ===== ALL STATE DECLARATIONS AT TOP LEVEL =====
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showContact, setShowContact] = useState(false);
@@ -59,23 +63,38 @@ const DSInteriorsWebsite = () => {
   const [hoveredService, setHoveredService] = useState(null);
   const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
   const [isCarouselPlaying, setIsCarouselPlaying] = useState(true);
-
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const modalVideoRef = useRef(null);
-
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
-  const servicesRef = useRef(null);
-  const contactRef = useRef(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
   const autoPlayInterval = useRef(null);
   const carouselInterval = useRef(null);
   const [noTransition, setNoTransition] = useState(false);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
 
+  // ===== STATS COUNTING STATE =====
+  const [counts, setCounts] = useState({
+    projects: 0,
+    clients: 0,
+    experience: 0,
+    team: 0,
+    satisfaction: 0,
+    awards: 0,
+  });
+  const [hasCounted, setHasCounted] = useState(false);
+  const statsRef = useRef(null);
+
+  // ===== REFS =====
+  const heroRef = useRef(null);
+  const aboutRef = useRef(null);
+  const servicesRef = useRef(null);
+  const contactRef = useRef(null);
+
+  // ===== COMPANY INFO =====
   const companyInfo = {
     name: "Dsigner Studio Interiors",
     tagline: "Creating Spaces That Inspire",
@@ -113,7 +132,7 @@ const DSInteriorsWebsite = () => {
 
   const services = [
     {
-      icon: <Home className="w-6 h-6" />,
+      icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "Residential Design",
       desc: "Transform your home into a stunning living space with our expert design services.",
       category: "POPULAR",
@@ -125,7 +144,7 @@ const DSInteriorsWebsite = () => {
       features: ["Custom Layouts", "3D Visualizations", "Material Selection"],
     },
     {
-      icon: <Building className="w-6 h-6" />,
+      icon: <Building className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "Commercial Spaces",
       desc: "Create inspiring workspaces that boost productivity and reflect your brand identity.",
       category: "BUSINESS",
@@ -137,7 +156,7 @@ const DSInteriorsWebsite = () => {
       features: ["Office Planning", "Retail Design", "Brand Integration"],
     },
     {
-      icon: <Palette className="w-6 h-6" />,
+      icon: <Palette className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "Interior Styling",
       desc: "Complete styling solutions with curated furniture, art, and accessories for your space.",
       category: "STYLING",
@@ -149,7 +168,7 @@ const DSInteriorsWebsite = () => {
       features: ["Furniture Curation", "Art Selection", "Accessories"],
     },
     {
-      icon: <Crown className="w-6 h-6" />,
+      icon: <Crown className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "Luxury Villas",
       desc: "Premium villa designs with exquisite finishes and unparalleled attention to detail.",
       category: "PREMIUM",
@@ -161,7 +180,7 @@ const DSInteriorsWebsite = () => {
       features: ["Luxury Finishes", "Smart Home", "Landscape Design"],
     },
     {
-      icon: <Ruler className="w-6 h-6" />,
+      icon: <Ruler className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "Space Planning",
       desc: "Optimized layouts for maximum functionality and seamless flow in any environment.",
       category: "PLANNING",
@@ -173,7 +192,7 @@ const DSInteriorsWebsite = () => {
       features: ["Floor Planning", "Traffic Flow", "Zoning Strategy"],
     },
     {
-      icon: <Sparkles className="w-6 h-6" />,
+      icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />,
       title: "3D Visualization",
       desc: "Realistic 3D renderings that bring your dream space to life before execution begins.",
       category: "TECHNOLOGY",
@@ -229,6 +248,57 @@ const DSInteriorsWebsite = () => {
     },
   ];
 
+  // ===== STATS COUNTER ANIMATION =====
+  useEffect(() => {
+    const statsData = [
+      { key: "projects", target: 500, suffix: "+" },
+      { key: "clients", target: 480, suffix: "+" },
+      { key: "experience", target: 12, suffix: "+" },
+      { key: "team", target: 15, suffix: "+" },
+      { key: "satisfaction", target: 98, suffix: "%" },
+      { key: "awards", target: 50, suffix: "+" },
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasCounted) {
+            setHasCounted(true);
+
+            statsData.forEach((stat) => {
+              const duration = 2000;
+              const steps = 60;
+              const increment = stat.target / steps;
+              let current = 0;
+              let step = 0;
+
+              const timer = setInterval(() => {
+                step++;
+                current += increment;
+                if (step >= steps) {
+                  current = stat.target;
+                  clearInterval(timer);
+                }
+                setCounts((prev) => ({
+                  ...prev,
+                  [stat.key]: Math.floor(current),
+                }));
+              }, duration / steps);
+            });
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasCounted]);
+
+  // ===== OTHER USEFFECTS =====
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => prev + 1);
@@ -270,6 +340,7 @@ const DSInteriorsWebsite = () => {
     return () => observer.disconnect();
   }, []);
 
+  // ===== FUNCTIONS =====
   const scrollToSection = useCallback((ref) => {
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     setIsMenuOpen(false);
@@ -281,12 +352,33 @@ const DSInteriorsWebsite = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Touch handlers for carousel
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX - touchEndX > 50) {
+      // Swipe left - next slide
+      setActiveSlide((prev) => prev + 1);
+    } else if (touchEndX - touchStartX > 50) {
+      // Swipe right - previous slide
+      setActiveSlide((prev) => prev - 1);
+    }
+    setTouchStartX(0);
+    setTouchEndX(0);
+  };
+
   const StarRating = ({ rating }) => (
     <div className="flex items-center gap-0.5">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className={`w-4 h-4 ${
+          className={`w-3 h-3 sm:w-4 sm:h-4 ${
             i < Math.floor(rating)
               ? "text-yellow-400 fill-yellow-400"
               : "text-gray-300"
@@ -311,7 +403,10 @@ const DSInteriorsWebsite = () => {
       {/* Hero Section - Smooth Endless Slider */}
       <section
         ref={heroRef}
-        className="container mx-auto relative min-h-screen flex items-center overflow-hidden"
+        className="container mx-auto relative min-h-[90vh] sm:min-h-screen flex items-center overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {/* SLIDER */}
         <div className="absolute inset-0 overflow-hidden">
@@ -337,7 +432,6 @@ const DSInteriorsWebsite = () => {
               }
             }}
           >
-            {/* ORIGINAL SLIDES */}
             {carouselImages.map((img, i) => (
               <div key={i} className="min-w-full h-full relative">
                 <img
@@ -345,15 +439,15 @@ const DSInteriorsWebsite = () => {
                   alt={img.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/0 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/0 to-black/40" />
               </div>
             ))}
 
-            {/* CLONE FIRST SLIDE */}
             <div className="min-w-full h-full relative">
               <img
                 src={carouselImages[0].url}
                 className="w-full h-full object-cover"
+                alt=""
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
             </div>
@@ -361,7 +455,7 @@ const DSInteriorsWebsite = () => {
         </div>
 
         {/* CONTENT */}
-        <div className="container mx-auto px-6 relative z-20 h-screen flex flex-col justify-end pb-20">
+        <div className="container mx-auto px-4 sm:px-6 relative z-20 h-screen flex flex-col justify-end pb-16 sm:pb-20">
           <AnimatedSection id="hero">
             <div className="max-w-4xl mx-auto text-center">
               <div>
@@ -371,37 +465,43 @@ const DSInteriorsWebsite = () => {
 
                     return (
                       <div className="flex flex-col items-center justify-center text-center">
-                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gray-600/60 backdrop-blur-md rounded-full border border-white/20">
-                          <Sparkles className="w-4 h-4 text-yellow-400" />
-                          <span className="text-white text-sm">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-gray-600 backdrop-blur-sm rounded-full border border-white/10">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                          <span className="text-white/80 text-sm font-medium tracking-wider">
                             Since 2012 • Award Winning Studio
                           </span>
                         </div>
 
                         <div className="relative">
-                          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white text-center leading-tight">
-                            We Reach{" "}
-                            <span className="text-white">Your Dreams</span>
+                          {/* 3D Heading */}
+                          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight relative mb-4">
+                            <span className="relative inline-block">
+                              <span className="absolute inset-0 text-white/20 translate-x-1 translate-y-1 select-none">
+                                We Reach Your Dreams
+                              </span>
+                              <span className="absolute inset-0 text-white/40 translate-x-0.5 translate-y-0.5 select-none">
+                                We Reach Your Dreams
+                              </span>
+                              <span className="relative text-white">
+                                We Reach{" "}
+                                <span className="bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+                                  Your Dreams
+                                </span>
+                              </span>
+                            </span>
                           </h1>
-
-                          <p className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light tracking-wider max-w-4xl mx-auto leading-relaxed">
-                            {carouselImages[currentIndex].subtitle}
-                          </p>
-
-                          {/* Decorative elements */}
-                          <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-amber-500/50 to-transparent rounded-full hidden lg:block"></div>
-                          <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-amber-500/50 to-transparent rounded-full hidden lg:block"></div>
                         </div>
                       </div>
                     );
                   })()}
 
-                  <div className="flex flex-wrap gap-5 justify-center mt-8">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5 justify-center mt-6 sm:mt-8 w-full sm:w-auto">
                     <ConsultationButton />
 
                     <button
                       onClick={() => scrollToSection(contactRef)}
-                      className="px-6 py-3 border-2 border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold uppercase tracking-wide"
+                      className="px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold uppercase tracking-wide text-sm sm:text-base"
                     >
                       Explore Portfolio
                     </button>
@@ -413,7 +513,7 @@ const DSInteriorsWebsite = () => {
         </div>
 
         {/* INDICATORS */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+        <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 sm:gap-2">
           {carouselImages.map((_, idx) => {
             const currentIndex = activeSlide % carouselImages.length;
 
@@ -421,39 +521,43 @@ const DSInteriorsWebsite = () => {
               <button
                 key={idx}
                 onClick={() => setActiveSlide(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  idx === currentIndex ? "w-8 bg-amber-400" : "w-2 bg-white/50"
+                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
+                  idx === currentIndex
+                    ? "w-6 sm:w-8 bg-amber-400"
+                    : "w-1.5 sm:w-2 bg-white/50"
                 }`}
+                aria-label={`Go to slide ${idx + 1}`}
               />
             );
           })}
         </div>
 
-        {/* ARROWS */}
+        {/* ARROWS - Hide on small screens */}
         <button
           onClick={() => setActiveSlide((prev) => prev - 1)}
-          className="absolute left-6 bottom-1 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-3 rounded-full hover:bg-white/40 transition"
+          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-2 sm:p-3 rounded-full hover:bg-white/40 transition hidden sm:block"
+          aria-label="Previous slide"
         >
-          <ChevronLeft className="text-white" />
+          <ChevronLeft className="text-white w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         <button
           onClick={() => setActiveSlide((prev) => prev + 1)}
-          className="absolute right-6 bottom-1 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-3 rounded-full hover:bg-white/40 transition"
+          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-2 sm:p-3 rounded-full hover:bg-white/40 transition hidden sm:block"
+          aria-label="Next slide"
         >
-          <ChevronRight className="text-white" />
+          <ChevronRight className="text-white w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </section>
 
-      {/* Customer Reviews Section with Videos - Horizontal Scrollable */}
-      <TestimonialsSlider/>
+      {/* Customer Reviews Section */}
+      <TestimonialsSlider />
 
-      {/* ===== TRUST BADGES - MINIMAL & DECENT ===== */}
+      {/* ===== TRUST BADGES - COMPLETELY RESPONSIVE ===== */}
       <div className="container mx-auto relative overflow-hidden rounded-[0px] bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="relative z-10">
-          {/* Desktop: Simple Grid Layout */}
+          {/* Desktop: Grid Layout */}
           <div className="hidden lg:grid lg:grid-cols-4 gap-3 py-3 px-4">
-            {/* Rating */}
             <div className="flex items-center justify-center gap-2 group cursor-pointer">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
@@ -467,7 +571,6 @@ const DSInteriorsWebsite = () => {
               <span className="text-white/60 text-sm">(128 reviews)</span>
             </div>
 
-            {/* Projects */}
             <div className="flex items-center justify-center gap-2 group cursor-pointer">
               <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                 <Check className="w-3 h-3 text-white/80" />
@@ -476,7 +579,6 @@ const DSInteriorsWebsite = () => {
               <span className="text-white/60 text-sm">Projects</span>
             </div>
 
-            {/* Experience */}
             <div className="flex items-center justify-center gap-2 group cursor-pointer">
               <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                 <Award className="w-3 h-3 text-white/80" />
@@ -485,7 +587,6 @@ const DSInteriorsWebsite = () => {
               <span className="text-white/60 text-sm">Years</span>
             </div>
 
-            {/* Satisfaction */}
             <div className="flex items-center justify-center gap-2 group cursor-pointer">
               <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                 <Users className="w-3 h-3 text-white/80" />
@@ -495,38 +596,69 @@ const DSInteriorsWebsite = () => {
             </div>
           </div>
 
-          {/* Mobile: Simple Horizontal Scroll */}
-          <div className="lg:hidden overflow-x-auto scrollbar-hide">
-            <div className="flex gap-6 items-center px-4 py-3 min-w-max">
-              <div className="flex items-center gap-1">
+          {/* Tablet: 2 Column Grid */}
+          <div className="hidden sm:grid lg:hidden grid-cols-2 gap-2 py-2.5 px-3">
+            <div className="flex items-center justify-center gap-1.5">
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="w-3 h-3 fill-white/80 text-white/80"
+                  />
+                ))}
+              </div>
+              <span className="text-white text-sm font-semibold">4.8</span>
+              <span className="text-white/60 text-xs">(128)</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5">
+              <Check className="w-3 h-3 text-white/80" />
+              <span className="text-white text-sm font-semibold">500+</span>
+              <span className="text-white/60 text-xs">Projects</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5">
+              <Award className="w-3 h-3 text-white/80" />
+              <span className="text-white text-sm font-semibold">12+</span>
+              <span className="text-white/60 text-xs">Years</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5">
+              <Users className="w-3 h-3 text-white/80" />
+              <span className="text-white text-sm font-semibold">100%</span>
+              <span className="text-white/60 text-xs">Happy</span>
+            </div>
+          </div>
+
+          {/* Mobile: Horizontal Scroll */}
+          <div className="sm:hidden overflow-x-auto scrollbar-hide">
+            <div className="flex gap-4 items-center px-3 py-2 min-w-max">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 <div className="flex gap-0.5">
                   {[...Array(1)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-3 h-3 fill-white/80 text-white/80"
+                      className="w-2.5 h-2.5 fill-white/80 text-white/80"
                     />
                   ))}
                 </div>
                 <span className="text-white text-xs font-semibold">4.8</span>
-                <span className="text-white/50 text-xs">(128)</span>
+                <span className="text-white/50 text-[10px]">(128)</span>
               </div>
 
-              <div className="flex items-center gap-1">
-                <Check className="w-3 h-3 text-white/80" />
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <Check className="w-2.5 h-2.5 text-white/80" />
                 <span className="text-white text-xs font-semibold">500+</span>
-                <span className="text-white/50 text-xs">Projects</span>
+                <span className="text-white/50 text-[10px]">Projects</span>
               </div>
 
-              <div className="flex items-center gap-1">
-                <Award className="w-3 h-3 text-white/80" />
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <Award className="w-2.5 h-2.5 text-white/80" />
                 <span className="text-white text-xs font-semibold">12+</span>
-                <span className="text-white/50 text-xs">Years</span>
+                <span className="text-white/50 text-[10px]">Years</span>
               </div>
 
-              <div className="flex items-center gap-1">
-                <Users className="w-3 h-3 text-white/80" />
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <Users className="w-2.5 h-2.5 text-white/80" />
                 <span className="text-white text-xs font-semibold">100%</span>
-                <span className="text-white/50 text-xs">Happy</span>
+                <span className="text-white/50 text-[10px]">Happy</span>
               </div>
             </div>
           </div>
@@ -534,168 +666,170 @@ const DSInteriorsWebsite = () => {
       </div>
 
       <style jsx>{`
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-`}</style>
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
 
       <style jsx>{`
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
 
-@keyframes bounceSlow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
+        @keyframes bounceSlow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
+        }
 
-@keyframes pulseSlow {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.2); opacity: 1; }
-}
+        @keyframes pulseSlow {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.2); opacity: 1; }
+        }
 
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out forwards;
-  opacity: 0;
-}
+        .animate-scale-in {
+          animation: scaleIn 0.3s ease-out forwards;
+          opacity: 0;
+        }
 
-.animate-bounce-slow {
-  animation: bounceSlow 2s ease-in-out infinite;
-}
+        .animate-bounce-slow {
+          animation: bounceSlow 2s ease-in-out infinite;
+        }
 
-.animate-pulse-slow {
-  animation: pulseSlow 2s ease-in-out infinite;
-}
-`}</style>
+        .animate-pulse-slow {
+          animation: pulseSlow 2s ease-in-out infinite;
+        }
+      `}</style>
 
-      {/* Stats Section with Luxury Design & Water Drop Effect */}
-      <section className="container mx-auto py-6 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
-        {/* Animated Water Ripple Background */}
+      {/* Stats Section - Responsive Grid */}
+      <section
+        ref={statsRef}
+        className="container mx-auto py-4 sm:py-6 md:py-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden"
+      >
         <div className="absolute inset-1 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-violet-400/20"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-cyan-400/15"></div>
+          <div className="absolute top-1/4 left-1/4 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 rounded-full bg-violet-400/20 animate-pulse-slow"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 rounded-full bg-cyan-400/15 animate-pulse-slow delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-56 md:w-72 h-36 sm:h-56 md:h-72 rounded-full bg-amber-400/10 animate-pulse-slow delay-2000"></div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
             {[
               {
-                number: "500+",
-                label: "Projects Completed",
-                icon: <Layers className="w-6 h-6" />,
+                key: "projects",
+                number: counts.projects,
+                label: "Projects",
+                icon: (
+                  <Layers className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                ),
                 color: "from-blue-500 to-cyan-500",
                 dropColor: "blue-400",
+                suffix: "+",
               },
               {
-                number: "480+",
+                key: "clients",
+                number: counts.clients,
                 label: "Happy Clients",
-                icon: <Users className="w-6 h-6" />,
+                icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
                 color: "from-emerald-500 to-teal-500",
                 dropColor: "emerald-400",
+                suffix: "+",
               },
               {
-                number: "12+",
-                label: "Years Experience",
-                icon: <Award className="w-6 h-6" />,
+                key: "experience",
+                number: counts.experience,
+                label: "Years",
+                icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
                 color: "from-amber-500 to-orange-500",
                 dropColor: "amber-400",
+                suffix: "+",
               },
               {
-                number: "15+",
+                key: "team",
+                number: counts.team,
                 label: "Expert Team",
-                icon: <Sparkles className="w-6 h-6" />,
+                icon: (
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                ),
                 color: "from-purple-500 to-pink-500",
                 dropColor: "purple-400",
+                suffix: "+",
+              },
+              {
+                key: "satisfaction",
+                number: counts.satisfaction,
+                label: "Satisfaction",
+                icon: <Heart className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
+                color: "from-rose-500 to-red-500",
+                dropColor: "rose-400",
+                suffix: "%",
+              },
+              {
+                key: "awards",
+                number: counts.awards,
+                label: "Awards",
+                icon: (
+                  <Trophy className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                ),
+                color: "from-yellow-500 to-amber-500",
+                dropColor: "yellow-400",
+                suffix: "+",
               },
             ].map((stat, idx) => (
               <div
                 key={idx}
                 className="group relative text-center cursor-pointer"
               >
-                {/* Water Drop / Ripple Effect Container */}
                 <div className="relative inline-block w-full">
-                  {/* Ripple rings - animate on hover */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="absolute w-20 h-20 rounded-full border-2 border-transparent group-hover:border-opacity-50 group-hover:animate-ripple"></div>
-                    <div className="absolute w-20 h-20 rounded-full border-2 border-transparent group-hover:border-opacity-30 group-hover:animate-ripple-delay"></div>
-                    <div className="absolute w-20 h-20 rounded-full border-2 border-transparent group-hover:border-opacity-15 group-hover:animate-ripple-slow"></div>
+                    <div className="absolute w-10 sm:w-14 md:w-16 h-10 sm:h-14 md:h-16 rounded-full border-2 border-transparent group-hover:border-opacity-50 group-hover:animate-ripple"></div>
+                    <div className="absolute w-10 sm:w-14 md:w-16 h-10 sm:h-14 md:h-16 rounded-full border-2 border-transparent group-hover:border-opacity-30 group-hover:animate-ripple-delay"></div>
+                    <div className="absolute w-10 sm:w-14 md:w-16 h-10 sm:h-14 md:h-16 rounded-full border-2 border-transparent group-hover:border-opacity-15 group-hover:animate-ripple-slow"></div>
                   </div>
 
-                  {/* Main Icon Card with Water Drop Reflection */}
                   <div className="relative">
-                    {/* Water drop shadow / reflection underneath */}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 sm:w-12 md:w-14 h-2 sm:h-3 md:h-4 bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                    <div className="relative w-16 h-16 mx-auto mb-4">
-                      {/* Water droplet shape background */}
+                    <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 mx-auto mb-2 sm:mb-3">
                       <div className="absolute inset-0 rounded-[40%_60%_70%_30%/_40%_50%_60%_50%] animate-drop-float"></div>
 
-                      {/* Main icon background with water ripple effect */}
                       <div
                         className={`relative w-full h-full bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl overflow-hidden`}
                       >
-                        {/* Water ripple overlay on icon */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                        {/* Animated water wave inside icon */}
                         <div className="absolute bottom-0 left-0 right-0 h-0 bg-white/20 group-hover:h-full transition-all duration-700 rounded-2xl"></div>
-
-                        {/* Icon with water ripple animation */}
                         <div className="relative z-10 transform transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1">
                           {stat.icon}
                         </div>
-
-                        {/* Water drop highlight */}
-                        <div className="absolute top-1 left-2 w-2 h-2 bg-white/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute top-1 left-1.5 w-1 h-1 bg-white/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       </div>
                     </div>
 
-                    {/* Water drop drip effect from icon */}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0.5 h-0 bg-gradient-to-b from-white to-transparent rounded-full opacity-0 group-hover:opacity-100 group-hover:h-3 transition-all duration-500"></div>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0.5 h-0 bg-gradient-to-b from-white to-transparent rounded-full opacity-0 group-hover:opacity-100 group-hover:h-2 sm:group-hover:h-3 transition-all duration-500"></div>
                   </div>
 
-                  {/* Number with water ripple text effect */}
                   <div className="relative">
-                    <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 relative inline-block group-hover:animate-text-wave">
-                      <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 inline-block animate-float-1">
-                        {stat.number.charAt(0)}
+                    <div className="text-sm sm:text-xl md:text-2xl font-bold text-gray-900 mb-0.5 sm:mb-1 relative inline-block group-hover:animate-text-wave">
+                      <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 text-xs sm:text-base md:text-lg">
+                        {stat.number}
+                        {stat.suffix}
                       </span>
-                      <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 delay-75 inline-block animate-float-2">
-                        {stat.number.charAt(1)}
-                      </span>
-                      <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 delay-100 inline-block animate-float-3">
-                        {stat.number.charAt(2)}
-                      </span>
-                      <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 delay-150 inline-block animate-float-4">
-                        {stat.number.charAt(3)}
-                      </span>
-                      {stat.number.length > 4 && (
-                        <span className="relative inline-block transition-all duration-300 group-hover:-translate-y-1 delay-200 inline-block animate-float-5">
-                          +
-                        </span>
-                      )}
                     </div>
-                    <div className="text-gray-500 text-sm tracking-wide group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="text-[10px] sm:text-xs md:text-sm text-gray-500 tracking-wide group-hover:text-gray-700 transition-colors duration-300">
                       {stat.label}
                     </div>
-
-                    {/* Underline water ripple effect */}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-transparent via-gray-400 to-transparent rounded-full group-hover:w-12 transition-all duration-500"></div>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-transparent via-gray-400 to-transparent rounded-full group-hover:w-6 sm:group-hover:w-8 md:group-hover:w-10 transition-all duration-500"></div>
                   </div>
                 </div>
               </div>
@@ -703,14 +837,43 @@ const DSInteriorsWebsite = () => {
           </div>
         </div>
 
-        {/* Add custom styles for water drop animations */}
         <style jsx>{`
           @keyframes ripple {
             0% {
-              width: 40px;
-              height: 40px;
+              width: 30px;
+              height: 30px;
               opacity: 0.6;
               border-color: rgba(59, 130, 246, 0.5);
+            }
+            100% {
+              width: 80px;
+              height: 80px;
+              opacity: 0;
+              border-color: rgba(59, 130, 246, 0);
+            }
+          }
+          
+          @keyframes ripple-delay {
+            0% {
+              width: 30px;
+              height: 30px;
+              opacity: 0.4;
+              border-color: rgba(59, 130, 246, 0.4);
+            }
+            100% {
+              width: 90px;
+              height: 90px;
+              opacity: 0;
+              border-color: rgba(59, 130, 246, 0);
+            }
+          }
+          
+          @keyframes ripple-slow {
+            0% {
+              width: 30px;
+              height: 30px;
+              opacity: 0.2;
+              border-color: rgba(59, 130, 246, 0.3);
             }
             100% {
               width: 100px;
@@ -720,44 +883,45 @@ const DSInteriorsWebsite = () => {
             }
           }
           
-          @keyframes ripple-delay {
-            0% {
-              width: 40px;
-              height: 40px;
-              opacity: 0.4;
-              border-color: rgba(59, 130, 246, 0.4);
+          @media (min-width: 640px) {
+            @keyframes ripple {
+              0% {
+                width: 40px;
+                height: 40px;
+              }
+              100% {
+                width: 100px;
+                height: 100px;
+              }
             }
-            100% {
-              width: 120px;
-              height: 120px;
-              opacity: 0;
-              border-color: rgba(59, 130, 246, 0);
+            @keyframes ripple-delay {
+              0% {
+                width: 40px;
+                height: 40px;
+              }
+              100% {
+                width: 120px;
+                height: 120px;
+              }
             }
-          }
-          
-          @keyframes ripple-slow {
-            0% {
-              width: 40px;
-              height: 40px;
-              opacity: 0.2;
-              border-color: rgba(59, 130, 246, 0.3);
-            }
-            100% {
-              width: 140px;
-              height: 140px;
-              opacity: 0;
-              border-color: rgba(59, 130, 246, 0);
+            @keyframes ripple-slow {
+              0% {
+                width: 40px;
+                height: 40px;
+              }
+              100% {
+                width: 140px;
+                height: 140px;
+              }
             }
           }
           
           .group:hover .animate-ripple {
             animation: ripple 1s ease-out forwards;
           }
-          
           .group:hover .animate-ripple-delay {
             animation: ripple-delay 1s ease-out 0.2s forwards;
           }
-          
           .group:hover .animate-ripple-slow {
             animation: ripple-slow 1s ease-out 0.4s forwards;
           }
@@ -781,42 +945,6 @@ const DSInteriorsWebsite = () => {
             animation: drop-float 6s ease-in-out infinite;
           }
           
-          @keyframes float-1 {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-4px); }
-          }
-          @keyframes float-2 {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-          }
-          @keyframes float-3 {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-3px); }
-          }
-          @keyframes float-4 {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-7px); }
-          }
-          @keyframes float-5 {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-          }
-          
-          .animate-float-1 { animation: float-1 3s ease-in-out infinite; }
-          .animate-float-2 { animation: float-2 3.5s ease-in-out infinite; }
-          .animate-float-3 { animation: float-3 2.8s ease-in-out infinite; }
-          .animate-float-4 { animation: float-4 4s ease-in-out infinite; }
-          .animate-float-5 { animation: float-5 3.2s ease-in-out infinite; }
-          
-          @keyframes text-wave {
-            0%, 100% { letter-spacing: normal; }
-            50% { letter-spacing: 2px; }
-          }
-          
-          .group:hover .animate-text-wave {
-            animation: text-wave 0.5s ease-in-out;
-          }
-          
           @keyframes pulse-slow {
             0%, 100% {
               opacity: 0.05;
@@ -835,33 +963,29 @@ const DSInteriorsWebsite = () => {
           .delay-1000 {
             animation-delay: 1s;
           }
-          
-          .delay-75 {
-            transition-delay: 75ms;
+          .delay-2000 {
+            animation-delay: 2s;
+          }
+
+          @keyframes text-wave {
+            0%, 100% { letter-spacing: normal; }
+            50% { letter-spacing: 1px; }
           }
           
-          .delay-100 {
-            transition-delay: 100ms;
-          }
-          
-          .delay-150 {
-            transition-delay: 150ms;
-          }
-          
-          .delay-200 {
-            transition-delay: 200ms;
+          .group:hover .animate-text-wave {
+            animation: text-wave 0.5s ease-in-out;
           }
         `}</style>
       </section>
 
-      {/* Video Modal with Pay Button and Sound Controls */}
+      {/* Video Modal */}
       <AnimatePresence>
         {isVideoModalOpen && selectedVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md"
             onClick={() => {
               setIsVideoModalOpen(false);
               setIsPlaying(false);
@@ -874,10 +998,9 @@ const DSInteriorsWebsite = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-4xl w-full bg-black rounded-2xl overflow-hidden"
+              className="relative w-full max-w-4xl bg-black rounded-xl sm:rounded-2xl overflow-hidden mx-2 sm:mx-4"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 onClick={() => {
                   setIsVideoModalOpen(false);
@@ -886,25 +1009,22 @@ const DSInteriorsWebsite = () => {
                     modalVideoRef.current.pause();
                   }
                 }}
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-amber-500 hover:text-white transition-all duration-300"
+                className="absolute top-2 sm:top-4 right-2 sm:right-4 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-amber-500 hover:text-white transition-all duration-300"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
-              {/* Video Player */}
               <div className="relative">
                 <video
                   ref={modalVideoRef}
                   src={selectedVideo.videoUrl}
-                  className="w-full h-auto max-h-[60vh] object-contain"
+                  className="w-full h-auto max-h-[50vh] sm:max-h-[60vh] object-contain"
                   autoPlay
                   playsInline
                 />
 
-                {/* Video Controls Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4">
                   <div className="flex items-center justify-between">
-                    {/* Play/Pause Button */}
                     <button
                       onClick={() => {
                         if (modalVideoRef.current) {
@@ -916,16 +1036,15 @@ const DSInteriorsWebsite = () => {
                           setIsPlaying(!isPlaying);
                         }
                       }}
-                      className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
                     >
                       {isPlaying ? (
-                        <Pause className="w-5 h-5 text-white" />
+                        <Pause className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       ) : (
-                        <Play className="w-5 h-5 text-white ml-0.5" />
+                        <Play className="w-4 h-4 sm:w-5 sm:h-5 text-white ml-0.5" />
                       )}
                     </button>
 
-                    {/* Sound Mute/Unmute Button */}
                     <button
                       onClick={() => {
                         if (modalVideoRef.current) {
@@ -933,11 +1052,11 @@ const DSInteriorsWebsite = () => {
                           setIsMuted(!isMuted);
                         }
                       }}
-                      className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-amber-500 transition-all duration-300"
                     >
                       {isMuted ? (
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -945,7 +1064,7 @@ const DSInteriorsWebsite = () => {
                         </svg>
                       ) : (
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -957,14 +1076,13 @@ const DSInteriorsWebsite = () => {
                 </div>
               </div>
 
-              {/* Review Info Below Video */}
-              <div className="py-4 px-6 bg-white">
-                <div className="flex items-center justify-between mb-3">
+              <div className="py-3 sm:py-4 px-4 sm:px-6 bg-white">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 sm:mb-3 gap-2">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">
+                    <h3 className="text-base sm:text-xl font-bold text-gray-900">
                       {selectedVideo.name}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs sm:text-sm text-gray-500">
                       {selectedVideo.role}
                     </p>
                   </div>
@@ -972,12 +1090,12 @@ const DSInteriorsWebsite = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-5 h-5 text-yellow-400 fill-yellow-400"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-yellow-400"
                       />
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                   {selectedVideo.text}
                 </p>
               </div>
@@ -986,28 +1104,31 @@ const DSInteriorsWebsite = () => {
         )}
       </AnimatePresence>
 
-      {/* About Section with Luxury Layout */}
-      <section ref={aboutRef} className="py-12 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-50 rounded-full blur-3xl opacity-50 -z-10"></div>
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      {/* About Section - Responsive */}
+      <section
+        ref={aboutRef}
+        className="py-8 sm:py-12 md:py-16 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-amber-50 rounded-full blur-3xl opacity-50 -z-10"></div>
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <AnimatedSection id="about">
               <div className="relative">
-                <div className="absolute -top-6 -left-6 w-24 h-24 border-t-4 border-l-4 border-amber-300"></div>
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 border-b-4 border-r-4 border-amber-300"></div>
+                <div className="absolute -top-4 sm:-top-6 -left-4 sm:-left-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 border-t-4 border-l-4 border-amber-300"></div>
+                <div className="absolute -bottom-4 sm:-bottom-6 -right-4 sm:-right-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 border-b-4 border-r-4 border-amber-300"></div>
                 <img
                   src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800"
                   alt="About"
-                  className="rounded-3xl shadow-2xl w-full relative z-10"
+                  className="rounded-2xl sm:rounded-3xl shadow-2xl w-full relative z-10"
                 />
-                <div className="absolute -bottom-8 -left-8 bg-white rounded-2xl shadow-xl p-4 z-20">
-                  <div className="flex items-center gap-3">
-                    <Award className="w-8 h-8 text-amber-600" />
+                <div className="absolute -bottom-4 sm:-bottom-8 -left-4 sm:-left-8 bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 z-20">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
                     <div>
-                      <div className="font-bold text-gray-900">
+                      <div className="font-bold text-gray-900 text-xs sm:text-sm">
                         Best Design Studio
                       </div>
-                      <div className="text-gray-500 text-sm">
+                      <div className="text-gray-500 text-[10px] sm:text-xs">
                         2023 Award Winner
                       </div>
                     </div>
@@ -1018,26 +1139,23 @@ const DSInteriorsWebsite = () => {
 
             <AnimatedSection id="about">
               <div>
-                {/* Animated badge with pulse effect */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full mb-6 group cursor-pointer hover:scale-105 transition-all duration-300">
-                  <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></div>
-                  <span className="text-amber-700 text-lg font-medium tracking-wide">
+                <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full mb-4 sm:mb-6 group cursor-pointer hover:scale-105 transition-all duration-300">
+                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-amber-500 rounded-full animate-pulse"></div>
+                  <span className="text-amber-700 text-xs sm:text-sm md:text-base font-medium tracking-wide">
                     About Us
                   </span>
-                  <Sparkles className="w-3 h-3 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Sparkles className="w-2 h-2 sm:w-3 sm:h-3 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                {/* Animated heading with gradient shift */}
                 <div className="relative">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                     Creating Beautiful
-                    <div className="relative inline-block ml-2">
+                    <div className="relative inline-block ml-1 sm:ml-2">
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 bg-300% animate-gradient">
                         Spaces Since 2012
                       </span>
-                      {/* Animated underline */}
                       <svg
-                        className="absolute -bottom-2 left-0 w-full h-2"
+                        className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-1.5 sm:h-2"
                         viewBox="0 0 300 10"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -1045,7 +1163,7 @@ const DSInteriorsWebsite = () => {
                           d="M0 5 Q 75 10, 150 5 T 300 5"
                           stroke="orangered"
                           fill="none"
-                          strokeWidth="2"
+                          strokeWidth="1.5 sm:strokeWidth-2"
                           strokeLinecap="round"
                           className="animate-dash"
                         />
@@ -1054,16 +1172,15 @@ const DSInteriorsWebsite = () => {
                   </h2>
                 </div>
 
-                {/* Animated paragraph with fade-up effect for each sentence */}
-                <div className="space-y-4">
-                  <p className="text-gray-600 leading-relaxed text-lg transform transition-all duration-500 hover:translate-x-2 hover:text-gray-800">
+                <div className="space-y-3 sm:space-y-4">
+                  <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed transform transition-all duration-500 hover:translate-x-2 hover:text-gray-800">
                     <span className="inline-block w-1 h-1 bg-amber-500 rounded-full mr-2 align-middle"></span>
-                    Dsigner Studio Interiors is a premier interior design studio based in
-                    Hyderabad, specializing in residential and commercial
-                    spaces. We believe that great design transforms not just
-                    spaces, but lives.
+                    Dsigner Studio Interiors is a premier interior design studio
+                    based in Hyderabad, specializing in residential and
+                    commercial spaces. We believe that great design transforms
+                    not just spaces, but lives.
                   </p>
-                  <p className="text-gray-600 leading-relaxed transform transition-all duration-500 delay-100 hover:translate-x-2 hover:text-gray-800">
+                  <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed transform transition-all duration-500 delay-100 hover:translate-x-2 hover:text-gray-800">
                     <span className="inline-block w-1 h-1 bg-amber-500 rounded-full mr-2 align-middle"></span>
                     Our team of expert designers works closely with clients to
                     create personalized spaces that reflect their unique style
@@ -1071,184 +1188,157 @@ const DSInteriorsWebsite = () => {
                   </p>
                 </div>
 
-                {/* Dynamic feature cards with hover effects - Responsive Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 mt-8">
-                  {/* Card 2 */}
-                  <div className="group relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-gray-50 to-violet-200 border border-gray-100 hover:border-violet-200 transition-all duration-500 hover:shadow-xl cursor-pointer">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 mt-6 sm:mt-8">
+                  <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-4 bg-gradient-to-br from-gray-50 to-violet-200 border border-gray-100 hover:border-violet-200 transition-all duration-500 hover:shadow-xl cursor-pointer">
                     <div className="absolute inset-0 bg-gradient-to-r from-violet-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
                     <div className="relative flex items-center gap-3">
                       <div className="relative">
-                        <div className="w-12 h-12 bg-gradient-to-br from-violet-100 to-orange-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <Clock className="w-5 h-5 text-violet-600 group-hover:text-violet-700 transition-colors" />
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-violet-100 to-orange-100 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-violet-600 group-hover:text-violet-700 transition-colors" />
                         </div>
-                        <div className="absolute inset-0 rounded-2xl border-2 border-violet-400 opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
+                        <div className="absolute inset-0 rounded-xl sm:rounded-2xl border-2 border-violet-400 opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900 group-hover:text-violet-700 transition-colors duration-300">
+                        <div className="font-semibold text-gray-900 group-hover:text-violet-700 transition-colors duration-300 text-sm sm:text-base">
                           On-Time Delivery
                         </div>
-                        <div className="text-gray-500 text-sm group-hover:text-gray-600">
+                        <div className="text-gray-500 text-xs sm:text-sm group-hover:text-gray-600">
                           100% commitment & tracking
                         </div>
                       </div>
                     </div>
-
                     <div className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-violet-200 to-violet-500 w-0 group-hover:w-full transition-all duration-700"></div>
                   </div>
 
-                  {/* Card 3 (Optional - Add more cards as needed) */}
-                  <div className="group relative overflow-hidden rounded-2xl p-3 bg-gradient-to-br from-gray-50 to-green-200 border border-gray-100 hover:border-green-200 transition-all duration-500 hover:shadow-xl cursor-pointer">
+                  <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-4 bg-gradient-to-br from-gray-50 to-green-200 border border-gray-100 hover:border-green-200 transition-all duration-500 hover:shadow-xl cursor-pointer">
                     <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
                     <div className="relative flex items-center gap-3">
                       <div className="relative">
-                        <div className="w-12 h-12 bg-gradient-to-br from-green-50 to-orange-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <Headphones className="w-5 h-5 text-green-600 group-hover:text-green-700 transition-colors" />
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-50 to-orange-100 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <Headphones className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 group-hover:text-green-700 transition-colors" />
                         </div>
-                        <div className="absolute inset-0 rounded-2xl border-2 border-green-400 opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
+                        <div className="absolute inset-0 rounded-xl sm:rounded-2xl border-2 border-green-400 opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900 group-hover:text-green-700 transition-colors duration-300">
+                        <div className="font-semibold text-gray-900 group-hover:text-green-700 transition-colors duration-300 text-sm sm:text-base">
                           24/7 Customer Support
                         </div>
-                        <div className="text-gray-500 text-sm group-hover:text-gray-600">
+                        <div className="text-gray-500 text-xs sm:text-sm group-hover:text-gray-600">
                           Always here to help you
                         </div>
                       </div>
                     </div>
-
                     <div className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-green-200 to-green-500 w-0 group-hover:w-full transition-all duration-700"></div>
                   </div>
                 </div>
-                {/* Dynamic CTA Button with micro-interactions */}
+
                 <button
                   onClick={() => scrollToSection(contactRef)}
-                  className="group relative inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-full transition-all duration-300 font-medium overflow-hidden shadow-lg hover:shadow-2xl"
+                  className="group relative inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-full transition-all duration-300 font-medium overflow-hidden shadow-lg hover:shadow-2xl text-sm sm:text-base"
                 >
-                  {/* Animated shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-
-                  {/* Ripple effect container */}
                   <span className="relative z-10 flex items-center gap-2">
                     Learn More About Us
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300" />
+                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300" />
                   </span>
-
-                  {/* Animated dots on hover */}
-                  <div className="absolute -right-8 -top-8 w-16 h-16 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
-                  <div className="absolute -left-8 -bottom-8 w-16 h-16 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500 delay-100"></div>
+                  <div className="absolute -right-8 -top-8 w-12 h-12 sm:w-16 sm:h-16 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
+                  <div className="absolute -left-8 -bottom-8 w-12 h-12 sm:w-16 sm:h-16 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500 delay-100"></div>
                 </button>
 
-                {/* Animated decorative elements */}
-                <div className="absolute -right-20 top-20 w-40 h-40 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
-                <div className="absolute -left-20 bottom-20 w-40 h-40 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-full blur-2xl -z-10 animate-pulse-slow delay-1000"></div>
+                <div className="absolute -right-20 top-20 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
+                <div className="absolute -left-20 bottom-20 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-full blur-2xl -z-10 animate-pulse-slow delay-1000"></div>
               </div>
             </AnimatedSection>
           </div>
         </div>
       </section>
 
+      {/* ===== WHY CHOOSE US SECTION - RESPONSIVE ===== */}
+      <WhyChooseUs />
+
       <TrustedClients />
 
-      {/* ===== MODERN SERVICES SECTION ===== */}
+      {/* ===== SERVICES SECTION - RESPONSIVE ===== */}
       <section
         ref={servicesRef}
-        className="container mx-auto py-8 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
+        className="container mx-auto py-8 sm:py-10 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"
       >
-        {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-20 left-10 w-48 sm:w-56 md:w-72 h-48 sm:h-56 md:h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute top-40 right-10 w-48 sm:w-56 md:w-72 h-48 sm:h-56 md:h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-20 left-1/2 w-48 sm:w-56 md:w-72 h-48 sm:h-56 md:h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="container mx-auto px-6 lg:px-10 relative z-10">
-          {/* ===== HEADER ===== */}
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-5 py-2 mb-6 shadow-md border border-orange-100">
-              <Sparkles className="w-4 h-4 text-orange-500" />
-              <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 md:mb-20">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 mb-4 sm:mb-6 shadow-md border border-orange-100">
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
+              <span className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">
                 What We Do
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-6">
               Our Premium{" "}
               <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
                 Services
               </span>
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               Delivering exceptional quality with innovative solutions tailored
               to your needs
             </p>
           </div>
 
-          {/* ===== SERVICES GRID ===== */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {services.map((service, idx) => (
               <div
                 key={idx}
                 className="group relative animate-fade-in-up"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
-                {/* Card Container */}
-                <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                  {/* Image Container with Overlay */}
-                  <div className="relative h-56 overflow-hidden">
+                <div className="relative bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                  <div className="relative h-40 sm:h-48 md:h-56 overflow-hidden">
                     <img
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-
-                    {/* Service Icon on Image */}
                     <div
-                      className={`absolute bottom-4 left-4 w-12 h-12 rounded-xl ${service.bgLight} flex items-center justify-center shadow-lg backdrop-blur-sm border border-white/30`}
+                      className={`absolute bottom-3 sm:bottom-4 left-3 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 rounded-xl ${service.bgLight} flex items-center justify-center shadow-lg backdrop-blur-sm border border-white/30`}
                     >
                       <div className={service.color}>{service.icon}</div>
                     </div>
-
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 px-2 py-0.5 sm:px-3 sm:py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] sm:text-xs font-semibold text-gray-700">
                       {service.category}
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                  <div className="p-4 sm:p-5 md:p-6">
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-orange-600 transition-colors">
                       {service.title}
                     </h3>
-
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
                       {service.desc}
                     </p>
-
-                    {/* Features List */}
-                    <div className="space-y-2 mb-6">
+                    <div className="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6">
                       {service.features.map((feature, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-2 text-sm text-gray-600"
+                          className="flex items-center gap-2 text-xs sm:text-sm text-gray-600"
                         >
-                          <Check className="w-4 h-4 text-green-500" />
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-500" />
                           <span>{feature}</span>
                         </div>
                       ))}
                     </div>
-
-                    {/* Divider */}
-                    <div className="border-t border-gray-100 pt-4">
+                    <div className="border-t border-gray-100 pt-3 sm:pt-4">
                       <button
                         onClick={() => scrollToSection(contactRef)}
-                        className="w-full flex items-center justify-between text-orange-600 font-semibold group/btn hover:text-orange-700 transition-colors"
+                        className="w-full flex items-center justify-between text-orange-600 font-semibold group/btn hover:text-orange-700 transition-colors text-xs sm:text-sm"
                       >
                         <span>Learn More</span>
-                        <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform" />
                       </button>
                     </div>
                   </div>
@@ -1257,109 +1347,112 @@ const DSInteriorsWebsite = () => {
             ))}
           </div>
 
-          {/* ===== CTA SECTION ===== */}
-          <div className="relative mt-24 rounded-3xl overflow-hidden">
+          {/* CTA SECTION */}
+          <div className="relative mt-16 sm:mt-20 md:mt-24 rounded-2xl sm:rounded-3xl overflow-hidden group">
             <div className="absolute inset-0">
               <img
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=600&fit=crop"
                 alt="interior"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/60 to-black/40"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/40"></div>
             </div>
 
-            <div className="relative z-10 text-center py-16 px-6">
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Start Your Project?
+            <div className="relative z-10 text-center py-10 sm:py-14 md:py-16 px-4 sm:px-6">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
+                <span className="text-white">Ready to Start</span>
+                <br className="sm:hidden" />
+                <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+                  Your Project?
+                </span>
               </h3>
-              <p className="text-orange-100 mb-8 text-lg max-w-2xl mx-auto">
-                Get a free consultation with our expert team and bring your
-                vision to life
+              <p className="text-white/90 mb-6 sm:mb-8 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+                <span className="relative inline-block">
+                  <span className="absolute -inset-1 bg-amber-400/10 blur-sm rounded-full"></span>
+                  <span className="relative">
+                    Get a free consultation with our expert team
+                  </span>
+                </span>
+                <br />
+                <span className="text-amber-300/90 font-medium">
+                  and bring your vision to life
+                </span>
               </p>
               <button
                 onClick={() => scrollToSection(contactRef)}
-                className="inline-flex items-center"
+                className="group/btn relative inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-105 overflow-hidden text-sm sm:text-base"
               >
-                <ConsultationButton />
+                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                <span className="relative z-10">Start Your Project</span>
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 group-hover/btn:translate-x-1 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 blur-xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
               </button>
             </div>
           </div>
         </div>
 
         <style jsx>{`
-    @keyframes blob {
-      0%, 100% { transform: translate(0px, 0px) scale(1); }
-      33% { transform: translate(30px, -50px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.9); }
-    }
-    
-    @keyframes fade-in-up {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .animate-blob {
-      animation: blob 7s infinite;
-    }
-    
-    .animation-delay-2000 {
-      animation-delay: 2s;
-    }
-    
-    .animation-delay-4000 {
-      animation-delay: 4s;
-    }
-    
-    .animate-fade-in-up {
-      animation: fade-in-up 0.6s ease-out forwards;
-      opacity: 0;
-    }
-  `}</style>
+          @keyframes blob {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(20px, -30px) scale(1.05); }
+            66% { transform: translate(-15px, 15px) scale(0.95); }
+          }
+          
+          @keyframes fade-in-up {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+          
+          .animate-fade-in-up {
+            animation: fade-in-up 0.5s ease-out forwards;
+            opacity: 0;
+          }
+        `}</style>
       </section>
-
+      <Gallery />
       <ScrollingText />
-
       <KitchenAppliances />
 
-      {/* ===== MODERN CONTACT SECTION WITH LUXURY DESIGN ===== */}
+      {/* ===== CONTACT SECTION - RESPONSIVE ===== */}
       <section
         ref={contactRef}
-        className="py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+        className="py-10 sm:py-12 md:py-16 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
       >
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-amber-100/30 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-purple-100/20 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute top-0 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-gradient-to-br from-amber-100/30 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-gradient-to-tr from-purple-100/20 to-transparent rounded-full blur-3xl"></div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-2 gap-16">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
             {/* Left Column - Contact Info */}
             <AnimatedSection id="contact">
               <div>
-                {/* Animated Badge */}
-                <div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="inline-block px-4 py-1 bg-gradient-to-r from-amber-100 to-amber-50 rounded-full mb-6 shadow-sm"
-                >
-                  <span className="text-amber-700 text-sm font-medium tracking-wide flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
+                <div className="inline-block px-3 sm:px-4 py-1 bg-gradient-to-r from-amber-100 to-amber-50 rounded-full mb-4 sm:mb-6 shadow-sm">
+                  <span className="text-amber-700 text-xs sm:text-sm font-medium tracking-wide flex items-center gap-2">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
                     Get In Touch
                   </span>
                 </div>
 
-                {/* Title with Animation */}
-                <h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight"
-                >
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                   Let's Discuss
                   <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent block sm:inline">
                     {" "}
@@ -1367,84 +1460,58 @@ const DSInteriorsWebsite = () => {
                   </span>
                 </h2>
 
-                {/* Description */}
-                <p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-gray-600 text-lg mb-10 leading-relaxed"
-                >
+                <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 md:mb-10 leading-relaxed">
                   Ready to transform your space? Contact us for a consultation
                   and let's bring your vision to life.
                 </p>
 
-                {/* Contact Details with Staggered Animation */}
-                <div
-                  initial="hidden"
-                  whileInView="visible"
-                  variants={{
-                    visible: { transition: { staggerChildren: 0.1 } },
-                  }}
-                  className="space-y-6"
-                >
-                  {/* Phone - Clickable */}
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, x: -20 },
-                      visible: { opacity: 1, x: 0 },
-                    }}
-                    className="flex items-start gap-5 group cursor-pointer"
-                    whileHover={{ x: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
+                <div className="space-y-4 sm:space-y-5 md:space-y-6">
+                  {/* Phone */}
+                  <div className="flex items-start gap-3 sm:gap-4 md:gap-5 group cursor-pointer">
                     <a
                       href={`tel:${companyInfo.phone}`}
-                      className="flex items-start gap-5 w-full"
+                      className="flex items-start gap-3 sm:gap-4 md:gap-5 w-full"
                     >
-                      <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md">
-                        <Phone className="w-5 h-5 text-amber-700" />
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md flex-shrink-0">
+                        <Phone className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-amber-700" />
                       </div>
                       <div>
-                        <p className="text-gray-500 text-sm mb-1">Phone</p>
-                        <p className="text-gray-900 font-medium text-lg hover:text-amber-600 transition-colors">
+                        <p className="text-gray-500 text-xs sm:text-sm mb-0.5 sm:mb-1">
+                          Phone
+                        </p>
+                        <p className="text-gray-900 font-medium text-sm sm:text-base md:text-lg hover:text-amber-600 transition-colors">
                           {companyInfo.phone}
                         </p>
                       </div>
                     </a>
-                  </motion.div>
+                  </div>
 
-                  {/* Email - Clickable with Webmail Options */}
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, x: -20 },
-                      visible: { opacity: 1, x: 0 },
-                    }}
-                    className="flex items-start gap-5 group"
-                    whileHover={{ x: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md">
-                      <Mail className="w-5 h-5 text-amber-700" />
+                  {/* Email */}
+                  <div className="flex items-start gap-3 sm:gap-4 md:gap-5 group">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md flex-shrink-0">
+                      <Mail className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-amber-700" />
                     </div>
-                    <div className="flex-1">
-                      <p className="text-gray-500 text-sm mb-1">Email</p>
-                      <div className="flex flex-col gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-gray-500 text-xs sm:text-sm mb-0.5 sm:mb-1">
+                        Email
+                      </p>
+                      <div className="space-y-2">
                         <a
                           href={`mailto:${companyInfo.email}?subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0A`}
-                          className="text-gray-900 font-medium text-lg hover:text-amber-600 transition-colors break-all"
+                          className="text-gray-900 font-medium text-sm sm:text-base md:text-lg hover:text-amber-600 transition-colors break-all"
                         >
                           {companyInfo.email}
                         </a>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           <button
                             onClick={() => {
                               navigator.clipboard.writeText(companyInfo.email);
                               alert("Email copied to clipboard! 📋");
                             }}
-                            className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-colors"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-gray-100 text-gray-600 text-[10px] sm:text-xs rounded-lg hover:bg-gray-200 transition-colors"
                           >
-                            <Copy className="w-3 h-3" />
-                            Copy Email
+                            <Copy className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                            Copy
                           </button>
                           <button
                             onClick={() => {
@@ -1453,10 +1520,10 @@ const DSInteriorsWebsite = () => {
                                 "_blank",
                               );
                             }}
-                            className="inline-flex items-center gap-1 px-2 py-1 bg-red-50 text-red-600 text-xs rounded-lg hover:bg-red-100 transition-colors"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-red-50 text-red-600 text-[10px] sm:text-xs rounded-lg hover:bg-red-100 transition-colors"
                           >
                             <svg
-                              className="w-3 h-3"
+                              className="w-2.5 h-2.5 sm:w-3 sm:h-3"
                               viewBox="0 0 24 24"
                               fill="currentColor"
                             >
@@ -1471,10 +1538,10 @@ const DSInteriorsWebsite = () => {
                                 "_blank",
                               );
                             }}
-                            className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-lg hover:bg-blue-100 transition-colors"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-blue-50 text-blue-600 text-[10px] sm:text-xs rounded-lg hover:bg-blue-100 transition-colors"
                           >
                             <svg
-                              className="w-3 h-3"
+                              className="w-2.5 h-2.5 sm:w-3 sm:h-3"
                               viewBox="0 0 24 24"
                               fill="currentColor"
                             >
@@ -1485,92 +1552,74 @@ const DSInteriorsWebsite = () => {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Address */}
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, x: -20 },
-                      visible: { opacity: 1, x: 0 },
-                    }}
-                    className="flex items-start gap-5 group"
-                    whileHover={{ x: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md">
-                      <MapPin className="w-5 h-5 text-amber-700" />
+                  <div className="flex items-start gap-3 sm:gap-4 md:gap-5 group">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-md flex-shrink-0">
+                      <MapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-amber-700" />
                     </div>
                     <div>
-                      <p className="text-gray-500 text-sm mb-1">Address</p>
-                      <p className="text-gray-900 font-medium">
+                      <p className="text-gray-500 text-xs sm:text-sm mb-0.5 sm:mb-1">
+                        Address
+                      </p>
+                      <p className="text-gray-900 font-medium text-sm sm:text-base">
                         {companyInfo.address}
                       </p>
                       <button
                         onClick={copyAddress}
-                        className="text-amber-600 text-sm hover:text-amber-700 mt-2 flex items-center gap-1 transition-all duration-300 hover:gap-2"
+                        className="text-amber-600 text-xs sm:text-sm hover:text-amber-700 mt-1 sm:mt-2 flex items-center gap-1 transition-all duration-300 hover:gap-2"
                       >
                         {copied ? (
                           <>
-                            <Check className="w-3 h-3" />
+                            <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             <span>Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-3 h-3" />
+                            <Copy className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             <span>Copy Address</span>
                           </>
                         )}
                       </button>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
 
-                {/* Social Icons with Modern Animations */}
-                <div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  className="flex gap-4 mt-10"
-                >
+                {/* Social Icons */}
+                <div className="flex gap-3 sm:gap-4 mt-8 sm:mt-10">
                   {[
                     {
-                      icon: <Facebook className="w-5 h-5" />,
-                      href: "#",
+                      icon: <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />,
+                      href: " https://www.facebook.com/profile.php?id=61590853052566",
                       label: "Facebook",
                       color: "from-blue-600 to-blue-800",
                       hoverColor: "hover:bg-blue-600",
                     },
                     {
-                      icon: <Instagram className="w-5 h-5" />,
-                      href: "#",
+                      icon: <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />,
+                      href: "https://www.instagram.com/dsignerstudiointeriors/",
                       label: "Instagram",
                       color: "from-pink-500 to-purple-600",
                       hoverColor:
                         "hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600",
                     },
                     {
-                      icon: <Twitter className="w-5 h-5" />,
-                      href: "#",
-                      label: "Twitter",
-                      color: "from-sky-500 to-blue-600",
-                      hoverColor: "hover:bg-sky-500",
-                    },
-                    {
-                      icon: <Linkedin className="w-5 h-5" />,
-                      href: "#",
+                      icon: <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />,
+                      href: "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
                       label: "LinkedIn",
                       color: "from-blue-700 to-indigo-800",
                       hoverColor: "hover:bg-blue-700",
                     },
                     {
-                      icon: <Youtube className="w-5 h-5" />,
-                      href: "#",
+                      icon: <Youtube className="w-4 h-4 sm:w-5 sm:h-5" />,
+                      href: " https://www.youtube.com/@DsignerstudioInteriors",
                       label: "YouTube",
                       color: "from-red-500 to-red-700",
                       hoverColor: "hover:bg-red-600",
                     },
                   ].map((social, idx) => (
-                    <motion.a
+                    <a
                       key={idx}
                       href={social.href}
                       target="_blank"
@@ -1582,97 +1631,67 @@ const DSInteriorsWebsite = () => {
                       whileHover={{ y: -5 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {/* Animated Background Glow */}
                       <div
                         className={`absolute inset-0 rounded-full bg-gradient-to-r ${social.color} opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500`}
                       ></div>
-
-                      {/* Social Icon Container */}
                       <div
-                        className={`relative w-11 h-11 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 transition-all duration-500 group-hover:text-white overflow-hidden shadow-md group-hover:shadow-xl ${social.hoverColor}`}
+                        className={`relative w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 transition-all duration-500 group-hover:text-white overflow-hidden shadow-md group-hover:shadow-xl ${social.hoverColor}`}
                       >
-                        {/* Shimmer Effect */}
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-
-                        {/* Icon with Bounce Animation */}
-                        <motion.div
+                        <div
                           whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.5 }}
                         >
                           {social.icon}
-                        </motion.div>
+                        </div>
                       </div>
-
-                      {/* Tooltip */}
-                      <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none">
+                      <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-gray-900 text-white text-[10px] sm:text-xs rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none">
                         {social.label}
                       </span>
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </div>
             </AnimatedSection>
 
-            {/* Right Column - Map with Modern Design */}
+            {/* Right Column - Map */}
             <AnimatedSection id="contact">
-              <div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 relative group"
-              >
-                {/* Animated Border */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700"></div>
-
-                <div className="relative bg-white rounded-3xl overflow-hidden">
-                  {/* Map Container */}
-                  <div className="p-6">
+              <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-gray-100 relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700"></div>
+                <div className="relative bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
+                  <div className="p-4 sm:p-5 md:p-6">
                     <div className="relative rounded-xl overflow-hidden shadow-lg">
                       <iframe
                         title="Map"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.5!2d78.3!3d17.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI0JzAwLjAiTiA3OMKwMTgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
-                        className="w-full h-80 rounded-xl transition-all duration-500 group-hover:scale-105"
+                        className="w-full h-48 sm:h-56 md:h-64 lg:h-80 rounded-xl transition-all duration-500 group-hover:scale-105"
                         allowFullScreen
                         loading="lazy"
                       ></iframe>
-
-                      {/* Map Overlay Gradient */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                     </div>
-
-                    {/* Get Directions Button with Animation */}
-                    <motion.button
+                    <button
                       onClick={() =>
                         window.open(
                           `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyInfo.address)}`,
                           "_blank",
                         )
                       }
-                      className="w-full mt-6 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-500 font-medium flex items-center justify-center gap-2 group overflow-hidden relative"
+                      className="w-full mt-4 sm:mt-5 md:mt-6 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-500 font-medium flex items-center justify-center gap-2 group overflow-hidden text-sm sm:text-base"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {/* Button Shimmer */}
                       <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-
                       <span>Get Directions</span>
-                      <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                    </motion.button>
+                      <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </button>
                   </div>
-
-                  {/* Decorative Corner Elements */}
-                  <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-amber-200 rounded-tl-xl"></div>
-                  <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-amber-200 rounded-br-xl"></div>
+                  <div className="absolute top-3 sm:top-4 left-3 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 border-t-2 border-l-2 border-amber-200 rounded-tl-xl"></div>
+                  <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 border-b-2 border-r-2 border-amber-200 rounded-br-xl"></div>
                 </div>
               </div>
 
-              {/* Trust Badge */}
-              <div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="bg-white p-4 rounded-2xl rounded-2xl shadow-2xl overflow-hidden border border-gray-100 mt-8 flex items-center gap-4 text-sm justify-center text-gray-600"
-              >
+              <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl overflow-hidden border border-gray-100 mt-4 sm:mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
                   24/7 Support
@@ -1693,55 +1712,42 @@ const DSInteriorsWebsite = () => {
         </div>
       </section>
 
-      {/* Contact Modal */}
+      {/* Contact Modal - Responsive */}
       {showContact && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl animate-fadeInUp mx-4">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+          <div className="bg-white rounded-2xl p-5 sm:p-6 md:p-8 max-w-md w-full shadow-2xl animate-fadeInUp mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                 Contact Us
               </h3>
               <button
                 onClick={() => setShowContact(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
-            <div className="space-y-5">
-              {/* Phone Section */}
+            <div className="space-y-4 sm:space-y-5">
               <div>
-                <p className="text-gray-500 text-sm mb-1">Phone</p>
+                <p className="text-gray-500 text-xs sm:text-sm mb-1">Phone</p>
                 <a
                   href={`tel:${companyInfo.phone}`}
-                  className="text-gray-900 font-medium text-base sm:text-lg hover:text-orange-600 transition-colors flex items-center gap-2"
+                  className="text-gray-900 font-medium text-sm sm:text-base md:text-lg hover:text-orange-600 transition-colors flex items-center gap-2"
                 >
-                  <Phone className="w-4 h-4 text-orange-500" />
+                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500" />
                   {companyInfo.phone}
                 </a>
               </div>
 
-              {/* Email Section - FIXED */}
               <div>
-                <p className="text-gray-500 text-sm mb-2">Email</p>
+                <p className="text-gray-500 text-xs sm:text-sm mb-1">Email</p>
                 <div className="space-y-2">
-                  {/* Direct mailto link */}
                   <a
                     href={`mailto:${companyInfo.email}?subject=Inquiry%20from%20Website&body=Hello%20DS%20Interiors,%0A%0AI%20would%20like%20to%20inquire%20about...`}
-                    className="text-gray-900 text-sm sm:text-base break-all hover:text-orange-600 transition-colors flex items-center gap-2 group"
-                    onClick={(e) => {
-                      // Fallback for devices that don't handle mailto properly
-                      setTimeout(() => {
-                        if (!window.location.href.includes("mailto:")) {
-                          alert(
-                            "Please configure your email client or use Gmail/Outlook web version",
-                          );
-                        }
-                      }, 100);
-                    }}
+                    className="text-gray-900 text-xs sm:text-sm break-all hover:text-orange-600 transition-colors flex items-center gap-2 group"
                   >
                     <svg
-                      className="w-4 h-4 text-orange-500 flex-shrink-0"
+                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1755,9 +1761,7 @@ const DSInteriorsWebsite = () => {
                     </svg>
                     {companyInfo.email}
                   </a>
-
-                  {/* Alternative buttons for webmail services */}
-                  <div className="flex flex-col sm:flex-row gap-2 mt-3">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     <button
                       onClick={() => {
                         window.open(
@@ -1765,10 +1769,10 @@ const DSInteriorsWebsite = () => {
                           "_blank",
                         );
                       }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm hover:bg-red-100 transition-colors"
+                      className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-red-50 text-red-600 rounded-lg text-[10px] sm:text-xs hover:bg-red-100 transition-colors"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-3.5 sm:h-3.5"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                       >
@@ -1783,10 +1787,10 @@ const DSInteriorsWebsite = () => {
                           "_blank",
                         );
                       }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm hover:bg-blue-100 transition-colors"
+                      className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-600 rounded-lg text-[10px] sm:text-xs hover:bg-blue-100 transition-colors"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-3.5 sm:h-3.5"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                       >
@@ -1799,10 +1803,10 @@ const DSInteriorsWebsite = () => {
                         navigator.clipboard.writeText(companyInfo.email);
                         alert("Email address copied to clipboard!");
                       }}
-                      className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors"
+                      className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-gray-100 text-gray-700 rounded-lg text-[10px] sm:text-xs hover:bg-gray-200 transition-colors"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-3.5 sm:h-3.5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1814,24 +1818,25 @@ const DSInteriorsWebsite = () => {
                           d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                         />
                       </svg>
-                      Copy Email
+                      Copy
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Address Section */}
               <div>
-                <p className="text-gray-500 text-sm mb-1">Address</p>
-                <p className="text-gray-900 text-sm">{companyInfo.address}</p>
+                <p className="text-gray-500 text-xs sm:text-sm mb-1">Address</p>
+                <p className="text-gray-900 text-xs sm:text-sm">
+                  {companyInfo.address}
+                </p>
                 <button
                   onClick={copyAddress}
-                  className="text-amber-600 text-xs mt-2 flex items-center gap-1 hover:gap-2 transition-all"
+                  className="text-amber-600 text-[10px] sm:text-xs mt-1 sm:mt-2 flex items-center gap-1 hover:gap-2 transition-all"
                 >
                   {copied ? (
                     <>
                       <svg
-                        className="w-3 h-3"
+                        className="w-2.5 h-2.5 sm:w-3 sm:h-3"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1848,7 +1853,7 @@ const DSInteriorsWebsite = () => {
                   ) : (
                     <>
                       <svg
-                        className="w-3 h-3"
+                        className="w-2.5 h-2.5 sm:w-3 sm:h-3"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1867,14 +1872,13 @@ const DSInteriorsWebsite = () => {
               </div>
             </div>
 
-            {/* Call Button */}
             <button
               onClick={() =>
                 (window.location.href = `tel:${companyInfo.phone}`)
               }
-              className="w-full py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-medium mt-6 flex items-center justify-center gap-2"
+              className="w-full py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl hover:shadow-lg transition-all duration-300 font-medium mt-4 sm:mt-5 md:mt-6 flex items-center justify-center gap-2 text-sm sm:text-base"
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Call Now
             </button>
           </div>
@@ -1887,20 +1891,22 @@ const DSInteriorsWebsite = () => {
           <div className="relative max-w-4xl w-full h-[70%]">
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 text-white hover:text-amber-400 transition"
+              className="absolute -top-10 sm:-top-12 right-0 text-white hover:text-amber-400 transition"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <img
               src={selectedImage.image}
               alt={selectedImage.title}
-              className="w-full rounded-2xl shadow-2xl"
+              className="w-full rounded-xl sm:rounded-2xl shadow-2xl max-h-[60vh] object-contain"
             />
-            <div className="mt-6 text-center">
-              <h3 className="text-white text-2xl font-bold">
+            <div className="mt-4 sm:mt-6 text-center">
+              <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
                 {selectedImage.title}
               </h3>
-              <p className="text-amber-400 mt-1">{selectedImage.category}</p>
+              <p className="text-amber-400 text-sm sm:text-base mt-1">
+                {selectedImage.category}
+              </p>
             </div>
           </div>
         </div>

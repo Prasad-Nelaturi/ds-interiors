@@ -52,7 +52,7 @@ const KitchenAppliances = () => {
     },
     {
       id: 5,
-      title: "Coffee & Beverage Station",
+      title: "Coffee & Beverage",
       category: "Lifestyle Appliance",
       icon: <Coffee className="w-4 h-4" />,
       image:
