@@ -29,6 +29,14 @@ import {
   Youtube,
   Linkedin,
   MapPin,
+  Layers,
+  Sofa,
+  DraftingCompass,
+  TreeDeciduous,
+  Cctv,
+  Radio,
+  VenetianMask,
+  Shield,
 } from "lucide-react";
 
 const Layout = () => {
@@ -74,27 +82,69 @@ const Layout = () => {
 
   const servicesList = [
     {
-      name: "Residential Design",
+      name: "Interior Design",
+      icon: <Layers className="w-4 h-4" />,
+      description: "Complete interior solutions on turnkey & consultant basis",
+      path: "/services/interior-design",
+    },
+    {
+      name: "Home Plans & Elevations",
+      icon: <DraftingCompass className="w-4 h-4" />,
+      description: "Detailed floor plans & architectural elevations",
+      path: "/services/home-plans",
+    },
+    {
+      name: "3D Views & Visualization",
+      icon: <Sparkles className="w-4 h-4" />,
+      description: "Realistic 3D renderings of your dream space",
+      path: "/services/3d-visualization",
+    },
+    {
+      name: "Landscaping",
+      icon: <TreeDeciduous className="w-4 h-4" />,
+      description: "Beautiful outdoor spaces & garden designs",
+      path: "/services/landscaping",
+    },
+    {
+      name: "Home Automation",
+      icon: <Cctv className="w-4 h-4" />,
+      description: "Smart home solutions for modern living",
+      path: "/services/home-automation",
+    },
+    {
+      name: "Curtains & Blinds",
+      icon: <VenetianMask className="w-4 h-4" />,
+      description: "Premium window treatments & furnishings",
+      path: "/services/curtains-blinds",
+    },
+    {
+      name: "Chimneys & Hobs",
+      icon: <Radio className="w-4 h-4" />,
+      description: "Modern kitchen ventilation & cooking solutions",
+      path: "/services/chimneys-hobs",
+    },
+    {
+      name: "Residential Interiors",
       icon: <Home className="w-4 h-4" />,
-      description: "Transform your home into a stunning living space",
+      description: "Complete home interiors on turnkey basis",
       path: "/services/residential",
     },
     {
-      name: "Commercial Spaces",
+      name: "Commercial Interiors",
       icon: <Building className="w-4 h-4" />,
-      description: "Create inspiring workspaces that boost productivity",
+      description: "Office spaces, retail & commercial interiors",
       path: "/services/commercial",
     },
     {
-      name: "Interior Styling",
+      name: "Interior Styling & Decor",
       icon: <Palette className="w-4 h-4" />,
-      description: "Complete styling solutions with curated furniture",
+      description: "Curated furniture & decor solutions",
       path: "/services/styling",
     },
     {
-      name: "Luxury Villas",
+      name: "Luxury Villa Design",
       icon: <Crown className="w-4 h-4" />,
-      description: "Premium villa designs with exquisite finishes",
+      description: "Premium villa interiors with exquisite finishes",
       path: "/services/luxury-villas",
     },
     {
@@ -102,12 +152,6 @@ const Layout = () => {
       icon: <Ruler className="w-4 h-4" />,
       description: "Optimized layouts for maximum functionality",
       path: "/services/space-planning",
-    },
-    {
-      name: "3D Visualization",
-      icon: <Sparkles className="w-4 h-4" />,
-      description: "Realistic 3D renderings of your dream space",
-      path: "/services/3d-visualization",
     },
   ];
 
@@ -129,6 +173,12 @@ const Layout = () => {
       icon: <Factory className="w-4 h-4" />,
       description: "State-of-the-art manufacturing",
       path: "/modular-factory",
+    },
+    {
+      name: "Privacy Policy",
+      icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />,
+      description: "Your privacy & data security",
+      path: "/privacy-policy",
     },
   ];
 
@@ -264,8 +314,9 @@ const Layout = () => {
                 </button>
 
                 {isServicesDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
-                    <div className="py-2">
+                  <div className="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
+                    <div className="py-2 max-h-[70vh] overflow-y-auto">
+
                       {servicesList.map((service, idx) => (
                         <button
                           key={idx}
@@ -531,7 +582,6 @@ const Layout = () => {
         <Outlet context={{ heroRef, aboutRef, servicesRef, contactRef }} />
       </main>
 
-      {/* Footer */}
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

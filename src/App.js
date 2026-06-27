@@ -7,7 +7,7 @@ import HomePage from "./components/Home";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Blogs from "./components/Blogs";
-import Residential from "./components/services/Residential";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 import AdminCreateBlog from "./components/AdminCreateBlog";
 
 import ConsultationModal from "./components/ConsultationModal";
@@ -24,7 +24,7 @@ const App = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/blogs" element={<Blogs />} />
-            <Route path="/services/residential" element={<Residential />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/admin/create-blog" element={<AdminCreateBlog />} />
           </Route>
         </Routes>
