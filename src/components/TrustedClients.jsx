@@ -5,7 +5,6 @@ const TrustedClients = () => {
   const sectionRef = useRef(null);
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [imageErrors, setImageErrors] = useState({});
 
   const isInView = useInView(sectionRef, {
     once: true,
@@ -17,120 +16,88 @@ const TrustedClients = () => {
       id: 1,
       name: "Lansum Eldorado",
       logo: "/1-lansum-eldorado.jpeg",
-      fallback: "https://via.placeholder.com/200x200/FF6B35/FFFFFF?text=Lansum"
     },
     {
       id: 2,
       name: "Prestige Beverly Hills",
       logo: "/2-prestige-beverly-hills.jpeg",
-      fallback: "https://via.placeholder.com/200x200/4A90D9/FFFFFF?text=Prestige"
     },
     {
       id: 4,
       name: "Vishnu Vistara",
       logo: "/4-vishnu-vistara.gif",
-      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Vishnu"
     },
     {
       id: 5,
       name: "Pruthvi Aditya Belmont Greene Villas",
       logo: "/5-pruthvi-aditya-belmont-greene-villas.jpeg",
-      fallback: "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Pruthvi"
     },
     {
       id: 6,
       name: "Aparna Sarovar",
       logo: "/6-aparna-sarovar.jpg",
-      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=Aparna"
     },
     {
       id: 7,
       name: "MY Home Jewel",
       logo: "/7-my-home-jewel.jpg",
-      fallback: "https://via.placeholder.com/200x200/F39C12/FFFFFF?text=MY+Home"
     },
     {
       id: 8,
       name: "MY Home Vihanga",
       logo: "/8-my-home-vihanga.jpg",
-      fallback: "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Vihanga"
     },
     {
       id: 9,
       name: "MY Home Avatar",
       logo: "/9-my-home-avatar.jpg",
-      fallback: "https://via.placeholder.com/200x200/3498DB/FFFFFF?text=Avatar"
     },
     {
       id: 10,
       name: "Ramky Cosmos",
       logo: "/10-ramky-cosmos.webp",
-      fallback: "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ramky"
     },
     {
       id: 11,
-      name: "SMR Vinay Iconia",
+      name: "SMR Vinay Iconia - Masjid Banda",
       logo: "/11-smr-vinay-iconia-masjid-banda.jpg",
-      fallback: "https://via.placeholder.com/200x200/9B59B6/FFFFFF?text=SMR"
     },
     {
       id: 12,
       name: "Prajay Megapolis",
       logo: "/12-prajay-megapolis.jpg",
-      fallback: "https://via.placeholder.com/200x200/E67E22/FFFFFF?text=Prajay"
     },
     {
       id: 13,
       name: "Mahindra Ashvita Lifespaces",
       logo: "/13-mahindra-ashvita-lifespaces.webp",
-      fallback: "https://via.placeholder.com/200x200/1ABC9C/FFFFFF?text=Mahindra"
     },
     {
       id: 14,
       name: "Mahindra Ashvita Lifespaces",
       logo: "/14-mahindra-ashvita-lifespaces.jpg",
-      fallback: "https://via.placeholder.com/200x200/2ECC71/FFFFFF?text=Ashvita"
     },
     {
       id: 15,
       name: "EPIL Corner Stone",
       logo: "/15-epil-corner-stone.jpg",
-      fallback: "https://via.placeholder.com/200x200/E74C3C/FFFFFF?text=EPIL"
     },
     {
       id: 16,
       name: "Vajra Pratik",
       logo: "/16-vajra-pratik.png",
-      fallback: "https://via.placeholder.com/200x200/8E44AD/FFFFFF?text=Vajra"
     },
     {
       id: 17,
       name: "Avani Homes",
       logo: "/17-avani-homes.jpg",
-      fallback: "https://via.placeholder.com/200x200/27AE60/FFFFFF?text=Avani"
     },
   ];
-
-  // Handle image error
-  const handleImageError = (clientId) => {
-    setImageErrors(prev => ({
-      ...prev,
-      [clientId]: true
-    }));
-  };
-
-  // Get image source with fallback
-  const getImageSrc = (client) => {
-    if (imageErrors[client.id]) {
-      return client.fallback;
-    }
-    return client.logo;
-  };
 
   // duplicate for endless effect
   const duplicatedClients = [...clients, ...clients];
 
-  // auto scroll
+  // auto scroll - FASTER
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -140,6 +107,7 @@ const TrustedClients = () => {
 
     const updateCenterCard = () => {
       const cards = container.querySelectorAll(".client-card");
+
       const center = container.scrollLeft + container.offsetWidth / 2;
 
       let closestIndex = 0;
@@ -147,6 +115,7 @@ const TrustedClients = () => {
 
       cards.forEach((card, index) => {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+
         const distance = Math.abs(center - cardCenter);
 
         if (distance < minDistance) {
@@ -166,6 +135,7 @@ const TrustedClients = () => {
       }
 
       updateCenterCard();
+
       animationFrameId = requestAnimationFrame(scroll);
     };
 
@@ -231,21 +201,14 @@ const TrustedClients = () => {
                       }`}
                     >
                       {/* Frame Image */}
-                      <div className="w-72 h-72 overflow-hidden rounded-[1.5rem] bg-gray-100 flex items-center justify-center">
-                        {imageErrors[client.id] ? (
-                          // Fallback with client name initials
-                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white text-4xl font-bold">
-                            {client.name.split(' ').map(word => word[0]).join('').slice(0, 3).toUpperCase()}
-                          </div>
-                        ) : (
-                          <img
-                            src={client.logo}
-                            alt={client.name}
-                            className="w-full h-full object-cover transition-all duration-700"
-                            onError={() => handleImageError(client.id)}
-                            loading="lazy"
-                          />
-                        )}
+                      <div className="w-72 h-72 overflow-hidden rounded-[1.5rem] bg-gray-100">
+                        <img
+                          src={client.logo}
+                          alt={client.name}
+                          className={`w-full h-full object-cover transition-all duration-700 ${
+                            activeIndex === idx ? "scale-105" : ""
+                          }`}
+                        />
                       </div>
 
                       {/* Inner premium shadow */}
@@ -271,16 +234,6 @@ const TrustedClients = () => {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-        }
-
-        @keyframes frameShake {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(1deg); }
-          75% { transform: rotate(-1deg); }
-        }
-
-        .animate-frameShake {
-          animation: frameShake 3s ease-in-out infinite;
         }
       `}</style>
     </section>
