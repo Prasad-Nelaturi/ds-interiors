@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import ConsultationButton from "../components/ConsultationButton";
 import {
@@ -13,24 +13,16 @@ import {
   Crown,
   Ruler,
   Sparkles,
-  ChevronRight,
-  Briefcase,
-  Image,
   Mail,
-  Info,
-  FolderKanban,
-  Grid,
   BookOpen,
   Users,
   Factory,
   Facebook,
-  Twitter,
   Instagram,
   Youtube,
   Linkedin,
   MapPin,
   Layers,
-  Sofa,
   DraftingCompass,
   TreeDeciduous,
   Cctv,
@@ -47,8 +39,6 @@ const Layout = () => {
   const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [showContact, setShowContact] = useState(false);
   const dropdownRef = useRef(null);
   const moreDropdownRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
@@ -205,12 +195,6 @@ const Layout = () => {
     setIsMoreDropdownOpen(false);
     setIsMobileServicesOpen(false);
     setIsMobileMoreOpen(false);
-  };
-
-  const copyAddress = () => {
-    navigator.clipboard.writeText(companyInfo.address);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   const isHomePage = location.pathname === "/";

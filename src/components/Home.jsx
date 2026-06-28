@@ -21,39 +21,30 @@ import {
   Copy,
   Check,
   X,
-  Menu,
   Layers,
   Users,
   Mail,
   Facebook,
   Instagram,
-  Twitter,
   Linkedin,
   Sparkles,
   Building,
   Ruler,
   Palette,
   Crown,
-  Shield,
   ArrowRight,
   Play,
-  Quote,
   Pause,
   Home,
-  Sofa,
   ChevronRight,
   Heart,
-  Zap,
-  TrendingUp,
-  Calendar,
-  Briefcase,
   ChevronLeft,
   Trophy,
 } from "lucide-react";
 
 const DSInteriorsWebsite = () => {
   // ===== ALL STATE DECLARATIONS AT TOP LEVEL =====
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [setIsMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);

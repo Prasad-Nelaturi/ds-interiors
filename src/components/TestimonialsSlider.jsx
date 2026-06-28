@@ -8,8 +8,6 @@ import {
   ChevronRight,
   X,
   Star,
-  Volume2,
-  VolumeX,
 } from "lucide-react";
 
 const TestimonialsSlider = () => {

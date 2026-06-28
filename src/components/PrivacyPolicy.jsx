@@ -106,13 +106,7 @@ const PrivacyPolicy = ({
       link: "https://www.dsignerstudiointeriors.com",
     },
   ];
-
-  const handleScroll = (ref) => {
-    if (ref && ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
+  
   // Color mapping for different categories
   const getCategoryColors = (category) => {
     const colors = {

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Sparkles,
-  ArrowRight,
   Clock,
   ShieldCheck,
   Home,

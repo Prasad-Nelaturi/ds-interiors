@@ -19,7 +19,6 @@ import {
   ArrowRight,
   Sparkles,
   Award,
-  Users,
   Building,
   ChevronRight,
   Copy,
