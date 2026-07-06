@@ -112,7 +112,7 @@ const ServiceTemplate = ({
                 </div>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                   {title}
-                  <span className="block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
+                  <span className="py-2 block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                     Reimagined
                   </span>
                 </h1>

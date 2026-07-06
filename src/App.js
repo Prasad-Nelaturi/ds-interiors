@@ -26,6 +26,8 @@ import CommercialInteriors from "./components/Services/CommercialInteriors";
 import InteriorStyling from "./components/Services/InteriorStyling";
 import LuxuryVillaDesign from "./components/Services/LuxuryVillaDesign";
 import SpacePlanning from "./components/Services/SpacePlanning";
+import GalleryPage from "./components/GalleryPage";
+import ModularFactory from "./components/ModularFactory";
 
 const App = () => {
   return (
@@ -40,7 +42,11 @@ const App = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/blogs" element={<Blogs />} />
+            <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+            <Route path="/modular-factory" element={<ModularFactory />} />
+
             <Route
               path="/admin/create-blog"
               element={<AdminCreateBlog />}

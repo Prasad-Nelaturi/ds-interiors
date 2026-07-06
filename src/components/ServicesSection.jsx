@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Home,
   Building,
@@ -320,19 +321,15 @@ const ServicesSection = ({
                       ))}
                     </div>
 
-                    {/* Learn More Button - Always at bottom */}
+                    {/* Learn More Button - Now using Link */}
                     <div className="border-t border-gray-100 pt-3 sm:pt-4 mt-auto">
-                      <button
-                        onClick={() => {
-                          if (contactRef) {
-                            handleScroll(contactRef);
-                          }
-                        }}
+                      <Link
+                        to={service.path}
                         className="w-full flex items-center justify-between text-orange-600 font-semibold group/btn hover:text-orange-700 transition-colors text-xs sm:text-sm"
                       >
                         <span>Learn More</span>
                         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

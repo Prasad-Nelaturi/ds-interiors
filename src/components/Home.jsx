@@ -6,7 +6,7 @@ import ScrollingText from "../components/ScrollingText";
 import KitchenAppliances from "../components/KitchenAppliances";
 import TestimonialsSlider from "../components/TestimonialsSlider";
 import WhyChooseUs from "../components/WhyChooseUs";
-import Gallery from "../components/Gallery";
+import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
 
 import {
@@ -1248,7 +1248,7 @@ const DSInteriorsWebsite = () => {
       <WhyChooseUs />
       <TrustedClients />
       <ServicesSection />
-      <Gallery />
+      <GallerySection />
       <ScrollingText />
       <KitchenAppliances />
 
