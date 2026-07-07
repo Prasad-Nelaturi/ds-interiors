@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Factory,
   ArrowRight,
@@ -26,13 +26,30 @@ import {
   PaintRoller,
   VenetianMask,
   Home,
+  Volume2,
+  VolumeX
 } from "lucide-react";
 
 const ModularFactory = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true); // Start muted
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const videoRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [showControls, setShowControls] = useState(false);
+  const videoContainerRef = useRef(null);
+  const iframeRef = useRef(null);
+
+  // YouTube Video ID - Using the provided link
+  const videoId = "9RX1tQT6pwM";
+
+  // Build embed URL - Start with autoplay and mute
+  const getEmbedUrl = (mute = true) => {
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${mute ? 1 : 0}&controls=0&modestbranding=1&rel=0&loop=1&playlist=${videoId}&enablejsapi=1`;
+  };
+
+  const [embedUrl] = useState(getEmbedUrl(true));
+
   const sectionRefs = {
     overview: useRef(null),
     process: useRef(null),
@@ -42,20 +59,58 @@ const ModularFactory = () => {
     contact: useRef(null),
   };
 
-  const toggleVideo = () => {
-    if (videoRef.current) {
-      if (isVideoPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
+  // Toggle play/pause
+  const togglePlay = () => {
+    if (iframeRef.current) {
+      const message = isVideoPlaying ? 'pause' : 'play';
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({
+          event: 'command',
+          func: message,
+          args: []
+        }),
+        '*'
+      );
       setIsVideoPlaying(!isVideoPlaying);
     }
   };
 
+  // Toggle mute/unmute - This actually works now
+  const toggleMute = () => {
+    if (iframeRef.current) {
+      const newMutedState = !isMuted;
+      const message = newMutedState ? 'mute' : 'unMute';
+
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({
+          event: 'command',
+          func: message,
+          args: []
+        }),
+        '*'
+      );
+
+      setIsMuted(newMutedState);
+
+      // If unmuting, make sure video is playing
+      if (!newMutedState && !isVideoPlaying) {
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({
+            event: 'command',
+            func: 'play',
+            args: []
+          }),
+          '*'
+        );
+        setIsVideoPlaying(true);
+      }
+    }
+  };
+
+  // Toggle fullscreen
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
+      videoContainerRef.current?.requestFullscreen();
       setIsFullscreen(true);
     } else {
       if (document.exitFullscreen) {
@@ -64,6 +119,25 @@ const ModularFactory = () => {
       }
     }
   };
+
+  // Listen for fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Show controls briefly on load
+  useEffect(() => {
+    setShowControls(true);
+    const timer = setTimeout(() => setShowControls(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Factory Statistics
   const statistics = [
@@ -330,9 +404,10 @@ const ModularFactory = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-[40%_56%] gap-8 lg:gap-12 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
+              
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 mb-4 sm:mb-6 shadow-md border border-orange-100">
                 <Factory className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
                 <span className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -368,53 +443,127 @@ const ModularFactory = () => {
               </div>
             </div>
 
-            {/* Right Video Thumbnail - Furniture Making */}
+            {/* Right YouTube Video - Updated with better audio controls */}
             <div className="relative group">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&h=600&fit=crop"
-                  alt="Furniture Making"
-                  className="w-full h-auto max-h-[400px] object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <button
-                    onClick={toggleVideo}
-                    className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500/90 hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-2xl"
-                  >
-                    {isVideoPlaying ? (
-                      <Pause className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                    ) : (
-                      <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" />
-                    )}
-                  </button>
+              <div
+                ref={videoContainerRef}
+                className="relative rounded-2xl overflow-hidden shadow-2xl bg-black"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+              >
+                {/* YouTube Video */}
+                <div className="relative w-full rounded-xl" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    ref={iframeRef}
+                    src={embedUrl}
+                    className="absolute top-0 left-0 w-full h-full rounded-xl border-[10px] border-gray-200"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Furniture Making Workshop"
+                    style={{ pointerEvents: 'none' }}
+                  />
                 </div>
-                {isVideoPlaying && (
-                  <button
-                    onClick={toggleFullscreen}
-                    className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
-                  >
-                    {isFullscreen ? (
-                      <Minimize2 className="w-5 h-5" />
-                    ) : (
-                      <Maximize2 className="w-5 h-5" />
+
+                {/* Gradient Overlay */}
+                <div className="absolute rounded-xl inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Main Play/Pause Button - Center */}
+                <button
+                  onClick={togglePlay}
+                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 bg-orange-500/90 hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-2xl z-10 ${isHovering || showControls ? 'opacity-100' : 'opacity-80'
+                    }`}
+                >
+                  {isVideoPlaying ? (
+                    <Pause className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  ) : (
+                    <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" />
+                  )}
+                </button>
+
+                {/* Controls - Bottom Row - Always visible on mobile, visible on hover on desktop */}
+                <div className={`absolute bottom-4 left-4 right-4 flex items-center justify-between z-10 transition-opacity duration-300 ${isHovering || showControls ? 'opacity-100' : 'opacity-0 sm:opacity-0'
+                  }`}>
+                  {/* Left Controls */}
+                  <div className="flex items-center gap-2">
+                    {/* Mute/Unmute Button - This will actually work now */}
+                    <button
+                      onClick={toggleMute}
+                      className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors backdrop-blur-sm"
+                      aria-label={isMuted ? 'Unmute' : 'Mute'}
+                    >
+                      {isMuted ? (
+                        <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />
+                      ) : (
+                        <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                      )}
+                    </button>
+
+                    {/* Volume Status */}
+                    <span className="text-white/80 text-xs bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
+                      {isMuted ? '🔇 Muted' : '🔊 Unmuted'}
+                    </span>
+
+                    {/* Hint to click to unmute */}
+                    {isMuted && (
+                      <span className="text-white/60 text-[10px] bg-black/50 px-2 py-1 rounded backdrop-blur-sm hidden sm:block animate-pulse">
+                        Click 🔊 to unmute
+                      </span>
                     )}
-                  </button>
+                  </div>
+
+                  {/* Right Controls */}
+                  <div className="flex items-center gap-2">
+                    {/* Play/Pause Status */}
+                    <span className="text-white/80 text-xs bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
+                      {isVideoPlaying ? '▶ Playing' : '⏸ Paused'}
+                    </span>
+
+                    {/* Fullscreen Button */}
+                    <button
+                      onClick={toggleFullscreen}
+                      className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors backdrop-blur-sm"
+                      aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                    >
+                      {isFullscreen ? (
+                        <Minimize2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                      ) : (
+                        <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Always visible controls indicator */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                </div>
+
+                {/* Unmute hint overlay - Shows when video is muted */}
+                {isMuted && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 animate-pulse">
+                      <VolumeX className="w-5 h-5" />
+                      Click 🔊 to unmute
+                    </div>
+                  </div>
                 )}
               </div>
-              <div className="absolute -bottom-3 -right-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                <span className="flex items-center gap-2">
-                  <Play className="w-4 h-4" />
-                  Watch Workshop
-                </span>
+
+              {/* Mobile Touch Controls Hint */}
+              <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full z-10 sm:hidden">
+                Tap to control
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Rest of your sections remain the same... */}
       {/* Statistics Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 mb-8 sm:mb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {statistics.map((stat, idx) => (
             <div
               key={idx}
@@ -453,11 +602,10 @@ const ModularFactory = () => {
                   setActiveTab(tab.id);
                   scrollToSection(sectionRefs[tab.id] || sectionRefs.overview);
                 }}
-                className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                  activeTab === tab.id
+                className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${activeTab === tab.id
                     ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30"
                     : "text-gray-600 hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -572,11 +720,11 @@ const ModularFactory = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {processSteps.map((step, idx) => (
             <div
               key={idx}
-              className={`${step.color} border rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
+              className={`${step.color} border rounded-2xl p-3 md:p-6 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1`}
             >
               <div className="flex items-start justify-between mb-4">
                 <div
@@ -890,6 +1038,15 @@ const ModularFactory = () => {
         
         .animation-delay-4000 {
           animation-delay: 4s;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        
+        .animate-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
       `}</style>
     </div>

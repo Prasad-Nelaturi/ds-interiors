@@ -460,14 +460,14 @@ const DSInteriorsWebsite = () => {
                         {/* Badge */}
                         <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-gray-600 backdrop-blur-sm rounded-full border border-white/10">
                           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                          <span className="text-white/80 text-sm font-medium tracking-wider">
+                          <span className="text-white text-lg font-medium tracking-wider">
                             Since 2012 • Award Winning Studio
                           </span>
                         </div>
 
                         <div className="relative">
                           {/* 3D Heading */}
-                          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight relative mb-4">
+                          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center leading-tight relative mb-4">
                             <span className="relative inline-block">
                               <span className="absolute inset-0 text-white/20 translate-x-1 translate-y-1 select-none">
                                 We Reach Your Dreams

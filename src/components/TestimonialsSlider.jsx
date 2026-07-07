@@ -47,7 +47,7 @@ const TestimonialsSlider = () => {
       text: "Exceptional work! The team transformed our home beautifully.",
       rating: 5,
       videoUrl: "https://youtu.be/jxepjIvKuqQ?si=C7DlO0UvCxnGvlwP",
-      thumbnail: "https://img.youtube.com/vi/jxepjIvKuqQ/maxresdefault.jpg" // You can add thumbnails
+      thumbnail: "https://youtu.be/jxepjIvKuqQ?si=C7DlO0UvCxnGvlwP"
     },
     {
       name: "Priya Sharma",
@@ -55,7 +55,7 @@ const TestimonialsSlider = () => {
       text: "Professional, creative and delivered on time.",
       rating: 5,
       videoUrl: "https://youtube.com/shorts/6vwUkvNABsE?si=QMIcGT2rMG5iaX2S",
-      thumbnail: "https://img.youtube.com/vi/6vwUkvNABsE/maxresdefault.jpg"
+      thumbnail: "https://youtube.com/shorts/6vwUkvNABsE?si=QMIcGT2rMG5iaX2S"
     },
     {
       name: "Amit Singh",
@@ -63,7 +63,15 @@ const TestimonialsSlider = () => {
       text: "Best interior designers with amazing detailing.",
       rating: 5,
       videoUrl: "https://youtu.be/1LUI1tJBsm4?si=ZrdOQGDTHiNFoA7t",
-      thumbnail: "https://img.youtube.com/vi/1LUI1tJBsm4/maxresdefault.jpg"
+      thumbnail: "https://youtu.be/1LUI1tJBsm4?si=ZrdOQGDTHiNFoA7t"
+    },
+    {
+      name: "Amit Singh",
+      role: "Architect",
+      text: "Best interior designers with amazing detailing.",
+      rating: 5,
+      videoUrl: "https://youtube.com/shorts/cP2mqCnisvo?feature=share",
+      thumbnail: "https://youtube.com/shorts/cP2mqCnisvo?feature=share"
     }
   ];
 
@@ -165,11 +173,11 @@ const TestimonialsSlider = () => {
                     />
 
                     {/* YouTube Logo Badge */}
-                    <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                      YouTube
+                    <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-xl">
+                      Dsigner Studio Interiors
                     </div>
 
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-all duration-300">
+                    <div className="absolute inset-0 bg-transparant flex items-center justify-center group-hover:bg-black/40 transition-all duration-300">
                       <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Play className="w-7 h-7 text-white ml-1" />
                       </div>
