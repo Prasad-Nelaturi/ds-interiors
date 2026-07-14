@@ -31,7 +31,7 @@ async function updateAllBlogsWithContent() {
       
       <h2>Contact Us</h2>
       <p>Ready to transform your space? Contact DS Interiors today for a free consultation!</p>
-      <p>📞 Phone: +91 90107 99991</p>
+      <p>📞 Phone: +91 90109 89991</p>
       <p>📧 Email: dsinteriorshyd1@gmail.com</p>
     `;
     

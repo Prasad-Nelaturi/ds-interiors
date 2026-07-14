@@ -65,7 +65,7 @@ const Layout = () => {
     location: "Kondapur, Hyderabad",
     hours: "Mon - Sat: 9AM - 7PM",
     experience: "12+ Years",
-    phone: "+91 90107 99991",
+    phone: "+91 90109 89991",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
     email: "dsinteriorshyd1@gmail.com",
   };

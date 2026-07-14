@@ -157,7 +157,7 @@ export const ConsultationProvider = ({ children }) => {
 
 _*This is an automated consultation request from website*_`;
 
-    const whatsappUrl = `https://wa.me/919010799991?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919010989991?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
 
     setTimeout(() => {

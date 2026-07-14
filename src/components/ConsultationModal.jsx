@@ -18,7 +18,7 @@ const ConsultationModal = () => {
   const [showEmailOptions, setShowEmailOptions] = React.useState(false);
 
   const companyInfo = {
-    phone: "+91 90107 99991",
+    phone: "+91 90109 89991",
     email: "dsinteriorshyd1@gmail.com",
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
     hours: "Mon - Sat: 9AM - 7PM",

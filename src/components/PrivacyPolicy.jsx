@@ -90,8 +90,8 @@ const PrivacyPolicy = ({
     {
       icon: <Phone className="w-4 h-4 sm:w-5 sm:h-5" />,
       label: "Phone",
-      value: "+91 90107 99991",
-      link: "tel:+919010799991",
+      value: "+91 90109 89991",
+      link: "tel:+919010989991",
     },
     {
       icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />,
