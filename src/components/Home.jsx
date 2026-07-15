@@ -28,14 +28,9 @@ import {
   Instagram,
   Linkedin,
   Sparkles,
-  Building,
-  Ruler,
-  Palette,
-  Crown,
   ArrowRight,
   Play,
   Pause,
-  Home,
   ChevronRight,
   Heart,
   ChevronLeft,
@@ -50,20 +45,11 @@ const DSInteriorsWebsite = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [hoveredService, setHoveredService] = useState(null);
-  const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
-  const [isCarouselPlaying, setIsCarouselPlaying] = useState(true);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedVideo] = useState(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const modalVideoRef = useRef(null);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const videoRef = useRef(null);
-  const autoPlayInterval = useRef(null);
-  const carouselInterval = useRef(null);
   const [noTransition, setNoTransition] = useState(false);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
@@ -119,124 +105,6 @@ const DSInteriorsWebsite = () => {
     },
     {
       url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600",
-    },
-  ];
-
-  const services = [
-    {
-      icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "Residential Design",
-      desc: "Transform your home into a stunning living space with our expert design services.",
-      category: "POPULAR",
-      gradient: "from-amber-500 to-orange-500",
-      color: "text-amber-600",
-      bgLight: "bg-amber-50",
-      image:
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop",
-      features: ["Custom Layouts", "3D Visualizations", "Material Selection"],
-    },
-    {
-      icon: <Building className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "Commercial Spaces",
-      desc: "Create inspiring workspaces that boost productivity and reflect your brand identity.",
-      category: "BUSINESS",
-      gradient: "from-blue-500 to-indigo-500",
-      color: "text-blue-600",
-      bgLight: "bg-blue-50",
-      image:
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-      features: ["Office Planning", "Retail Design", "Brand Integration"],
-    },
-    {
-      icon: <Palette className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "Interior Styling",
-      desc: "Complete styling solutions with curated furniture, art, and accessories for your space.",
-      category: "STYLING",
-      gradient: "from-purple-500 to-pink-500",
-      color: "text-purple-600",
-      bgLight: "bg-purple-50",
-      image:
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
-      features: ["Furniture Curation", "Art Selection", "Accessories"],
-    },
-    {
-      icon: <Crown className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "Luxury Villas",
-      desc: "Premium villa designs with exquisite finishes and unparalleled attention to detail.",
-      category: "PREMIUM",
-      gradient: "from-yellow-500 to-amber-500",
-      color: "text-amber-600",
-      bgLight: "bg-amber-50",
-      image:
-        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&h=400&fit=crop",
-      features: ["Luxury Finishes", "Smart Home", "Landscape Design"],
-    },
-    {
-      icon: <Ruler className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "Space Planning",
-      desc: "Optimized layouts for maximum functionality and seamless flow in any environment.",
-      category: "PLANNING",
-      gradient: "from-emerald-500 to-teal-500",
-      color: "text-emerald-600",
-      bgLight: "bg-emerald-50",
-      image:
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
-      features: ["Floor Planning", "Traffic Flow", "Zoning Strategy"],
-    },
-    {
-      icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />,
-      title: "3D Visualization",
-      desc: "Realistic 3D renderings that bring your dream space to life before execution begins.",
-      category: "TECHNOLOGY",
-      gradient: "from-rose-500 to-red-500",
-      color: "text-rose-600",
-      bgLight: "bg-rose-50",
-      image:
-        "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&h=400&fit=crop",
-      features: ["3D Renderings", "Virtual Tours", "Material Previews"],
-    },
-  ];
-
-  const portfolio = [
-    {
-      id: 1,
-      title: "Modern Living Room",
-      category: "Residential",
-      image: "https://cdn.mos.cms.futurecdn.net/Z5yngChp7VkWjDFcgzyFLf.gif",
-    },
-    {
-      id: 2,
-      title: "Luxury Bedroom",
-      category: "Residential",
-      image:
-        "https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/92/2025/01/23045200/GIF-Deluxe-Twins-650-x-434-px-Charlotte.gif",
-    },
-    {
-      id: 3,
-      title: "Corporate Office",
-      category: "Commercial",
-      image:
-        "https://www.mmoser.com/wp-content/uploads/2022/02/global-media-company-london-office-flexible-work-settings.gif",
-    },
-    {
-      id: 4,
-      title: "Restaurant Interior",
-      category: "Commercial",
-      image: "https://i.makeagif.com/media/12-21-2017/dSLVxb.gif",
-    },
-    {
-      id: 5,
-      title: "Kitchen Design",
-      category: "Residential",
-      image:
-        "https://mir-s3-cdn-cf.behance.net/project_modules/hd/e73fbd127166603.613c3c5346de6.gif",
-    },
-    {
-      id: 6,
-      title: "Bathroom Luxury",
-      category: "Residential",
-      image:
-        "https://stamperlloyd.com/wp-content/uploads/2019/04/stamperlloyd-bathrooms.gif",
     },
   ];
 
@@ -335,8 +203,10 @@ const DSInteriorsWebsite = () => {
   // ===== FUNCTIONS =====
   const scrollToSection = useCallback((ref) => {
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setIsMenuOpen(false);
-  }, []);
+    if (typeof setIsMenuOpen === 'function') {
+      setIsMenuOpen(false);
+    }
+  }, [setIsMenuOpen]); // Add setIsMenuOpen to dependencies
 
   const copyAddress = () => {
     navigator.clipboard.writeText(companyInfo.address);
@@ -365,26 +235,10 @@ const DSInteriorsWebsite = () => {
     setTouchEndX(0);
   };
 
-  const StarRating = ({ rating }) => (
-    <div className="flex items-center gap-0.5">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          className={`w-3 h-3 sm:w-4 sm:h-4 ${
-            i < Math.floor(rating)
-              ? "text-yellow-400 fill-yellow-400"
-              : "text-gray-300"
-          }`}
-        />
-      ))}
-    </div>
-  );
-
   const AnimatedSection = ({ children, id, className = "" }) => (
     <div
-      className={`transition-all duration-700 ${
-        isVisible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      } ${className}`}
+      className={`transition-all duration-700 ${isVisible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        } ${className}`}
     >
       {children}
     </div>
@@ -409,9 +263,9 @@ const DSInteriorsWebsite = () => {
               noTransition
                 ? { duration: 0 }
                 : {
-                    duration: 4,
-                    ease: "easeInOut",
-                  }
+                  duration: 4,
+                  ease: "easeInOut",
+                }
             }
             onAnimationComplete={() => {
               if (activeSlide === carouselImages.length) {
@@ -453,7 +307,6 @@ const DSInteriorsWebsite = () => {
               <div>
                 <div className="flex flex-col items-center justify-end">
                   {(() => {
-                    const currentIndex = activeSlide % carouselImages.length;
 
                     return (
                       <div className="flex flex-col items-center justify-center text-center">
@@ -513,11 +366,10 @@ const DSInteriorsWebsite = () => {
               <button
                 key={idx}
                 onClick={() => setActiveSlide(idx)}
-                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
-                  idx === currentIndex
-                    ? "w-6 sm:w-8 bg-amber-400"
-                    : "w-1.5 sm:w-2 bg-white/50"
-                }`}
+                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${idx === currentIndex
+                  ? "w-6 sm:w-8 bg-amber-400"
+                  : "w-1.5 sm:w-2 bg-white/50"
+                  }`}
                 aria-label={`Go to slide ${idx + 1}`}
               />
             );
@@ -1109,9 +961,10 @@ const DSInteriorsWebsite = () => {
                 <div className="absolute -top-4 sm:-top-6 -left-4 sm:-left-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 border-t-4 border-l-4 border-amber-300"></div>
                 <div className="absolute -bottom-4 sm:-bottom-6 -right-4 sm:-right-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 border-b-4 border-r-4 border-amber-300"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800"
-                  alt="About"
-                  className="rounded-2xl sm:rounded-3xl shadow-2xl w-full relative z-10"
+                  src="/dsv1.jpeg"
+                  alt="Sarah Dsigner - Interior Designer"
+                  className="rounded-2xl w-full h-auto object-cover"
+                  loading="lazy"
                 />
                 <div className="absolute -bottom-4 sm:-bottom-8 -left-4 sm:-left-8 bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 z-20">
                   <div className="flex items-center gap-2 sm:gap-3">

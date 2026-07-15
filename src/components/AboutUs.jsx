@@ -1,9 +1,13 @@
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import YouTube from "react-youtube";
+
 import {
   Award,
   Check,
   Users,
   Heart,
+  Crown,
   Sparkles,
   Building,
   ArrowRight,
@@ -13,9 +17,65 @@ import {
   Quote,
   Target,
   Eye,
+  Volume2, VolumeX
 } from "lucide-react";
 
 const AboutUs = () => {
+
+  const playerRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const onReady = (event) => {
+    playerRef.current = event.target;
+    event.target.mute();
+    event.target.playVideo();
+    setIsPlaying(true);
+  };
+
+  const onStateChange = (event) => {
+    if (event.data === 0) {
+      playerRef.current?.playVideo();
+    }
+  };
+
+  const toggleMute = () => {
+    if (!playerRef.current) return;
+
+    if (isMuted) {
+      playerRef.current.unMute();
+    } else {
+      playerRef.current.mute();
+    }
+
+    setIsMuted(!isMuted);
+  };
+
+  const handleVideoClick = () => {
+    if (!playerRef.current) return;
+
+    if (!isPlaying) {
+      playerRef.current.playVideo();
+      setIsPlaying(true);
+    }
+  };
+
+  const opts = {
+    width: "100%",
+    height: "100%",
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      controls: 0,
+      rel: 0,
+      modestbranding: 1,
+      loop: 1,
+      playlist: "nGfSVq7JK1o",
+      playsinline: 1,
+      enablejsapi: 1,
+    },
+  };
+
   const team = [
     {
       name: "Sarah Johnson",
@@ -224,27 +284,79 @@ const AboutUs = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Main Image with Unique Shape */}
-              <div className="relative">
-                <div className="absolute -top-6 -left-6 w-32 h-32 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full blur-2xl opacity-30"></div>
-                <div className="relative rounded-[40%_60%_30%_70%/_50%_40%_60%_50%] overflow-hidden shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800"
-                    alt="Our Story"
-                    className="w-full h-[500px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <div className="absolute -top-6 -left-6 w-32 h-32 bg-gradient-to-r from-amber-400 to-orange-400 rounded-full blur-2xl opacity-30"></div>
+
+              {/* Video Container - Fixed */}
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                <div className="bg-black rounded-t-2xl border border-neutral-700">
+                  {/* Fixed Video Container */}
+                  <div
+                    className="relative w-full aspect-video overflow-hidden rounded-2xl cursor-pointer bg-black"
+                    onClick={handleVideoClick}
+                  >
+                    <YouTube
+                      videoId="nGfSVq7JK1o"
+                      opts={{
+                        ...opts,
+                        width: '100%',
+                        height: '100%',
+                        playerVars: {
+                          ...opts.playerVars,
+                          modestbranding: 1,
+                          rel: 0,
+                        }
+                      }}
+                      onReady={onReady}
+                      onStateChange={onStateChange}
+                      className="absolute inset-0 w-full h-full"
+                      iframeClassName="w-full h-full absolute inset-0"
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    />
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMute();
+                      }}
+                      className="absolute top-1/2 right-3 z-20 bg-black/60 backdrop-blur-md p-3 rounded-full border border-white/20 hover:bg-black/80 transition"
+                    >
+                      {isMuted ? (
+                        <VolumeX className="text-white w-5 h-5" />
+                      ) : (
+                        <Volume2 className="text-white w-5 h-5" />
+                      )}
+                    </button>
+
+                    {!isPlaying && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleVideoClick();
+                          }}
+                          className="bg-white/20 backdrop-blur-md p-5 rounded-full border border-white/40 hover:bg-white/30 transition"
+                        >
+                          <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {/* Floating Badge */}
-                <div className="absolute -bottom-8 -right-8 bg-white rounded-2xl shadow-2xl p-4 max-w-[200px]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-                      <Award className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-gray-900">12+ Years</div>
-                      <div className="text-gray-500 text-sm">Of Excellence</div>
-                    </div>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              </div>
+
+              {/* Floating Badge */}
+              <div className="absolute -bottom-8 -right-8 bg-white rounded-2xl shadow-2xl p-4 max-w-[200px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                    <Award className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">12+ Years</div>
+                    <div className="text-gray-500 text-sm">Of Excellence</div>
                   </div>
                 </div>
               </div>
@@ -281,33 +393,29 @@ const AboutUs = () => {
                 professionals, we continue to push boundaries, creating spaces
                 that inspire and delight.
               </p>
-
-              {/* Milestone Timeline */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                {milestones.map((milestone, idx) => (
-                  <div
-                    key={idx}
-                    className="relative pl-4 border-l-2 border-amber-400"
-                  >
-                    <div className="text-amber-600 font-bold text-lg">
-                      {milestone.year}
-                    </div>
-                    <div className="font-semibold text-gray-900">
-                      {milestone.title}
-                    </div>
-                    <div className="text-gray-500 text-sm">
-                      {milestone.description}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <button className="group inline-flex items-center gap-2 text-amber-600 font-semibold hover:text-amber-700 transition">
-                Learn More About Our Journey
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition" />
-              </button>
             </motion.div>
           </div>
+
+          {/* Milestone Timeline */}
+          <div className="grid grid-cols-4 gap-4 mt-8">
+            {milestones.map((milestone, idx) => (
+              <div
+                key={idx}
+                className="relative bg-gray-200/60 shadow-2xl rounded-t-xl p-2 border-b-2 border-orange-400"
+              >
+                <div className="text-amber-600 font-bold text-lg">
+                  {milestone.year}
+                </div>
+                <div className="font-semibold text-gray-900">
+                  {milestone.title}
+                </div>
+                <div className="text-gray-500 text-sm">
+                  {milestone.description}
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 
@@ -499,9 +607,9 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* ===== TEAM SECTION WITH MODERN CARDS ===== */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-amber-50/20">
-        <div className="container mx-auto px-6">
+      {/* ===== CEO PROFILE SECTION WITH 3D & WATER DROP EFFECT ===== */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-amber-50/20 relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -510,84 +618,171 @@ const AboutUs = () => {
             className="text-center mb-16"
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full mb-4">
-              <Users className="w-4 h-4 text-amber-600" />
+              <Crown className="w-4 h-4 text-amber-600" />
               <span className="text-amber-700 text-sm font-semibold">
-                Creative Minds
+                Leadership
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Meet Our{" "}
               <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-                Team
+                CEO
               </span>
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              The talented individuals behind our success stories
+              The visionary behind Dsigner Studio Interiors
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative"
-              >
-                <div className="relative bg-white rounded-[30%_70%_50%_30%/_30%_35%_65%_70%] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3">
-                  <div className="relative h-80 overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, rotateX: -10 }}
+              whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
+              className="group perspective-1000"
+            >
+              <div className="relative bg-gradient-to-br from-white via-amber-50/10 to-white rounded-[40%_60%_30%_20%/_50%_40%_60%_50%] overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.3)] transition-all duration-700 hover:-translate-y-3 border border-gray-100 hover:border-amber-200/50 transform-style-3d hover:rotate-y-2 hover:rotate-x-2">
 
-                    {/* Social Links */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="flex justify-center gap-3">
-                        <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors">
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M22.23 0H1.77C0.79 0 0 0.79 0 1.77v20.46C0 23.21 0.79 24 1.77 24h20.46c0.98 0 1.77-0.79 1.77-1.77V1.77C24 0.79 23.21 0 22.23 0zM7.08 20.31H3.55V8.97h3.53v11.34zM5.31 7.41c-1.13 0-2.05-0.92-2.05-2.05s0.92-2.05 2.05-2.05 2.05 0.92 2.05 2.05-0.92 2.05-2.05 2.05zM20.31 20.31h-3.53v-5.63c0-1.34-0.48-2.26-1.68-2.26s-2.05 0.92-2.05 2.26v5.63h-3.53V8.97h3.53v1.57c0.47-0.73 1.32-1.57 2.84-1.57 2.05 0 3.53 1.34 3.53 4.23v6.11z" />
-                          </svg>
-                        </button>
-                        <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors">
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                          </svg>
-                        </button>
+                <div className="grid md:grid-cols-2 gap-0 relative">
+                  {/* Image Section with 3D Effect */}
+                  <div className="relative h-96 md:h-auto overflow-hidden transform-style-3d group-hover:rotate-y-2 transition-transform duration-700">
+                    <img
+                      src="/dsv3.jpeg"
+                      alt="Shiva Kumar Varma - CEO"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-8 md:p-10 flex flex-col justify-center relative">
+
+                    <div className="relative z-10">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full mb-4 w-fit shadow-inner">
+                        <Sparkles className="w-3 h-3 text-amber-600" />
+                        <span className="text-amber-700 text-xs font-semibold tracking-wide">
+                          Founder & CEO
+                        </span>
                       </div>
+
+                      <div className="flex justiry-center gap-2 text-2xl">
+                        <h3 className="font-bold text-gray-900 mb-2 tracking-tight">
+                          Shiva Kumar Varma
+                        </h3>
+                        <p className="text-orange-400">( D.S Varms)</p>
+                      </div>
+
+                      <span className="inline-block mb-6 px-4 py-1 rounded-full bg-orange-100 text-orange-600 font-semibold text-sm">
+                        Founder • Architect • Interior Designer
+                      </span>
+                      <p className="text-gray-600 leading-8 text-[15px] md:text-base mb-8">
+                        With over{" "}
+                        <span className="font-bold text-orange-500">12+ years</span> of expertise,
+                        Shiva Kumar Varma has transformed hundreds of residential and commercial
+                        spaces into timeless masterpieces. His passion for innovation, attention to
+                        every detail, and commitment to quality have established{" "}
+                        <span className="font-extrabold text-orange-500 text-lg">
+                          Dsigner Studio Interiors
+                        </span>{" "}
+                        as one of the most trusted names in luxury interior design and turnkey
+                        solutions.
+                      </p>
+
+                      {/* Stats with 3D Hover */}
+                      <div className="grid grid-cols-3 gap-4 mb-8">
+                        {[
+                          { value: "500+", label: "Projects" },
+                          { value: "12", label: "Years" },
+                          { value: "4.8", label: "Rating" }
+                        ].map((stat, idx) => (
+                          <div
+                            key={idx}
+                            className="text-center p-3 bg-gradient-to-br from-gray-200 to-gray-400 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100/50"
+                          >
+                            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                            <div className="text-gray-900 text-xs font-medium">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Link Button - Only clickable area */}
+                      <a
+                        href="https://ds-varma-portfolio.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-105 hover:-translate-y-1 relative overflow-hidden"
+                      >
+                        {/* Button Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+
+                        {/* Button Water Drop Effect */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-orange-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <span className="relative z-10 flex items-center gap-2">
+                          View Full Profile
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300" />
+                        </span>
+                      </a>
                     </div>
                   </div>
-                  <div className="p-6 text-center">
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-amber-600 font-medium mb-2">
-                      {member.role}
-                    </p>
-                    <p className="text-gray-500 text-sm">
-                      {member.experience} experience
-                    </p>
-                    <p className="text-gray-400 text-xs mt-2">
-                      {member.specialty}
-                    </p>
-                  </div>
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        <style jsx>{`
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-20px) scale(1.2); opacity: 0.6; }
+    }
+    @keyframes float-delayed {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.2; }
+      50% { transform: translateY(-15px) scale(1.3); opacity: 0.5; }
+    }
+    @keyframes droplet {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+      50% { transform: translate(10px, -10px) scale(1.5); opacity: 0.5; }
+    }
+    @keyframes droplet-delayed {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.15; }
+      50% { transform: translate(-10px, -15px) scale(1.6); opacity: 0.4; }
+    }
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.2; }
+      50% { transform: scale(1.1); opacity: 0.4; }
+    }
+    
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: float-delayed 8s ease-in-out infinite;
+    }
+    .animate-droplet {
+      animation: droplet 4s ease-in-out infinite;
+    }
+    .animate-droplet-delayed {
+      animation: droplet-delayed 5s ease-in-out infinite;
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 6s ease-in-out infinite;
+    }
+    .delay-1000 {
+      animation-delay: 1s;
+    }
+    
+    .group:hover .rotate-y-2 {
+      transform: rotateY(2deg) rotateX(2deg);
+    }
+  `}</style>
       </section>
 
       {/* ===== STATS SECTION WITH MODERN DESIGN ===== */}

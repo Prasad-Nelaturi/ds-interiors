@@ -23,7 +23,7 @@ import {
 const ServicesSection = ({
   servicesRef,
   contactRef,
-  scrollToSection = () => {},
+  scrollToSection = () => { },
 }) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -34,7 +34,7 @@ const ServicesSection = ({
       description: "Complete interior solutions on turnkey & consultant basis",
       category: "DESIGN",
       image:
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/7031408/pexels-photo-7031408.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Custom Layouts", "3D Visualizations", "Material Selection"],
       path: "/services/interior-design",
     },
@@ -44,7 +44,7 @@ const ServicesSection = ({
       description: "Detailed floor plans & architectural elevations",
       category: "ARCHITECTURE",
       image:
-        "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Floor Plans", "Elevations", "Structural Design"],
       path: "/services/home-plans",
     },
@@ -54,7 +54,7 @@ const ServicesSection = ({
       description: "Realistic 3D renderings of your dream space",
       category: "TECHNOLOGY",
       image:
-        "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["3D Renderings", "Virtual Tours", "Material Previews"],
       path: "/services/3d-visualization",
     },
@@ -64,7 +64,7 @@ const ServicesSection = ({
       description: "Beautiful outdoor spaces & garden designs",
       category: "OUTDOOR",
       image:
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Garden Design", "Outdoor Lighting", "Irrigation Systems"],
       path: "/services/landscaping",
     },
@@ -74,7 +74,7 @@ const ServicesSection = ({
       description: "Smart home solutions for modern living",
       category: "TECHNOLOGY",
       image:
-        "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Smart Lighting", "Security Systems", "Voice Control"],
       path: "/services/home-automation",
     },
@@ -84,7 +84,7 @@ const ServicesSection = ({
       description: "Premium window treatments & furnishings",
       category: "FURNISHINGS",
       image:
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Custom Curtains", "Motorized Blinds", "Fabric Selection"],
       path: "/services/curtains-blinds",
     },
@@ -94,7 +94,7 @@ const ServicesSection = ({
       description: "Modern kitchen ventilation & cooking solutions",
       category: "KITCHEN",
       image:
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: [
         "Chimney Installation",
         "Hob Selection",
@@ -108,7 +108,7 @@ const ServicesSection = ({
       description: "Complete home interiors on turnkey basis",
       category: "POPULAR",
       image:
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: [
         "Full Home Design",
         "Furniture Selection",
@@ -122,7 +122,7 @@ const ServicesSection = ({
       description: "Office spaces, retail & commercial interiors",
       category: "BUSINESS",
       image:
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/37347/office-sitting-room-executive-sitting.jpg?auto=compress&cs=tinysrgb&w=900",
       features: ["Office Planning", "Retail Design", "Brand Integration"],
       path: "/services/commercial",
     },
@@ -132,7 +132,7 @@ const ServicesSection = ({
       description: "Curated furniture & decor solutions",
       category: "STYLING",
       image:
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Furniture Curation", "Art Selection", "Accessories"],
       path: "/services/styling",
     },
@@ -142,7 +142,7 @@ const ServicesSection = ({
       description: "Premium villa interiors with exquisite finishes",
       category: "PREMIUM",
       image:
-        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Luxury Finishes", "Smart Home", "Landscape Design"],
       path: "/services/luxury-villas",
     },
@@ -152,7 +152,7 @@ const ServicesSection = ({
       description: "Optimized layouts for maximum functionality",
       category: "PLANNING",
       image:
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=900",
       features: ["Floor Planning", "Traffic Flow", "Zoning Strategy"],
       path: "/services/space-planning",
     },

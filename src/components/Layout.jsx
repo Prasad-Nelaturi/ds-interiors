@@ -15,7 +15,6 @@ import {
   Sparkles,
   Mail,
   BookOpen,
-  Users,
   Factory,
   Facebook,
   Instagram,
@@ -153,12 +152,6 @@ const Layout = () => {
       path: "/blogs",
     },
     {
-      name: "Careers",
-      icon: <Users className="w-4 h-4" />,
-      description: "Join our creative team",
-      path: "/careers",
-    },
-    {
       name: "Modular Factory",
       icon: <Factory className="w-4 h-4" />,
       description: "State-of-the-art manufacturing",
@@ -203,11 +196,10 @@ const Layout = () => {
     <div className="container mx-auto min-h-screen bg-white overflow-x-hidden">
       {/* Navigation */}
       <nav
-        className={`container mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+        className={`container mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
             ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
             : "bg-transparent bg-white py-2"
-        }`}
+          }`}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center">
@@ -234,9 +226,8 @@ const Layout = () => {
               </div>
               <div className="flex flex-col leading-tight">
                 <span
-                  className={`font-bold text-lg tracking-tight transition-colors duration-300 ${
-                    scrolled ? "text-orange-500" : "text-orange-500"
-                  }`}
+                  className={`font-bold text-lg tracking-tight transition-colors duration-300 ${scrolled ? "text-orange-500" : "text-orange-500"
+                    }`}
                 >
                   Dsigner Studio
                 </span>
@@ -250,11 +241,10 @@ const Layout = () => {
             <div className="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
               <Link
                 to="/"
-                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                  scrolled
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                     ? "text-gray-700 hover:text-orange-600"
                     : "text-gray-700 hover:text-orange-600"
-                }`}
+                  }`}
               >
                 Home
                 <span
@@ -264,11 +254,10 @@ const Layout = () => {
 
               <Link
                 to="/about"
-                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                  scrolled
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                     ? "text-gray-700 hover:text-orange-600"
                     : "text-gray-700 hover:text-orange-600"
-                }`}
+                  }`}
               >
                 About Us
                 <span
@@ -282,11 +271,10 @@ const Layout = () => {
                   onClick={() =>
                     setIsServicesDropdownOpen(!isServicesDropdownOpen)
                   }
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                    scrolled
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                       ? "text-gray-700 hover:text-orange-600"
                       : "text-gray-700 hover:text-orange-600"
-                  }`}
+                    }`}
                 >
                   Services
                   <ChevronDown
@@ -325,7 +313,7 @@ const Layout = () => {
                 )}
               </div>
 
-              <Link
+              {/* <Link
                 to="/projects"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
@@ -337,15 +325,14 @@ const Layout = () => {
                 <span
                   className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
-              </Link>
+              </Link> */}
 
               <Link
                 to="/gallery"
-                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                  scrolled
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                     ? "text-gray-700 hover:text-orange-600"
                     : "text-gray-700 hover:text-orange-600"
-                }`}
+                  }`}
               >
                 Gallery
                 <span
@@ -355,11 +342,10 @@ const Layout = () => {
 
               <Link
                 to="/contact"
-                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                  scrolled
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                     ? "text-gray-700 hover:text-orange-600"
                     : "text-gray-700 hover:text-orange-600"
-                }`}
+                  }`}
               >
                 Contact Us
                 <span
@@ -371,11 +357,10 @@ const Layout = () => {
               <div className="relative" ref={moreDropdownRef}>
                 <button
                   onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
-                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                    scrolled
+                  className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
                       ? "text-gray-700 hover:text-orange-600"
                       : "text-gray-700 hover:text-orange-600"
-                  }`}
+                    }`}
                 >
                   More
                   <ChevronDown
@@ -428,11 +413,10 @@ const Layout = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`lg:hidden p-2 rounded-lg transition ${
-                  scrolled
+                className={`lg:hidden p-2 rounded-lg transition ${scrolled
                     ? "text-orange-500 hover:bg-orange-50"
                     : "text-gray-600 hover:bg-gray-50"
-                }`}
+                  }`}
               >
                 {isMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -445,11 +429,10 @@ const Layout = () => {
 
           {/* Mobile Menu */}
           <div
-            className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${
-              isMenuOpen
+            className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${isMenuOpen
                 ? "top-[55px] opacity-100 visible"
                 : "top-[-100%] opacity-0 invisible"
-            }`}
+              }`}
             style={{ maxHeight: "calc(100vh - 60px)" }}
           >
             <div className="py-4 px-4 space-y-2">
@@ -496,13 +479,13 @@ const Layout = () => {
                 )}
               </div>
 
-              <Link
+              {/* <Link
                 to="/projects"
                 onClick={() => setIsMenuOpen(false)}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Our Projects
-              </Link>
+              </Link> */}
 
               <Link
                 to="/gallery"
@@ -643,14 +626,14 @@ const Layout = () => {
                     About Us
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/projects"
                     className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
                   >
                     Our Projects
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/gallery"

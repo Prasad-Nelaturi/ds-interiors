@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -28,6 +28,13 @@ const ServiceTemplate = ({
   const [openFaq, setOpenFaq] = useState(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -413,9 +420,8 @@ const ServiceTemplate = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`relative flex flex-col md:flex-row items-center gap-8 mb-12 last:mb-0 ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
+                className={`relative flex flex-col md:flex-row items-center gap-8 mb-12 last:mb-0 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}
               >
                 {/* Timeline dot */}
                 <div className="absolute left-1/2 top-8 transform -translate-x-1/2 z-10 hidden md:block">
@@ -480,32 +486,28 @@ const ServiceTemplate = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`rounded-2xl overflow-hidden transition-all duration-300 ${
-                  openFaq === index
-                    ? "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300"
-                    : "bg-white border-gray-200"
-                } border shadow-lg hover:shadow-xl`}
+                className={`rounded-2xl overflow-hidden transition-all duration-300 ${openFaq === index
+                  ? "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300"
+                  : "bg-white border-gray-200"
+                  } border shadow-lg hover:shadow-xl`}
               >
                 <button
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-4 flex items-center justify-between text-left transition-colors hover:bg-amber-50/50"
                 >
                   <span
-                    className={`text-lg font-semibold pr-4 ${
-                      openFaq === index ? "text-amber-600" : "text-gray-800"
-                    }`}
+                    className={`text-lg font-semibold pr-4 ${openFaq === index ? "text-amber-600" : "text-gray-800"
+                      }`}
                   >
                     {faq.question}
                   </span>
                   <span
-                    className={`flex-shrink-0 transition-transform duration-300 ${
-                      openFaq === index ? "rotate-180" : ""
-                    }`}
+                    className={`flex-shrink-0 transition-transform duration-300 ${openFaq === index ? "rotate-180" : ""
+                      }`}
                   >
                     <ChevronDown
-                      className={`w-5 h-5 ${
-                        openFaq === index ? "text-amber-500" : "text-gray-400"
-                      }`}
+                      className={`w-5 h-5 ${openFaq === index ? "text-amber-500" : "text-gray-400"
+                        }`}
                     />
                   </span>
                 </button>
