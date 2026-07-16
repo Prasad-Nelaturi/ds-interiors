@@ -313,7 +313,7 @@ const DSInteriorsWebsite = () => {
                         {/* Badge */}
                         <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-gray-600 backdrop-blur-sm rounded-full border border-white/10">
                           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                          <span className="text-white text-lg font-medium tracking-wider">
+                          <span className="text-white text-sm font-medium tracking-wider">
                             Since 2012 • Award Winning Studio
                           </span>
                         </div>

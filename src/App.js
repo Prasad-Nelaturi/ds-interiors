@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Layout from "./components/Layout";
 import HomePage from "./components/Home";
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <ConsultationProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <ToastContainer position="top-center" pauseOnHover={false} />
 
         <Routes>

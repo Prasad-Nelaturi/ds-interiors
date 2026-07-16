@@ -5,6 +5,7 @@ import {
   Phone,
   X,
   Heart,
+  Clock,
   Menu,
   ChevronDown,
   Home,
@@ -54,20 +55,6 @@ const Layout = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const companyInfo = {
-    name: "Dsigner Studio Interiors",
-    tagline: "Creating Spaces That Inspire",
-    rating: 4.8,
-    reviews: 128,
-    status: "Premium",
-    location: "Kondapur, Hyderabad",
-    hours: "Mon - Sat: 9AM - 7PM",
-    experience: "12+ Years",
-    phone: "+91 90109 89991",
-    address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
-    email: "dsinteriorshyd1@gmail.com",
-  };
 
   const servicesList = [
     {
@@ -197,8 +184,8 @@ const Layout = () => {
       {/* Navigation */}
       <nav
         className={`container mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-            ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
-            : "bg-transparent bg-white py-2"
+          ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
+          : "bg-transparent bg-white py-2"
           }`}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -242,8 +229,8 @@ const Layout = () => {
               <Link
                 to="/"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                  ? "text-gray-700 hover:text-orange-600"
+                  : "text-gray-700 hover:text-orange-600"
                   }`}
               >
                 Home
@@ -255,8 +242,8 @@ const Layout = () => {
               <Link
                 to="/about"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                  ? "text-gray-700 hover:text-orange-600"
+                  : "text-gray-700 hover:text-orange-600"
                   }`}
               >
                 About Us
@@ -272,8 +259,8 @@ const Layout = () => {
                     setIsServicesDropdownOpen(!isServicesDropdownOpen)
                   }
                   className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                      ? "text-gray-700 hover:text-orange-600"
-                      : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                     }`}
                 >
                   Services
@@ -330,8 +317,8 @@ const Layout = () => {
               <Link
                 to="/gallery"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                  ? "text-gray-700 hover:text-orange-600"
+                  : "text-gray-700 hover:text-orange-600"
                   }`}
               >
                 Gallery
@@ -343,8 +330,8 @@ const Layout = () => {
               <Link
                 to="/contact"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
+                  ? "text-gray-700 hover:text-orange-600"
+                  : "text-gray-700 hover:text-orange-600"
                   }`}
               >
                 Contact Us
@@ -358,8 +345,8 @@ const Layout = () => {
                 <button
                   onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
                   className={`flex items-center gap-1 transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
-                      ? "text-gray-700 hover:text-orange-600"
-                      : "text-gray-700 hover:text-orange-600"
+                    ? "text-gray-700 hover:text-orange-600"
+                    : "text-gray-700 hover:text-orange-600"
                     }`}
                 >
                   More
@@ -414,8 +401,8 @@ const Layout = () => {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`lg:hidden p-2 rounded-lg transition ${scrolled
-                    ? "text-orange-500 hover:bg-orange-50"
-                    : "text-gray-600 hover:bg-gray-50"
+                  ? "text-orange-500 hover:bg-orange-50"
+                  : "text-gray-600 hover:bg-gray-50"
                   }`}
               >
                 {isMenuOpen ? (
@@ -430,8 +417,8 @@ const Layout = () => {
           {/* Mobile Menu */}
           <div
             className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${isMenuOpen
-                ? "top-[55px] opacity-100 visible"
-                : "top-[-100%] opacity-0 invisible"
+              ? "top-[55px] opacity-100 visible"
+              : "top-[-100%] opacity-0 invisible"
               }`}
             style={{ maxHeight: "calc(100vh - 60px)" }}
           >
@@ -550,165 +537,257 @@ const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {/* Main Footer Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Column 1 - Brand & Social */}
-            <div className="sm:col-span-2 lg:col-span-1">
-              <h3 className="text-orange-500 font-bold text-2xl mb-4">
-                Dsigner Studio Interiors
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Creating beautiful spaces that inspire since 2012.
-              </p>
+      <footer className="bg-gray-900 text-white border-t border-gray-800 relative overflow-hidden">
+        {/* Premium Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800/50"></div>
+        <div className="absolute top-0 left-0 w-1/2 h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
+        <div className="absolute bottom-0 right-0 w-1/2 h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
 
-              {/* Social Icons - Fully Responsive */}
-              <div className="flex flex-wrap gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12 relative z-10">
+
+          {/* Social Media - Premium Row */}
+          <div className="border-y border-gray-800/60 mb-8 sm:mb-10 pb-6 sm:pb-8 relative">
+            <div className="absolute left-0 top-0 w-20 h-px bg-gradient-to-r from-orange-500 to-transparent"></div>
+            <div className="absolute right-0 bottom-0 w-20 h-px bg-gradient-to-l from-orange-500 to-transparent"></div>
+
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left">
+                <Link to="/" className="inline-block group">
+                  <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 font-bold text-2xl sm:text-3xl md:text-4xl leading-tight tracking-tight">
+                    Dsigner Studio Interiors
+                  </h3>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-orange-500 to-transparent mt-1 group-hover:w-24 transition-all duration-500"></div>
+                </Link>
+                <p className="text-gray-400 text-sm sm:text-base max-w-md mt-3">
+                  Creating beautiful spaces that inspire since 2012.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-3">
                 <a
                   href="https://www.facebook.com/profile.php?id=61590853052566"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  className="group relative bg-gray-800/50 hover:bg-[#1877f2] p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#1877f2]/20 border border-gray-700/50 hover:border-[#1877f2]"
                   aria-label="Facebook"
                 >
-                  <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <Facebook className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </a>
                 <a
                   href="https://www.instagram.com/dsignerstudiointeriors/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  className="group relative bg-gray-800/50 hover:bg-[#e4405f] p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#e4405f]/20 border border-gray-700/50 hover:border-[#e4405f]"
                   aria-label="Instagram"
                 >
-                  <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <Instagram className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/dsigner-studio-interiors-889670417/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  className="group relative bg-gray-800/50 hover:bg-[#0a66c2] p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#0a66c2]/20 border border-gray-700/50 hover:border-[#0a66c2]"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </a>
                 <a
-                  href=" https://www.youtube.com/@DsignerstudioInteriors"
+                  href="https://www.youtube.com/@DsignerstudioInteriors"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-orange-500 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/20"
+                  className="group relative bg-gray-800/50 hover:bg-[#ff0000] p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#ff0000]/20 border border-gray-700/50 hover:border-[#ff0000]"
                   aria-label="YouTube"
                 >
-                  <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <Youtube className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                 </a>
               </div>
             </div>
+          </div>
 
-            {/* Column 2 - Quick Links */}
+          {/* Main Footer Grid - 4 Columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+
+            {/* Column 1 - Quick Links */}
             <div>
-              <h4 className="text-white font-semibold text-lg mb-4">
+              <h4 className="text-white font-semibold text-base sm:text-lg mb-4 relative inline-block">
                 Quick Links
+                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full"></span>
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 <li>
-                  <Link
-                    to="/"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
+                  <Link to="/" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/about"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
+                  <Link to="/about" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     About Us
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    to="/projects"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
-                    Our Projects
-                  </Link>
-                </li> */}
                 <li>
-                  <Link
-                    to="/gallery"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
+                  <Link to="/gallery" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Gallery
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/contact"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
+                  <Link to="/contact" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/blogs" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Blogs
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* Column 3 - Services */}
+            {/* Column 2 - Services */}
             <div>
-              <h4 className="text-white font-semibold text-lg mb-4">
+              <h4 className="text-white font-semibold text-base sm:text-lg mb-4 relative inline-block">
                 Services
+                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full"></span>
               </h4>
-              <ul className="space-y-3">
-                {servicesList.slice(0, 4).map((service, idx) => (
-                  <li key={idx}>
-                    <button
-                      onClick={() => handleServiceClick(service.path)}
-                      className="text-gray-400 hover:text-orange-400 transition-colors text-sm text-left"
-                    >
-                      {service.name}
-                    </button>
-                  </li>
-                ))}
+              <ul className="space-y-2.5">
+                <li>
+                  <button
+                    onClick={() => handleServiceClick('/services/interior-design')}
+                    className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Interior Design
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleServiceClick('/services/residential')}
+                    className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Residential Interiors
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleServiceClick('/services/commercial')}
+                    className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Commercial Interiors
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleServiceClick('/services/luxury-villas')}
+                    className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Luxury Villa Design
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleServiceClick('/services/3d-visualization')}
+                    className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    3D Visualization
+                  </button>
+                </li>
               </ul>
             </div>
 
-            {/* Column 4 - Contact */}
+            {/* Column 3 - More */}
             <div>
-              <h4 className="text-white font-semibold text-lg mb-4">Contact</h4>
+              <h4 className="text-white font-semibold text-base sm:text-lg mb-4 relative inline-block">
+                More
+                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full"></span>
+              </h4>
+              <ul className="space-y-2.5">
+                <li>
+                  <Link to="/modular-factory" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Modular Factory
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Privacy Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4 - Contact Info */}
+            <div>
+              <h4 className="text-white font-semibold text-base sm:text-lg mb-4 relative inline-block">
+                Contact Info
+                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full"></span>
+              </h4>
               <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Phone className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-400 text-sm break-words">
-                    {companyInfo.phone}
+                <div className="flex items-start gap-3 group">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
+                    <Phone className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <span className="text-gray-400 group-hover:text-white transition-colors text-sm break-words">
+                    +91 90109 89991
                   </span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-400 text-sm break-all">
-                    {companyInfo.email}
+                <div className="flex items-start gap-3 group">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
+                    <Mail className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <span className="text-gray-400 group-hover:text-white transition-colors text-sm break-all">
+                    dsinteriorshyd1@gmail.com
                   </span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-400 text-sm">
-                    {companyInfo.address}
+                <div className="flex items-start gap-3 group">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
+                    <MapPin className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <span className="text-gray-400 group-hover:text-white transition-colors text-sm">
+                    Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
+                    <Clock className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <span className="text-gray-400 group-hover:text-white transition-colors text-sm">
+                    Mon - Sat: 9AM - 7PM
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="border-t border-gray-800 pt-8">
-            <p className="text-center text-gray-400 text-sm flex flex-wrap items-center justify-center gap-1">
-              &copy; 2026 Dsigner Studio Interiors. All rights reserved.
-              <span className="hidden sm:inline">|</span>
-              <span className="flex items-center gap-1">
-                Designed with
-                <Heart className="w-4 h-4 text-amber-500 animate-pulse" />
-                for luxury living.
-              </span>
-            </p>
+          {/* Bottom Bar - Premium */}
+          <div className="border-t border-gray-800/60 mt-8 pt-6 relative">
+            <div className="absolute left-0 top-0 w-32 h-px bg-gradient-to-r from-orange-500 to-transparent"></div>
+
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+              <p className="text-center text-gray-400 text-xs sm:text-sm">
+                &copy; {new Date().getFullYear()} <span className="text-orange-400 font-medium">Dsigner Studio Interiors</span>. All rights reserved.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm">
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
+                  Privacy Policy
+                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+                <span className="text-gray-700">|</span>
+                <span className="text-gray-400 flex items-center gap-1.5">
+                  Designed with
+                  <Heart className="w-3.5 h-3.5 text-orange-500 animate-pulse fill-orange-500/20" />
+                  <span className="text-orange-400">for luxury living</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

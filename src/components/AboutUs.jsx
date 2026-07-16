@@ -11,7 +11,6 @@ import {
   Sparkles,
   Building,
   ArrowRight,
-  ChevronRight,
   Play,
   Star,
   Quote,
@@ -75,45 +74,6 @@ const AboutUs = () => {
       enablejsapi: 1,
     },
   };
-
-  const team = [
-    {
-      name: "Sarah Johnson",
-      role: "Lead Interior Designer",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300",
-      experience: "12+ years",
-      specialty: "Luxury Residential",
-      social: { linkedin: "#", instagram: "#" },
-    },
-    {
-      name: "Michael Chen",
-      role: "Creative Director",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300",
-      experience: "15+ years",
-      specialty: "Commercial Spaces",
-      social: { linkedin: "#", instagram: "#" },
-    },
-    {
-      name: "Priya Sharma",
-      role: "Senior Architect",
-      image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300",
-      experience: "10+ years",
-      specialty: "Sustainable Design",
-      social: { linkedin: "#", instagram: "#" },
-    },
-    {
-      name: "David Wilson",
-      role: "Project Manager",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300",
-      experience: "8+ years",
-      specialty: "Project Excellence",
-      social: { linkedin: "#", instagram: "#" },
-    },
-  ];
 
   const milestones = [
     {
@@ -397,25 +357,26 @@ const AboutUs = () => {
           </div>
 
           {/* Milestone Timeline */}
-          <div className="grid grid-cols-4 gap-4 mt-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mt-8">
             {milestones.map((milestone, idx) => (
               <div
                 key={idx}
-                className="relative bg-gray-200/60 shadow-2xl rounded-t-xl p-2 border-b-2 border-orange-400"
+                className="relative bg-gradient-to-br from-gray-100 to-gray-400 shadow-xl rounded-t-xl p-4 border-b-4 border-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
               >
-                <div className="text-amber-600 font-bold text-lg">
+                <div className="text-orange-600 font-bold text-xl">
                   {milestone.year}
                 </div>
-                <div className="font-semibold text-gray-900">
+
+                <h3 className="mt-2 font-semibold text-gray-900 text-base text-lg">
                   {milestone.title}
-                </div>
-                <div className="text-gray-500 text-sm">
+                </h3>
+
+                <p className="mt-2 text-gray-600 text-[15px] leading-relaxed">
                   {milestone.description}
-                </div>
+                </p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -608,181 +569,111 @@ const AboutUs = () => {
       </section>
 
       {/* ===== CEO PROFILE SECTION WITH 3D & WATER DROP EFFECT ===== */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-amber-50/20 relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
+      <section className="py-12 md:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-amber-50/20 relative overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-12 lg:mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full mb-4">
-              <Crown className="w-4 h-4 text-amber-600" />
-              <span className="text-amber-700 text-sm font-semibold">
-                Leadership
-              </span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-amber-100 rounded-full mb-3 md:mb-4">
+              <Crown className="w-3 h-3 md:w-4 md:h-4 text-amber-600" />
+              <span className="text-amber-700 text-xs md:text-sm font-semibold">Leadership</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2 md:mb-4">
               Meet Our{" "}
-              <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">
                 CEO
               </span>
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
               The visionary behind Dsigner Studio Interiors
             </p>
           </motion.div>
 
           <div className="max-w-5xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, rotateX: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="group perspective-1000"
+              className="bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-4 border-orange-100/80"
             >
-              <div className="relative bg-gradient-to-br from-white via-amber-50/10 to-white rounded-[40%_60%_30%_20%/_50%_40%_60%_50%] overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.3)] transition-all duration-700 hover:-translate-y-3 border border-gray-100 hover:border-amber-200/50 transform-style-3d hover:rotate-y-2 hover:rotate-x-2">
-
-                <div className="grid md:grid-cols-2 gap-0 relative">
-                  {/* Image Section with 3D Effect */}
-                  <div className="relative h-96 md:h-auto overflow-hidden transform-style-3d group-hover:rotate-y-2 transition-transform duration-700">
-                    <img
-                      src="/dsv3.jpeg"
-                      alt="Shiva Kumar Varma - CEO"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="p-8 md:p-10 flex flex-col justify-center relative">
-
-                    <div className="relative z-10">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full mb-4 w-fit shadow-inner">
-                        <Sparkles className="w-3 h-3 text-amber-600" />
-                        <span className="text-amber-700 text-xs font-semibold tracking-wide">
-                          Founder & CEO
-                        </span>
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Image */}
+                <div className="relative h-64 sm:h-72 xl:h-[520px] md:h-auto min-h-[280px] overflow-hidden">
+                  <img
+                    src="/dsv3.jpeg"
+                    alt="Shiva Kumar Varma - CEO"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-lg">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                        <Award className="w-4 h-4 text-white" />
                       </div>
-
-                      <div className="flex justiry-center gap-2 text-2xl">
-                        <h3 className="font-bold text-gray-900 mb-2 tracking-tight">
-                          Shiva Kumar Varma
-                        </h3>
-                        <p className="text-orange-400">( D.S Varms)</p>
+                      <div>
+                        <div className="font-bold text-gray-900 text-xs">12+ Years</div>
+                        <div className="text-gray-500 text-[10px]">Of Excellence</div>
                       </div>
-
-                      <span className="inline-block mb-6 px-4 py-1 rounded-full bg-orange-100 text-orange-600 font-semibold text-sm">
-                        Founder • Architect • Interior Designer
-                      </span>
-                      <p className="text-gray-600 leading-8 text-[15px] md:text-base mb-8">
-                        With over{" "}
-                        <span className="font-bold text-orange-500">12+ years</span> of expertise,
-                        Shiva Kumar Varma has transformed hundreds of residential and commercial
-                        spaces into timeless masterpieces. His passion for innovation, attention to
-                        every detail, and commitment to quality have established{" "}
-                        <span className="font-extrabold text-orange-500 text-lg">
-                          Dsigner Studio Interiors
-                        </span>{" "}
-                        as one of the most trusted names in luxury interior design and turnkey
-                        solutions.
-                      </p>
-
-                      {/* Stats with 3D Hover */}
-                      <div className="grid grid-cols-3 gap-4 mb-8">
-                        {[
-                          { value: "500+", label: "Projects" },
-                          { value: "12", label: "Years" },
-                          { value: "4.8", label: "Rating" }
-                        ].map((stat, idx) => (
-                          <div
-                            key={idx}
-                            className="text-center p-3 bg-gradient-to-br from-gray-200 to-gray-400 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100/50"
-                          >
-                            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                            <div className="text-gray-900 text-xs font-medium">{stat.label}</div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Link Button - Only clickable area */}
-                      <a
-                        href="https://ds-varma-portfolio.vercel.app/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-105 hover:-translate-y-1 relative overflow-hidden"
-                      >
-                        {/* Button Shine Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-
-                        {/* Button Water Drop Effect */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-orange-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                        <span className="relative z-10 flex items-center gap-2">
-                          View Full Profile
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-all duration-300" />
-                        </span>
-                      </a>
                     </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-orange-100 to-orange-200 rounded-full w-fit">
+                      <Sparkles className="w-3 h-3 text-orange-500" />
+                      <span className="text-orange-500 text-[10px] font-semibold tracking-wide">Founder & CEO</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
+                        Shiva Kumar Varma
+                      </h3>
+                      <p className="text-orange-600 text-lg sm:text-xl md:text-2xl font-bold">(D.S Varma)</p>
+                    </div>
+
+                    <p className="text-gray-600 text-xs sm:text-sm font-medium underline">
+                      Creative Architect & Interior Designer
+                    </p>
+
+                    <p className="text-gray-600 leading-relaxed text-xs sm:text-sm">
+                      With over 12 years of experience, Shiva has transformed hundreds of spaces into stunning, functional works of art. His passion for design and attention to detail has made Dsigner Studio Interiors a trusted name in premium interior solutions.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                      {[
+                        { value: "500+", label: "Projects" },
+                        { value: "12", label: "Years" },
+                        { value: "4.8", label: "Rating" }
+                      ].map((stat, idx) => (
+                        <div key={idx} className="text-center p-2 bg-gradient-to-r from-gray-100 to-gray-400 border-2 border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{stat.value}</div>
+                          <div className="text-gray-600 text-[10px] sm:text-xs font-medium">{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <a
+                      href="https://ds-varma-portfolio.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/25 hover:scale-105 w-full sm:w-auto"
+                    >
+                      View Full Profile
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </div>
                 </div>
               </div>
             </motion.div>
           </div>
         </div>
-
-        <style jsx>{`
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
-      50% { transform: translateY(-20px) scale(1.2); opacity: 0.6; }
-    }
-    @keyframes float-delayed {
-      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.2; }
-      50% { transform: translateY(-15px) scale(1.3); opacity: 0.5; }
-    }
-    @keyframes droplet {
-      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
-      50% { transform: translate(10px, -10px) scale(1.5); opacity: 0.5; }
-    }
-    @keyframes droplet-delayed {
-      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.15; }
-      50% { transform: translate(-10px, -15px) scale(1.6); opacity: 0.4; }
-    }
-    @keyframes pulse-slow {
-      0%, 100% { transform: scale(1); opacity: 0.2; }
-      50% { transform: scale(1.1); opacity: 0.4; }
-    }
-    
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .transform-style-3d {
-      transform-style: preserve-3d;
-    }
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-    .animate-float-delayed {
-      animation: float-delayed 8s ease-in-out infinite;
-    }
-    .animate-droplet {
-      animation: droplet 4s ease-in-out infinite;
-    }
-    .animate-droplet-delayed {
-      animation: droplet-delayed 5s ease-in-out infinite;
-    }
-    .animate-pulse-slow {
-      animation: pulse-slow 6s ease-in-out infinite;
-    }
-    .delay-1000 {
-      animation-delay: 1s;
-    }
-    
-    .group:hover .rotate-y-2 {
-      transform: rotateY(2deg) rotateX(2deg);
-    }
-  `}</style>
       </section>
 
       {/* ===== STATS SECTION WITH MODERN DESIGN ===== */}

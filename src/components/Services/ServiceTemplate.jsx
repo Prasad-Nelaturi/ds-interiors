@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -28,13 +28,6 @@ const ServiceTemplate = ({
   const [openFaq, setOpenFaq] = useState(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -117,7 +110,7 @@ const ServiceTemplate = ({
                     Premium Service
                   </span>
                 </div>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                   {title}
                   <span className="py-2 block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                     Reimagined
@@ -133,7 +126,7 @@ const ServiceTemplate = ({
                   >
                     <Link
                       to={ctaLink}
-                      className="inline-flex items-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl"
+                      className="inline-flex items-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-6 py-2 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl"
                     >
                       {ctaText}
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -145,7 +138,7 @@ const ServiceTemplate = ({
                   >
                     <Link
                       to="/portfolio"
-                      className="inline-flex items-center bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 border border-white/20 hover:border-white/40"
+                      className="inline-flex items-center bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-6 py-2 rounded-full text-lg font-semibold transition-all duration-300 border border-white/20 hover:border-white/40"
                     >
                       View Portfolio
                     </Link>
