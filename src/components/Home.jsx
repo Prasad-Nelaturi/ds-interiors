@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ConsultationButton from "../components/ConsultationButton";
 import TrustedClients from "../components/TrustedClients";
 import ScrollingText from "../components/ScrollingText";
 import KitchenAppliances from "../components/KitchenAppliances";
@@ -8,6 +7,7 @@ import TestimonialsSlider from "../components/TestimonialsSlider";
 import WhyChooseUs from "../components/WhyChooseUs";
 import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
+import ScrollingGallery from '../components/ScrollingGallery';
 
 import {
   Star,
@@ -31,9 +31,7 @@ import {
   ArrowRight,
   Play,
   Pause,
-  ChevronRight,
   Heart,
-  ChevronLeft,
   Trophy,
 } from "lucide-react";
 
@@ -42,7 +40,6 @@ const DSInteriorsWebsite = () => {
   const [setIsMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
   const [isVisible, setIsVisible] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo] = useState(null);
@@ -50,9 +47,6 @@ const DSInteriorsWebsite = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const modalVideoRef = useRef(null);
-  const [noTransition, setNoTransition] = useState(false);
-  const [touchStartX, setTouchStartX] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
 
   // ===== STATS COUNTING STATE =====
   const [counts, setCounts] = useState({
@@ -86,27 +80,6 @@ const DSInteriorsWebsite = () => {
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
     email: "dsinteriorshyd1@gmail.com",
   };
-
-  const carouselImages = [
-    {
-      url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1600",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1600",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600",
-    },
-  ];
 
   // ===== STATS COUNTER ANIMATION =====
   useEffect(() => {
@@ -158,16 +131,6 @@ const DSInteriorsWebsite = () => {
     return () => observer.disconnect();
   }, [hasCounted]);
 
-  // ===== OTHER USEFFECTS =====
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => prev + 1);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Intersection Observer for scroll animations
   useEffect(() => {
     const observerOptions = {
       threshold: 0.15,
@@ -214,27 +177,6 @@ const DSInteriorsWebsite = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Touch handlers for carousel
-  const handleTouchStart = (e) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEndX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX - touchEndX > 50) {
-      // Swipe left - next slide
-      setActiveSlide((prev) => prev + 1);
-    } else if (touchEndX - touchStartX > 50) {
-      // Swipe right - previous slide
-      setActiveSlide((prev) => prev - 1);
-    }
-    setTouchStartX(0);
-    setTouchEndX(0);
-  };
-
   const AnimatedSection = ({ children, id, className = "" }) => (
     <div
       className={`transition-all duration-700 ${isVisible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
@@ -247,152 +189,7 @@ const DSInteriorsWebsite = () => {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section - Smooth Endless Slider */}
-      <section
-        ref={heroRef}
-        className="container mx-auto relative min-h-[90vh] sm:min-h-screen flex items-center overflow-hidden"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* SLIDER */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="flex h-full"
-            animate={{ x: `-${activeSlide * 100}%` }}
-            transition={
-              noTransition
-                ? { duration: 0 }
-                : {
-                  duration: 4,
-                  ease: "easeInOut",
-                }
-            }
-            onAnimationComplete={() => {
-              if (activeSlide === carouselImages.length) {
-                setNoTransition(true);
-                setActiveSlide(0);
-
-                requestAnimationFrame(() => {
-                  setNoTransition(false);
-                });
-              }
-            }}
-          >
-            {carouselImages.map((img, i) => (
-              <div key={i} className="min-w-full h-full relative">
-                <img
-                  src={img.url}
-                  alt={img.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/0 to-black/40" />
-              </div>
-            ))}
-
-            <div className="min-w-full h-full relative">
-              <img
-                src={carouselImages[0].url}
-                className="w-full h-full object-cover"
-                alt=""
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
-            </div>
-          </motion.div>
-        </div>
-
-        {/* CONTENT */}
-        <div className="container mx-auto px-4 sm:px-6 relative z-20 h-screen flex flex-col justify-end pb-16 sm:pb-20">
-          <AnimatedSection id="hero">
-            <div className="max-w-4xl mx-auto text-center">
-              <div>
-                <div className="flex flex-col items-center justify-end">
-                  {(() => {
-
-                    return (
-                      <div className="flex flex-col items-center justify-center text-center">
-                        {/* Badge */}
-                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-gray-600 backdrop-blur-sm rounded-full border border-white/10">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                          <span className="text-white text-sm font-medium tracking-wider">
-                            Since 2012 • Award Winning Studio
-                          </span>
-                        </div>
-
-                        <div className="relative">
-                          {/* 3D Heading */}
-                          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center leading-tight relative mb-4">
-                            <span className="relative inline-block">
-                              <span className="absolute inset-0 text-white/20 translate-x-1 translate-y-1 select-none">
-                                We Reach Your Dreams
-                              </span>
-                              <span className="absolute inset-0 text-white/40 translate-x-0.5 translate-y-0.5 select-none">
-                                We Reach Your Dreams
-                              </span>
-                              <span className="relative text-white">
-                                We Reach{" "}
-                                <span className="bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
-                                  Your Dreams
-                                </span>
-                              </span>
-                            </span>
-                          </h1>
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5 justify-center mt-6 sm:mt-8 w-full sm:w-auto">
-                    <ConsultationButton />
-
-                    <button
-                      onClick={() => scrollToSection(contactRef)}
-                      className="px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white text-white rounded-full hover:bg-white/10 transition-all duration-300 font-semibold uppercase tracking-wide text-sm sm:text-base"
-                    >
-                      Explore Portfolio
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-
-        {/* INDICATORS */}
-        <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 sm:gap-2">
-          {carouselImages.map((_, idx) => {
-            const currentIndex = activeSlide % carouselImages.length;
-
-            return (
-              <button
-                key={idx}
-                onClick={() => setActiveSlide(idx)}
-                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${idx === currentIndex
-                  ? "w-6 sm:w-8 bg-amber-400"
-                  : "w-1.5 sm:w-2 bg-white/50"
-                  }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            );
-          })}
-        </div>
-
-        {/* ARROWS - Hide on small screens */}
-        <button
-          onClick={() => setActiveSlide((prev) => prev - 1)}
-          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-2 sm:p-3 rounded-full hover:bg-white/40 transition hidden sm:block"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="text-white w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
-
-        <button
-          onClick={() => setActiveSlide((prev) => prev + 1)}
-          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-white/20 backdrop-blur p-2 sm:p-3 rounded-full hover:bg-white/40 transition hidden sm:block"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="text-white w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
-      </section>
+      <ScrollingGallery />
 
       {/* Customer Reviews Section */}
       <TestimonialsSlider />
