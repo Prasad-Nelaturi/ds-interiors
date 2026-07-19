@@ -8,6 +8,7 @@ import WhyChooseUs from "../components/WhyChooseUs";
 import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
 import ScrollingGallery from '../components/ScrollingGallery';
+import AwardsCarousel from '../components/AwardsCarousel';
 
 import {
   Star,
@@ -898,6 +899,8 @@ const DSInteriorsWebsite = () => {
       <WhyChooseUs />
       <TrustedClients />
       <ServicesSection />
+      <AwardsCarousel />
+
       <GallerySection />
       <ScrollingText />
       <KitchenAppliances />

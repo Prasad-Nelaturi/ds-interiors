@@ -90,6 +90,7 @@
   0% {
     background-position: 200% center;
   }
+
   100% {
     background-position: -200% center;
   }
@@ -98,4 +99,50 @@
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
   background-size: 200% 200%;
+}
+
+.hero-slogan {
+  display: inline-block;
+  padding: 12px 22px;
+  font-weight: 800;
+  font-family: "Cinzel", serif;
+
+  font-size: clamp(0.75rem, 3vw, 1.6rem);
+
+  letter-spacing: clamp(0.15rem, 1.2vw, 0.45rem);
+
+  text-transform: uppercase;
+  color: #000;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25);
+
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.45);
+
+  max-width: 90vw;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .hero-slogan {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.18rem;
+    border-radius: 30px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-slogan {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12rem;
+  }
 }
