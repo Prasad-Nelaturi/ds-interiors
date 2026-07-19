@@ -6,100 +6,71 @@ const HeroCarousel = () => {
     const slides = [
         {
             title: "Modern Luxury Living",
-            subtitle: "Contemporary elegance meets comfort",
-            date: "2012",
-            tags: [{ t: "Luxury", hi: true }, { t: "Modern" }, { t: "Residential" }],
-            image: "https://i.pinimg.com/736x/9c/e6/5c/9ce65c5fbde0a8c016addef2b76634ed.jpg",
+            subtitle: "Where contemporary design meets timeless elegance",
+            image: "/sl4.jpg",
+            mobileImage: "https://w0.peakpx.com/wallpaper/69/500/HD-wallpaper-interior-design-929-home-luxury-modern-morning-pretty-room-theme-upscale-view.jpg",
         },
         {
             title: "Minimalist Kitchen",
             subtitle: "Clean lines · Smart living",
-            date: "2012",
-            tags: [{ t: "Minimalist", hi: true }, { t: "Kitchen" }, { t: "Modern" }],
-            image: "https://hips.hearstapps.com/hmg-prod/images/edc-web-tour-delia-kenza-3-copy-1658771574.jpg",
+            image: "/sl2.jpg",
+            mobileImage: "https://img.magnific.com/premium-photo/dining-table-kitchen-room-with-cartoon-style-3d-rendering_772449-24762.jpg?semt=ais_hybrid&w=740&q=80",
         },
         {
             title: "Luxury Bedroom",
             subtitle: "Serenity · Comfort · Style",
-            date: "2012",
-            tags: [{ t: "Luxury", hi: true }, { t: "Bedroom" }, { t: "Serene" }],
-            image: "https://oltdesign.ae/wp-content/uploads/sites/3/2025/07/bold-and-elegant-black-bedroom-designs-and-ideas-oltdesign_79596_black_and_white_luxury_bedroom_black_bed_frame_29fc7f0a-scaled-1.jpg",
-        },
-        {
-            title: "Elegant Living Room",
-            subtitle: "Sophisticated · Spacious · Bright",
-            date: "2012",
-            tags: [{ t: "Contemporary", hi: true }, { t: "Living Room" }, { t: "Elegant" }],
-            image: "https://www.decorilla.com/online-decorating/wp-content/uploads/2022/06/Sophisticated-black-and-white-living-room-before-after-by-Decorilla.jpg",
-        },
-        {
-            title: "Modern Bathroom",
-            subtitle: "Spa · Minimal · Pure",
-            date: "2012",
-            tags: [{ t: "Spa", hi: true }, { t: "Bathroom" }, { t: "Minimal" }],
-            image: "https://fancyhouse-design.com/wp-content/uploads/2024/05/This-charcoal-and-white-lavatory-featuring-dual-sinks-and-geometric-tile-backsplash.jpg",
-        },
-        {
-            title: "Home Office",
-            subtitle: "Productive · Stylish · Modern",
-            date: "2012",
-            tags: [{ t: "Office", hi: true }, { t: "Modern" }, { t: "Productive" }],
-            image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?fit=crop&w=1900&q=88",
-        },
-        {
-            title: "Dining Room",
-            subtitle: "Elegant · Warm · Inviting",
-            date: "2012",
-            tags: [{ t: "Luxury", hi: true }, { t: "Dining" }, { t: "Elegant" }],
-            image: "https://images.squarespace-cdn.com/content/v1/63dde481bbabc6724d988548/0e8f6d72-bd0e-4d50-9fe3-cfa8f000ede1/2.jfif",
-        },
-        {
-            title: "Entryway Design",
-            subtitle: "Welcome · Style · First Impressions",
-            date: "2012",
-            tags: [{ t: "Modern", hi: true }, { t: "Entryway" }, { t: "Luxury" }],
-            image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?fit=crop&w=1900&q=88",
+            image: "/sl3.jpg",
+            mobileImage: "https://oltdesign.ae/wp-content/uploads/sites/3/2025/07/bold-and-elegant-black-bedroom-designs-and-ideas-oltdesign_79596_black_and_white_luxury_bedroom_black_bed_frame_29fc7f0a-scaled-1.jpg",
         }
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isBusy, setIsBusy] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [loadedCount, setLoadedCount] = useState(0);
     const [glassVisible, setGlassVisible] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true); // Auto-play state
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [direction, setDirection] = useState(1); // 1 for next, -1 for prev
 
     const autoTimerRef = useRef(null);
     const totalSlides = slides.length;
 
+    // ===== WINDOW RESIZE LISTENER =====
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // ===== AUTO-PLAY =====
     const startAutoPlay = useCallback(() => {
         clearTimeout(autoTimerRef.current);
-        if (isAutoPlaying) {
+        if (isAutoPlaying && isLoaded) {
             autoTimerRef.current = setTimeout(() => {
-                goToSlide((currentIndex + 1) % totalSlides);
-            }, 100);
+                setDirection(1);
+                setCurrentIndex((prev) => (prev + 1) % totalSlides);
+            }, 5000);
         }
-    }, [currentIndex, totalSlides, isAutoPlaying]);
+    }, [isAutoPlaying, isLoaded, totalSlides]);
 
     useEffect(() => {
-        if (!isBusy && totalSlides > 0 && isLoaded) {
-            startAutoPlay();
-        }
+        startAutoPlay();
         return () => clearTimeout(autoTimerRef.current);
-    }, [currentIndex, isBusy, startAutoPlay, totalSlides, isLoaded]);
+    }, [currentIndex, startAutoPlay]);
 
+    // ===== LOAD IMAGES =====
     useEffect(() => {
         let loaded = 0;
         slides.forEach((slide) => {
             const img = new Image();
-            img.src = slide.image;
+            const imageUrl = windowWidth < 768 && slide.mobileImage ? slide.mobileImage : slide.image;
+            img.src = imageUrl;
             img.onload = () => {
                 loaded++;
                 setLoadedCount(loaded);
                 if (loaded === slides.length) {
                     setIsLoaded(true);
-                    setTimeout(() => setGlassVisible(true), 150);
+                    setTimeout(() => setGlassVisible(true), 300);
                 }
             };
             img.onerror = () => {
@@ -107,38 +78,49 @@ const HeroCarousel = () => {
                 setLoadedCount(loaded);
                 if (loaded === slides.length) {
                     setIsLoaded(true);
-                    setTimeout(() => setGlassVisible(true), 150);
+                    setTimeout(() => setGlassVisible(true), 300);
                 }
             };
         });
-    }, [slides]);
+    }, [slides, windowWidth]);
 
     // ===== NAVIGATION =====
-    const goToSlide = (to) => {
-        if (isBusy || to === currentIndex || !isLoaded) return;
-        setIsBusy(true);
-        clearTimeout(autoTimerRef.current);
-
-        setCurrentIndex(to);
-        setProgress(((to + 1) / totalSlides) * 100);
-
-        setTimeout(() => {
-            setIsBusy(false);
-        }, 800);
-    };
-
     const nextSlide = () => {
-        if (!isBusy) goToSlide((currentIndex + 1) % totalSlides);
+        if (isLoaded) {
+            setDirection(1);
+            setCurrentIndex((prev) => (prev + 1) % totalSlides);
+            clearTimeout(autoTimerRef.current);
+            startAutoPlay();
+        }
     };
 
     const prevSlide = () => {
-        if (!isBusy) goToSlide((currentIndex - 1 + totalSlides) % totalSlides);
+        if (isLoaded) {
+            setDirection(-1);
+            setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+            clearTimeout(autoTimerRef.current);
+            startAutoPlay();
+        }
+    };
+
+    const goToSlide = (index) => {
+        if (isLoaded && index !== currentIndex) {
+            setDirection(index > currentIndex ? 1 : -1);
+            setCurrentIndex(index);
+            clearTimeout(autoTimerRef.current);
+            startAutoPlay();
+        }
     };
 
     // ===== TOGGLE AUTO-PLAY =====
     const toggleAutoPlay = () => {
         setIsAutoPlaying(!isAutoPlaying);
-        clearTimeout(autoTimerRef.current);
+        if (!isAutoPlaying) {
+            clearTimeout(autoTimerRef.current);
+            startAutoPlay();
+        } else {
+            clearTimeout(autoTimerRef.current);
+        }
     };
 
     // ===== KEYBOARD NAVIGATION =====
@@ -146,205 +128,261 @@ const HeroCarousel = () => {
         const handleKeyDown = (e) => {
             if (e.key === "ArrowRight") nextSlide();
             if (e.key === "ArrowLeft") prevSlide();
-            if (e.key === " ") { // Space bar to toggle auto-play
+            if (e.key === " ") {
                 e.preventDefault();
                 toggleAutoPlay();
             }
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [currentIndex, isBusy]);
+    }, []);
 
     const currentSlide = slides[currentIndex];
+    const isMobile = windowWidth < 768;
+
+    const getImageUrl = (slide) => {
+        if (isMobile && slide.mobileImage) {
+            return slide.mobileImage;
+        }
+        return slide.image;
+    };
+
+    // Slide variants for animation
+    const slideVariants = {
+        enter: (direction) => ({
+            x: direction > 0 ? '100%' : '-100%',
+            opacity: 0,
+            scale: 0.95,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.8,
+                ease: [0.76, 0, 0.24, 1],
+            }
+        },
+        exit: (direction) => ({
+            x: direction > 0 ? '-30%' : '30%',
+            opacity: 0,
+            scale: 0.95,
+            transition: {
+                duration: 0.6,
+                ease: [0.76, 0, 0.24, 1],
+            }
+        })
+    };
+
+    // Content variants for animation
+    const contentVariants = {
+        enter: (direction) => ({
+            x: direction > 0 ? 60 : -60,
+            opacity: 0,
+            y: 20,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.7,
+                delay: 0.2,
+                ease: [0.76, 0, 0.24, 1],
+            }
+        },
+        exit: (direction) => ({
+            x: direction > 0 ? -40 : 40,
+            opacity: 0,
+            y: -10,
+            transition: {
+                duration: 0.5,
+                ease: [0.76, 0, 0.24, 1],
+            }
+        })
+    };
+
+    // Glass panel variants
+    const glassVariants = {
+        hidden: {
+            y: '100%',
+            opacity: 0,
+        },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                duration: 0.9,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+            }
+        }
+    };
 
     return (
         <div className="relative w-full h-screen overflow-hidden bg-[#0a0a0a] font-['DM_Sans',sans-serif]">
 
             {/* ===== LOAD BAR ===== */}
             <div
-                className="absolute top-0 left-0 h-0.5 z-[9000] bg-white/30 pointer-events-none transition-all duration-300"
+                className="absolute top-0 left-0 h-0.5 z-[9000] bg-gradient-to-r from-amber-400 to-amber-600 transition-all duration-300"
                 style={{
                     width: `${(loadedCount / totalSlides) * 100}%`,
                     opacity: loadedCount === totalSlides ? 0 : 1
                 }}
             />
 
-            {/* ===== SLIDER LAYER ===== */}
+            {/* ===== SLIDER LAYER WITH SLIDING ANIMATION ===== */}
             <div className="absolute inset-0 z-[1] overflow-hidden">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
                         key={currentIndex}
+                        custom={direction}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
                         className="absolute inset-0"
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.05 }}
-                        transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
                     >
                         <div className="absolute inset-0 w-full h-full">
                             <img
-                                src={currentSlide.image}
+                                src={getImageUrl(currentSlide)}
                                 alt={currentSlide.title}
                                 className="w-full h-full object-cover object-center"
                                 style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    objectPosition: 'center'
+                                    objectPosition: isMobile ? 'center 30%' : 'center',
                                 }}
                             />
                         </div>
-                        {/* Dark overlay for better text visibility */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10" />
+                        {/* Gradient Overlay for better text visibility */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
+
+                        {/* Subtle zoom effect overlay */}
+                        <motion.div
+                            className="absolute inset-0"
+                            initial={{ scale: 1.1 }}
+                            animate={{ scale: 1 }}
+                            transition={{ duration: 8, ease: "easeOut" }}
+                        />
                     </motion.div>
                 </AnimatePresence>
             </div>
 
-            {/* ===== AMBIENT TEXT LAYER ===== */}
-            <div className="absolute inset-0 z-[2] pointer-events-none">
-                {/* Wordmark */}
-                <div className="absolute top-[5vh] left-[5vw] text-[10px] font-light tracking-[0.42em] uppercase text-white/30">
-                    interiors
-                </div>
+            {/* ===== CONTENT WITH SLIDING ANIMATION ===== */}
+            <div className={`absolute inset-0 z-[2] flex flex-col justify-end pb-[180px] sm:pb-[200px] md:pb-[220px] px-6 sm:px-8 md:px-12 lg:px-20`}>
+                <AnimatePresence mode="wait" custom={direction}>
+                    <motion.div
+                        key={`content-${currentIndex}`}
+                        custom={direction}
+                        variants={contentVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        className="max-w-4xl"
+                    >
 
-                {/* Slide Counter */}
-                <div className="absolute top-[5vh] right-[5vw] text-right">
-                    <div className="font-['Fraunces',serif] font-light italic text-[clamp(32px,5vw,72px)] leading-none text-white/15 tracking-[-0.02em]">
-                        {String(currentIndex + 1).padStart(2, '0')}
-                    </div>
-                    <div className="text-[10px] font-light tracking-[0.2em] text-white/20 mt-[-4px]">
-                        / {String(totalSlides).padStart(2, '0')}
-                    </div>
-                </div>
 
-                {/* Subtitle - bottom left */}
-                <div className="absolute left-[5vw] bottom-[calc(20vh+30px)]">
-                    <div className="font-['Fraunces',serif] font-light italic text-[clamp(14px,1.5vw,22px)] text-white/20 leading-none tracking-[-0.02em]">
-                        {currentSlide.subtitle}
-                    </div>
-                </div>
+                        {/* Title */}
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-2 sm:mb-3">
+                            {currentSlide.title}
+                        </h1>
+
+                        {/* Subtitle */}
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 font-light mb-1 sm:mb-2">
+                            {currentSlide.subtitle}
+                        </p>
+                    </motion.div>
+                </AnimatePresence>
             </div>
 
-            {/* ===== GLASS PANEL ===== */}
-            <div
-                className={`absolute bottom-0 left-0 right-0 z-20 h-[16vh] sm:h-[17vh] md:h-[18vh] lg:h-[19vh] xl:h-[20vh]
-min-h-[110px] max-h-[190px] rounded-[30%_70%_0_0/5%_7%_0_0] overflow-hidden transition-all duration-800 ${glassVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-                    }`}
-                style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+            {/* ===== GLASS PANEL WITH SLIDING ANIMATION ===== */}
+            <motion.div
+                className={`absolute bottom-0 left-0 right-0 z-20 h-[40px] sm:h-[60px] md:h-[80px] 
+rounded-[30%_70%_0_0/5%_7%_0_0] overflow-hidden`}
+                variants={glassVariants}
+                initial="hidden"
+                animate={glassVisible ? "visible" : "hidden"}
             >
                 {/* Blur Background */}
-                <div className="absolute inset-0 backdrop-blur-[40px] saturate-[1.8] brightness-[0.85]" />
+                <div className="absolute inset-0 backdrop-blur-[30px] saturate-[1.5] brightness-[0.8]" />
 
                 {/* Tint */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-white/6 to-white/6" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-white/3 to-white/5" />
 
                 {/* Glow */}
-                <div className="absolute top-[-80%] left-[-20%] right-[-20%] h-[90%] rounded-full bg-radial from-white/12 to-transparent pointer-events-none" />
+                <div className="absolute top-[-60%] left-[-20%] right-[-20%] h-[80%] rounded-full bg-radial from-white/5 to-transparent pointer-events-none" />
 
-                {/* Content */}
-                <div className="relative z-[2] h-full grid grid-cols-1 md:grid-cols-[1fr_auto] grid-rows-[1fr_auto] p-[clamp(16px,2.8vh,32px)_clamp(16px,3.5vw,44px)_clamp(12px,2.2vh,24px)] items-end">
+                {/* Content - Slide Counter & Dots */}
+                <div className="relative z-[2] h-full flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-20">
+                    {/* Slide Counter */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <span className="text-xl sm:text-2xl md:text-3xl font-light text-white/60 font-['Fraunces',serif]">
+                            {String(currentIndex + 1).padStart(2, '0')}
+                        </span>
+                        <span className="text-xs sm:text-sm text-white/20 font-light">
+                            / {String(totalSlides).padStart(2, '0')}
+                        </span>
+                    </div>
 
-                    {/* Title */}
-                    <motion.div
-                        key={`title-${currentIndex}`}
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                        className="col-span-1 md:col-span-2 row-start-1 self-end font-['Fraunces',serif] font-black italic text-[clamp(36px,7.5vw,110px)] leading-[0.85] tracking-[-0.04em] text-white whitespace-nowrap"
-                        style={{
-                            textShadow: '0 2px 24px rgba(0,0,0,0.15)',
-                        }}
-                    >
-                        {currentSlide.title}
-                    </motion.div>
-
-                    {/* Tags */}
-                    <motion.div
-                        key={`tags-${currentIndex}`}
-                        initial={{ y: 12, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.35, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="col-start-1 row-start-2 flex flex-wrap gap-1.5 items-center"
-                    >
-                        {currentSlide.tags.map((tag, i) => (
-                            <span
-                                key={i}
-                                className={`text-[8px] font-normal tracking-[0.2em] uppercase px-2.5 py-0.5 rounded-full border transition-all duration-300 ${tag.hi
-                                    ? 'bg-white/20 text-white border-white/35'
-                                    : 'bg-white/5 text-white/40 border-white/12'
+                    {/* Dots */}
+                    <div className="flex gap-1.5 sm:gap-2">
+                        {slides.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goToSlide(index)}
+                                className={`transition-all duration-500 rounded-full ${index === currentIndex
+                                    ? 'w-6 sm:w-8 h-1.5 bg-white'
+                                    : 'w-1.5 sm:w-2 h-1.5 bg-white/20 hover:bg-white/40'
                                     }`}
-                            >
-                                {tag.t}
-                            </span>
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
                         ))}
-                    </motion.div>
+                    </div>
 
-                    {/* Meta */}
-                    <motion.div
-                        key={`meta-${currentIndex}`}
-                        initial={{ y: 12, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="col-start-1 md:col-start-2 row-start-2 text-right"
+                    {/* Auto-Play Toggle */}
+                    <button
+                        onClick={toggleAutoPlay}
+                        className="text-white/40 hover:text-white/80 transition-all duration-300 text-xs sm:text-sm font-light"
                     >
-                        <div className="font-['Fraunces',serif] font-light italic text-[clamp(16px,2vw,28px)] text-white/70 leading-none">
-                            {currentSlide.date}
-                        </div>
-                    </motion.div>
+                        {isAutoPlaying ? '⏸' : '▶'}
+                    </button>
                 </div>
-            </div>
+            </motion.div>
 
-            {/* ===== NAVIGATION CONTROLS ===== */}
-            <button
-                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[300] p-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-all duration-300 group"
+            {/* ===== NAVIGATION ARROWS ===== */}
+            <motion.button
+                className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-[300] p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
                 onClick={prevSlide}
                 aria-label="Previous slide"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
             >
-                <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                 </svg>
-            </button>
+            </motion.button>
 
-            <button
-                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[300] p-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-all duration-300 group"
+            <motion.button
+                className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-[300] p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
                 onClick={nextSlide}
                 aria-label="Next slide"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
             >
-                <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                 </svg>
-            </button>
+            </motion.button>
 
-            {/* ===== AUTO-PLAY TOGGLE ===== */}
-            <button
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[300] px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white/60 hover:text-white text-xs font-medium transition-all duration-300"
-                onClick={toggleAutoPlay}
-            >
-                {isAutoPlaying ? '⏸ Pause' : '▶ Play'}
-            </button>
-
-            {/* ===== PROGRESS BAR ===== */}
+            {/* ===== PROGRESS INDICATOR BAR ===== */}
             <div className="absolute bottom-0 left-0 right-0 h-0.5 z-[700] bg-white/5">
-                <div
-                    className="h-full bg-white/40 transition-all duration-500"
-                    style={{
-                        width: `${progress || ((currentIndex + 1) / totalSlides) * 100}%`,
-                        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
+                <motion.div
+                    className="h-full bg-gradient-to-r from-amber-400 to-amber-600"
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 5, ease: "linear" }}
+                    key={currentIndex}
                 />
-            </div>
-
-            {/* ===== DOTS NAVIGATION ===== */}
-            <div className="absolute right-[2.2vw] top-1/2 -translate-y-1/2 z-[700] flex flex-col gap-2.5">
-                {slides.map((_, index) => (
-                    <button
-                        key={index}
-                        className={`transition-all duration-300 ${index === currentIndex
-                            ? 'w-0.5 h-[16px] rounded-[2px] bg-white/60'
-                            : 'w-0.5 h-0.5 rounded-full bg-white/20'
-                            }`}
-                        onClick={() => goToSlide(index)}
-                    />
-                ))}
             </div>
         </div>
     );
