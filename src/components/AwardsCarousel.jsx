@@ -386,52 +386,96 @@ const AwardsCarousel = () => {
                     </div>
                 </div>
 
-                {/* CONTROLS with modern design */}
-                <div className="flex items-center justify-center gap-5 mt-6 flex-wrap">
+                {/* ===== Responsive Modern Controls ===== */}
+                <div className="mt-5 sm:mt-6 lg:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+
+                    {/* Previous */}
                     <motion.button
                         onClick={prevSlide}
-                        className="w-12 h-12 rounded-full border border-white/20 text-white text-2xl hover:border-[#d4af37] transition-all hover:bg-[#d4af37]/10 hover:scale-110"
-                        aria-label="Previous slide"
-                        whileHover={{ scale: 1.1 }}
+                        className="
+            flex items-center justify-center
+            w-10 h-10
+            sm:w-11 sm:h-11
+            md:w-12 md:h-12
+            lg:w-14 lg:h-14
+            rounded-full
+            border border-white/20
+            text-white
+            text-xl sm:text-2xl
+            backdrop-blur-md
+            hover:border-[#d4af37]
+            hover:bg-[#d4af37]/10
+            transition-all duration-300
+        "
+                        whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         ‹
                     </motion.button>
 
-                    <div className="flex gap-3 items-center">
+                    {/* Pagination */}
+                    <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 max-w-full overflow-x-auto scrollbar-hide px-1">
                         {slides.map((_, i) => (
                             <motion.button
                                 key={i}
                                 onClick={() => goToSlide(i)}
-                                className={`rounded-full transition-all ${i === currentIndex
-                                    ? "bg-[#d4af37] w-8 h-1.5"
-                                    : "bg-white/30 hover:bg-white/50 w-1.5 h-1.5"
+                                className={`rounded-full transition-all duration-300 ${i === currentIndex
+                                        ? "bg-[#d4af37] w-6 sm:w-7 md:w-8 lg:w-10 h-1.5 sm:h-2"
+                                        : "bg-white/30 hover:bg-white/60 w-1.5 sm:w-2 h-1.5 sm:h-2"
                                     }`}
-                                aria-label={`Go to slide ${i + 1}`}
-                                whileHover={{ scale: i === currentIndex ? 1 : 1.5 }}
+                                whileHover={{ scale: 1.3 }}
                             />
                         ))}
                     </div>
 
+                    {/* Next */}
                     <motion.button
                         onClick={nextSlide}
-                        className="w-12 h-12 rounded-full border border-white/20 text-white text-2xl hover:border-[#d4af37] transition-all hover:bg-[#d4af37]/10 hover:scale-110"
-                        aria-label="Next slide"
-                        whileHover={{ scale: 1.1 }}
+                        className="
+            flex items-center justify-center
+            w-10 h-10
+            sm:w-11 sm:h-11
+            md:w-12 md:h-12
+            lg:w-14 lg:h-14
+            rounded-full
+            border border-white/20
+            text-white
+            text-xl sm:text-2xl
+            backdrop-blur-md
+            hover:border-[#d4af37]
+            hover:bg-[#d4af37]/10
+            transition-all duration-300
+        "
+                        whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         ›
                     </motion.button>
 
+                    {/* Play / Pause */}
                     <motion.button
                         onClick={toggleAutoPlay}
-                        className="w-12 h-12 rounded-full border border-white/20 text-white text-lg hover:border-[#d4af37] transition-all hover:bg-[#d4af37]/10 hover:scale-110"
-                        aria-label="Toggle autoplay"
-                        whileHover={{ scale: 1.1 }}
+                        className="
+            flex items-center justify-center
+            w-10 h-10
+            sm:w-11 sm:h-11
+            md:w-12 md:h-12
+            lg:w-14 lg:h-14
+            rounded-full
+            border border-white/20
+            text-white
+            text-base sm:text-lg
+            backdrop-blur-md
+            hover:border-[#d4af37]
+            hover:bg-[#d4af37]/10
+            transition-all duration-300
+        "
+                        whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         {isAutoPlaying ? "⏸" : "▶"}
                     </motion.button>
+
                 </div>
 
                 {/* Slide counter */}
