@@ -294,7 +294,7 @@ const HeroCarousel = () => {
             </motion.button>
 
             {/* ===== PROGRESS INDICATOR BAR ===== */}
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 z-[700] bg-white/5">
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 z-10 bg-white/5">
                 <motion.div
                     className="h-full bg-gradient-to-r from-amber-400 to-amber-600"
                     initial={{ width: 0 }}

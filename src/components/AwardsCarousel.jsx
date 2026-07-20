@@ -2,34 +2,84 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AwardsCarousel = () => {
+
     const slides = [
         {
             id: 1,
-            title: "Architectural Excellence Award",
-            category: "Luxury Design Innovation",
-            year: "2026",
-            image: "/award1.jpg",
+            title: "Appreciation Certificate",
+            category: "Recognition & Appreciation",
+            year: "2023",
+            image: "/award5.jpeg",
         },
         {
             id: 2,
-            title: "Best Residential Project",
-            category: "Premium Interior Design",
-            year: "2025",
+            title: "India Design Award",
+            category: "National Design Excellence",
+            year: "2012",
             image: "/award2.jpg",
         },
         {
             id: 3,
-            title: "Creative Design Recognition",
-            category: "Modern Architecture",
-            year: "2025",
+            title: "India Design Award",
+            category: "Interior Design Achievement",
+            year: "2012",
             image: "/award3.jpg",
         },
         {
             id: 4,
-            title: "Luxury Living Award",
-            category: "Contemporary Spaces",
+            title: "Brandz Magazine",
+            category: "Featured Brand Recognition",
             year: "2024",
             image: "/award4.jpg",
+        },
+        {
+            id: 5,
+            title: "Telangana Business Award",
+            category: "Business Leadership Excellence",
+            year: "2023",
+            image: "/award6.jpeg",
+        },
+        {
+            id: 6,
+            title: "AATCOC Member Certificate",
+            category: "Professional Membership",
+            year: "2023",
+            image: "/award7.jpeg",
+        },
+        {
+            id: 7,
+            title: "Business Excellence Awards",
+            category: "Corporate Excellence Award",
+            year: "2026",
+            image: "/award8.JPG",
+        },
+        {
+            id: 8,
+            title: "Business Excellence Awards",
+            category: "Outstanding Business Performance",
+            year: "2026",
+            image: "/award9.JPG",
+        },
+        {
+            id: 9,
+            title: "Business Excellence Awards",
+            category: "Innovation & Excellence",
+            year: "2026",
+            image: "/award10.JPG",
+        },
+        {
+            id: 10,
+            title: "Business Excellence Awards",
+            category: "Industry Excellence Recognition",
+            year: "2026",
+            image: "/award11.JPG",
+        },
+        {
+            id: 11,
+            title: "Business Excellence Awards",
+            category: "Excellence in Business Leadership",
+            year: "2023",
+            image: "/award12.jpeg",
         },
     ];
 
@@ -93,7 +143,7 @@ const AwardsCarousel = () => {
         if (isAutoPlaying) {
             timerRef.current = setInterval(() => {
                 nextSlide();
-            }, 4000);
+            }, 3000);
         }
     }, [isAutoPlaying, nextSlide]);
 
@@ -289,7 +339,7 @@ const AwardsCarousel = () => {
                                         {/* Gold border glow on active */}
                                         {style.isActive && (
                                             <motion.div
-                                                className="absolute inset-0 rounded-[28px] border-2 border-[#d4af37]/40"
+                                                className="absolute inset-0 rounded-[28px] border-4 border-[#d4af37]/40"
                                                 initial={{ opacity: 0, scale: 0.9 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 transition={{ duration: 0.6 }}
@@ -354,8 +404,8 @@ const AwardsCarousel = () => {
                                 key={i}
                                 onClick={() => goToSlide(i)}
                                 className={`rounded-full transition-all ${i === currentIndex
-                                        ? "bg-[#d4af37] w-8 h-1.5"
-                                        : "bg-white/30 hover:bg-white/50 w-1.5 h-1.5"
+                                    ? "bg-[#d4af37] w-8 h-1.5"
+                                    : "bg-white/30 hover:bg-white/50 w-1.5 h-1.5"
                                     }`}
                                 aria-label={`Go to slide ${i + 1}`}
                                 whileHover={{ scale: i === currentIndex ? 1 : 1.5 }}
