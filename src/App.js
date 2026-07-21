@@ -27,6 +27,10 @@ import CommercialInteriors from "./components/Services/CommercialInteriors";
 import InteriorStyling from "./components/Services/InteriorStyling";
 import LuxuryVillaDesign from "./components/Services/LuxuryVillaDesign";
 import SpacePlanning from "./components/Services/SpacePlanning";
+
+
+import OurProjects from "./components/OurProjects";
+import ProjectDetail from "./components/ProjectDetail";
 import GalleryPage from "./components/GalleryPage";
 import ModularFactory from "./components/ModularFactory";
 
@@ -44,6 +48,8 @@ const App = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/blogs" element={<Blogs />} />
+            <Route path="/projects" element={<OurProjects />} />
+            <Route path="/project/:id" element={<ProjectDetail />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 

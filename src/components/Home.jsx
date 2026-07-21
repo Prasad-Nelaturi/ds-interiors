@@ -9,6 +9,7 @@ import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
 import ScrollingGallery from '../components/ScrollingGallery';
 import AwardsCarousel from '../components/AwardsCarousel';
+import ProjectDetail from '../components/ProjectDetail';
 
 import {
   Star,
@@ -81,6 +82,16 @@ const DSInteriorsWebsite = () => {
     address: "Door No 1-31/1, Raja Ram Enclave, Kondapur, Hyderabad-500084",
     email: "dsinteriorshyd1@gmail.com",
   };
+
+  const scrollToServices = useCallback(() => {
+    console.log("scrollToServices called");
+    if (servicesRef.current) {
+      servicesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, [servicesRef]);
 
   // ===== STATS COUNTER ANIMATION =====
   useEffect(() => {

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AwardsCarousel = () => {
-
-    const slides = [
+    const slides = useMemo(() => [
         {
             id: 1,
             title: "Appreciation Certificate",
@@ -81,7 +80,7 @@ const AwardsCarousel = () => {
             year: "2023",
             image: "/award12.jpeg",
         },
-    ];
+    ], []);
 
     const totalSlides = slides.length;
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -91,31 +90,48 @@ const AwardsCarousel = () => {
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const stageRef = useRef(null);
     const timerRef = useRef(null);
+    const touchStartX = useRef(0);
 
-    // Smooth slide transition with 3D effect
+    // OPTIMIZATION 1: Only render visible slides (3-5 slides max)
+    const getVisibleSlides = useCallback(() => {
+        const visible = [];
+        const range = 3; // Show 3 slides on each side
+
+        for (let i = -range; i <= range; i++) {
+            const index = ((currentIndex + i) % totalSlides + totalSlides) % totalSlides;
+            visible.push(index);
+        }
+        return visible;
+    }, [currentIndex, totalSlides]);
+
+    // OPTIMIZATION 2: Simplified style calculation with less math
     const getSlideStyle = useCallback((index) => {
         let diff = index - currentIndex;
-        // Normalize diff for circular navigation
         if (diff > totalSlides / 2) diff -= totalSlides;
         if (diff < -totalSlides / 2) diff += totalSlides;
 
         const absDiff = Math.abs(diff);
         const isActive = diff === 0;
 
-        // Smooth slide animation with easing
-        const translateX = diff * 60;
-        const scale = 1 - absDiff * 0.12;
-        const opacity = Math.max(0.3, 1 - absDiff * 0.3);
-        const zIndex = 100 - absDiff;
+        // Only show detailed styles for nearby slides
+        if (absDiff > 3) {
+            return {
+                transform: `translate(-50%, -50%) translateX(${diff * 60}%) scale(0.7)`,
+                opacity: 0,
+                zIndex: 0,
+                isActive: false,
+                diff
+            };
+        }
 
         return {
             transform: `
                 translate(-50%, -50%)
-                translateX(${translateX}%)
-                scale(${Math.max(0.7, scale)})
+                translateX(${diff * 60}%)
+                scale(${Math.max(0.7, 1 - absDiff * 0.12)})
             `,
-            opacity: isActive ? 1 : opacity,
-            zIndex: isActive ? 200 : zIndex,
+            opacity: isActive ? 1 : Math.max(0.3, 1 - absDiff * 0.3),
+            zIndex: isActive ? 200 : 100 - absDiff,
             isActive,
             diff
         };
@@ -135,6 +151,7 @@ const AwardsCarousel = () => {
         goToSlide(currentIndex - 1);
     }, [currentIndex, goToSlide]);
 
+    // OPTIMIZATION 3: More efficient auto-play
     const startAutoPlay = useCallback(() => {
         if (timerRef.current) {
             clearInterval(timerRef.current);
@@ -143,7 +160,7 @@ const AwardsCarousel = () => {
         if (isAutoPlaying) {
             timerRef.current = setInterval(() => {
                 nextSlide();
-            }, 3000);
+            }, 4000);
         }
     }, [isAutoPlaying, nextSlide]);
 
@@ -154,7 +171,6 @@ const AwardsCarousel = () => {
         }
     }, []);
 
-    // Auto-play management
     useEffect(() => {
         startAutoPlay();
         return () => {
@@ -162,20 +178,23 @@ const AwardsCarousel = () => {
         };
     }, [startAutoPlay, stopAutoPlay]);
 
-    const handlePointerDown = (e) => {
+    // OPTIMIZATION 4: Touch handling with passive events
+    const handlePointerDown = useCallback((e) => {
         setIsDragging(true);
-        setStartX(e.clientX || e.touches?.[0]?.clientX || 0);
+        touchStartX.current = e.clientX || e.touches?.[0]?.clientX || 0;
+        setStartX(touchStartX.current);
         stopAutoPlay();
-    };
+    }, [stopAutoPlay, setStartX]);
 
-    const handlePointerMove = (e) => {
+    const handlePointerMove = useCallback((e) => {
         if (!isDragging) return;
         const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
-        const distance = (currentX - startX) / 200;
+        const distance = (currentX - touchStartX.current) / 200;
         setDragOffset(Math.max(-1, Math.min(1, distance)));
-    };
+        e.preventDefault(); // Prevent scrolling
+    }, [isDragging, setDragOffset]);
 
-    const handlePointerUp = () => {
+    const handlePointerUp = useCallback(() => {
         if (!isDragging) return;
         setIsDragging(false);
 
@@ -187,7 +206,13 @@ const AwardsCarousel = () => {
 
         setDragOffset(0);
         startAutoPlay();
-    };
+    }, [isDragging, dragOffset, prevSlide, nextSlide, startAutoPlay, setDragOffset]);
+
+    // OPTIMIZATION 5: Memoized visible slides
+    const visibleIndices = useMemo(() => getVisibleSlides(), [getVisibleSlides]);
+    const visibleSlides = useMemo(() =>
+        visibleIndices.map(index => slides[index])
+        , [visibleIndices, slides]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -222,12 +247,12 @@ const AwardsCarousel = () => {
 
     return (
         <section className="relative w-full overflow-hidden bg-[#080808] py-10">
-            {/* Luxury Glow Effect */}
+            {/* Simplified background effects - fewer particles */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#c8a45d22,transparent_55%)]" />
 
-            {/* Animated Gold Particles */}
+            {/* OPTIMIZATION 6: Reduced particle count from 20 to 10 */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(20)].map((_, i) => (
+                {[...Array(8)].map((_, i) => (
                     <motion.div
                         key={i}
                         className="absolute w-1 h-1 bg-[#d4af37]/30 rounded-full"
@@ -251,28 +276,25 @@ const AwardsCarousel = () => {
             </div>
 
             <div className="relative max-w-[1200px] mx-auto px-5 text-center">
-                {/* HEADER with modern animation */}
+                {/* Header - keep animations minimal */}
                 <motion.header
                     className="mb-4"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.5 }}
                 >
                     <p className="text-lg uppercase tracking-[0.45em] text-[#d4af37] font-light">
                         Awards & Recognition
                     </p>
-
                     <h1 className="mt-4 text-white font-serif text-[clamp(2.2rem,6vw,4rem)] leading-tight">
                         Celebrating Excellence
                     </h1>
-
                     <p className="mt-3 text-gray-400 max-w-2xl mx-auto text-sm font-light tracking-wide">
-                        Honoured with prestigious awards for creativity, craftsmanship and
-                        exceptional design.
+                        Honoured with prestigious awards for creativity, craftsmanship and exceptional design.
                     </p>
                 </motion.header>
 
-                {/* CAROUSEL AREA with smooth 3D effect */}
+                {/* CAROUSEL AREA */}
                 <div
                     ref={stageRef}
                     className="relative h-[clamp(320px,65vw,520px)]"
@@ -293,8 +315,14 @@ const AwardsCarousel = () => {
                         onPointerCancel={handlePointerUp}
                     >
                         <AnimatePresence mode="sync">
-                            {slides.map((slide, index) => {
-                                const style = getSlideStyle(index);
+                            {/* OPTIMIZATION 7: Only render visible slides */}
+                            {visibleSlides.map((slide) => {
+                                const originalIndex = slides.indexOf(slide);
+                                const style = getSlideStyle(originalIndex);
+
+                                // Skip rendering invisible slides
+                                if (style.opacity === 0) return null;
+
                                 return (
                                     <motion.article
                                         key={slide.id}
@@ -308,6 +336,7 @@ const AwardsCarousel = () => {
                                             boxShadow: style.isActive
                                                 ? "0 40px 100px rgba(212,175,55,0.15), 0 20px 60px rgba(0,0,0,0.8)"
                                                 : "0 20px 60px rgba(0,0,0,0.5)",
+                                            willChange: "transform, opacity", // OPTIMIZATION 8: Add will-change
                                         }}
                                         initial={false}
                                         animate={{
@@ -315,67 +344,52 @@ const AwardsCarousel = () => {
                                             opacity: style.opacity,
                                         }}
                                         transition={{
-                                            duration: 0.8,
+                                            duration: 0.6, // Reduced from 0.8
                                             ease: [0.22, 0.61, 0.36, 1],
                                         }}
                                     >
-                                        {/* Image with smooth zoom effect */}
-                                        <motion.img
+                                        <img
                                             src={slide.image}
                                             alt={slide.title}
                                             className="w-full h-full object-cover"
-                                            animate={{
-                                                scale: style.isActive ? 1 : 1.05,
-                                            }}
-                                            transition={{
-                                                duration: 0.8,
-                                                ease: [0.22, 0.61, 0.36, 1],
+                                            loading="lazy"
+                                            style={{
+                                                transform: style.isActive ? 'scale(1)' : 'scale(1.05)',
+                                                transition: 'transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)',
                                             }}
                                         />
 
-                                        {/* Gradient Overlay with gold tint */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                                        {/* Gold border glow on active */}
                                         {style.isActive && (
-                                            <motion.div
-                                                className="absolute inset-0 rounded-[28px] border-4 border-[#d4af37]/40"
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ duration: 0.6 }}
-                                            />
+                                            <div className="absolute inset-0 rounded-[28px] border-4 border-[#d4af37]/40" />
                                         )}
 
-                                        {/* Content */}
                                         <motion.div
                                             className="absolute bottom-0 left-0 right-0 p-6 text-left"
                                             initial={!style.isActive ? { opacity: 0, y: 20 } : false}
                                             animate={style.isActive ? { opacity: 1, y: 0 } : { opacity: 0.3, y: 10 }}
                                             transition={{
-                                                duration: 0.6,
-                                                delay: style.isActive ? 0.2 : 0,
+                                                duration: 0.4,
+                                                delay: style.isActive ? 0.1 : 0,
                                                 ease: [0.22, 0.61, 0.36, 1],
                                             }}
                                         >
                                             <span className="text-[#d4af37] text-xs tracking-[0.3em] uppercase font-light">
                                                 {slide.year}
                                             </span>
-
                                             <h2 className="mt-2 text-white font-serif text-xl leading-tight">
                                                 {slide.title}
                                             </h2>
-
                                             <p className="mt-1 text-gray-300 text-sm font-light">
                                                 {slide.category}
                                             </p>
-
-                                            {/* Animated underline */}
                                             {style.isActive && (
                                                 <motion.div
                                                     className="mt-3 h-0.5 w-12 bg-[#d4af37]"
                                                     initial={{ width: 0 }}
                                                     animate={{ width: 48 }}
-                                                    transition={{ duration: 0.8, delay: 0.4 }}
+                                                    transition={{ duration: 0.6, delay: 0.2 }}
                                                 />
                                             )}
                                         </motion.div>
@@ -386,99 +400,50 @@ const AwardsCarousel = () => {
                     </div>
                 </div>
 
-                {/* ===== Responsive Modern Controls ===== */}
+                {/* Controls - simplified animations */}
                 <div className="mt-5 sm:mt-6 lg:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-
-                    {/* Previous */}
                     <motion.button
                         onClick={prevSlide}
-                        className="
-            flex items-center justify-center
-            w-10 h-10
-            sm:w-11 sm:h-11
-            md:w-12 md:h-12
-            lg:w-14 lg:h-14
-            rounded-full
-            border border-white/20
-            text-white
-            text-xl sm:text-2xl
-            backdrop-blur-md
-            hover:border-[#d4af37]
-            hover:bg-[#d4af37]/10
-            transition-all duration-300
-        "
+                        className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full border border-white/20 text-white text-xl sm:text-2xl backdrop-blur-md hover:border-[#d4af37] hover:bg-[#d4af37]/10 transition-all duration-300"
                         whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         ‹
                     </motion.button>
 
-                    {/* Pagination */}
                     <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 max-w-full overflow-x-auto scrollbar-hide px-1">
                         {slides.map((_, i) => (
                             <motion.button
                                 key={i}
                                 onClick={() => goToSlide(i)}
                                 className={`rounded-full transition-all duration-300 ${i === currentIndex
-                                        ? "bg-[#d4af37] w-6 sm:w-7 md:w-8 lg:w-10 h-1.5 sm:h-2"
-                                        : "bg-white/30 hover:bg-white/60 w-1.5 sm:w-2 h-1.5 sm:h-2"
+                                    ? "bg-[#d4af37] w-6 sm:w-7 md:w-8 lg:w-10 h-1.5 sm:h-2"
+                                    : "bg-white/30 hover:bg-white/60 w-1.5 sm:w-2 h-1.5 sm:h-2"
                                     }`}
                                 whileHover={{ scale: 1.3 }}
                             />
                         ))}
                     </div>
 
-                    {/* Next */}
                     <motion.button
                         onClick={nextSlide}
-                        className="
-            flex items-center justify-center
-            w-10 h-10
-            sm:w-11 sm:h-11
-            md:w-12 md:h-12
-            lg:w-14 lg:h-14
-            rounded-full
-            border border-white/20
-            text-white
-            text-xl sm:text-2xl
-            backdrop-blur-md
-            hover:border-[#d4af37]
-            hover:bg-[#d4af37]/10
-            transition-all duration-300
-        "
+                        className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full border border-white/20 text-white text-xl sm:text-2xl backdrop-blur-md hover:border-[#d4af37] hover:bg-[#d4af37]/10 transition-all duration-300"
                         whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         ›
                     </motion.button>
 
-                    {/* Play / Pause */}
                     <motion.button
                         onClick={toggleAutoPlay}
-                        className="
-            flex items-center justify-center
-            w-10 h-10
-            sm:w-11 sm:h-11
-            md:w-12 md:h-12
-            lg:w-14 lg:h-14
-            rounded-full
-            border border-white/20
-            text-white
-            text-base sm:text-lg
-            backdrop-blur-md
-            hover:border-[#d4af37]
-            hover:bg-[#d4af37]/10
-            transition-all duration-300
-        "
+                        className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full border border-white/20 text-white text-base sm:text-lg backdrop-blur-md hover:border-[#d4af37] hover:bg-[#d4af37]/10 transition-all duration-300"
                         whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         {isAutoPlaying ? "⏸" : "▶"}
                     </motion.button>
-
                 </div>
 
-                {/* Slide counter */}
                 <div className="mt-4 text-white/20 text-xs tracking-widest font-light">
                     {String(currentIndex + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
                 </div>

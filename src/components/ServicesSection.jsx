@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Home,
   Building,
@@ -26,6 +26,7 @@ const ServicesSection = ({
   scrollToSection = () => { },
 }) => {
   const [showAll, setShowAll] = useState(false);
+  const navigate = useNavigate();
 
   const servicesList = [
     {
@@ -158,9 +159,16 @@ const ServicesSection = ({
     },
   ];
 
-  const handleScroll = (ref) => {
-    if (ref && ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth" });
+  // Function to handle scroll to contact section
+  const handleScrollToContact = () => {
+    if (contactRef && contactRef.current) {
+      contactRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    } else {
+      // Fallback: navigate to contact page if ref is not available
+      navigate('/contact');
     }
   };
 
@@ -392,12 +400,10 @@ const ServicesSection = ({
                 and bring your vision to life
               </span>
             </p>
+
+            {/* FIXED: Start Your Project Button */}
             <button
-              onClick={() => {
-                if (contactRef) {
-                  handleScroll(contactRef);
-                }
-              }}
+              onClick={handleScrollToContact}
               className="group/btn relative inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-105 overflow-hidden text-sm sm:text-base"
             >
               <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>

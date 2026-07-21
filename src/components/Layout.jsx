@@ -300,7 +300,7 @@ const Layout = () => {
                 )}
               </div>
 
-              {/* <Link
+              <Link
                 to="/projects"
                 className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
                   scrolled
@@ -312,7 +312,7 @@ const Layout = () => {
                 <span
                   className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
                 ></span>
-              </Link> */}
+              </Link>
 
               <Link
                 to="/gallery"
@@ -466,13 +466,13 @@ const Layout = () => {
                 )}
               </div>
 
-              {/* <Link
+              <Link
                 to="/projects"
                 onClick={() => setIsMenuOpen(false)}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Our Projects
-              </Link> */}
+              </Link>
 
               <Link
                 to="/gallery"
