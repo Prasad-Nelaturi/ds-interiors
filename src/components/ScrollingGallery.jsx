@@ -5,7 +5,7 @@ const HeroCarousel = () => {
 
     const slides = [
         {
-            image: "/sl1.jpg",
+            image: "/dsv-varma.jpeg",
             mobileImage: "/m-sl1.jpg",
         },
         {
