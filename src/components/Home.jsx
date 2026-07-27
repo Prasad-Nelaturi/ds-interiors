@@ -9,7 +9,6 @@ import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
 import ScrollingGallery from '../components/ScrollingGallery';
 import AwardsCarousel from '../components/AwardsCarousel';
-import ProjectDetail from '../components/ProjectDetail';
 
 import {
   Star,

@@ -30,7 +30,7 @@ import SpacePlanning from "./components/Services/SpacePlanning";
 
 
 import OurProjects from "./components/OurProjects";
-import ProjectDetail from "./components/ProjectDetail";
+import ProjectPDFView from './components/ProjectPDFView';
 import GalleryPage from "./components/GalleryPage";
 import ModularFactory from "./components/ModularFactory";
 
@@ -49,7 +49,7 @@ const App = () => {
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/projects" element={<OurProjects />} />
-            <Route path="/project/:id" element={<ProjectDetail />} />
+            <Route path="/project/:id" element={<ProjectPDFView />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
