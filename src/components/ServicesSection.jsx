@@ -35,7 +35,7 @@ const ServicesSection = ({
       description: "Complete interior solutions on turnkey & consultant basis",
       category: "DESIGN",
       image:
-        "https://images.pexels.com/photos/7031408/pexels-photo-7031408.jpeg?auto=compress&cs=tinysrgb&w=900",
+        "/images/services_section/service_interior_design.jpg",
       features: ["Custom Layouts", "3D Visualizations", "Material Selection"],
       path: "/services/interior-design",
     },
@@ -292,7 +292,7 @@ const ServicesSection = ({
                       alt={service.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent"></div>
 
                     {/* Icon */}
                     <div
