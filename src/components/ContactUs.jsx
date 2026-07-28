@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Phone,
   Mail,
   MapPin,
   Clock,
   Send,
+  PhoneCall,
   CheckCircle,
   AlertCircle,
   Facebook,
   Instagram,
-  Twitter,
   Linkedin,
   Youtube,
   MessageCircle,
@@ -24,7 +24,6 @@ import {
   Copy,
   Check,
   ExternalLink,
-  Menu,
   X,
 } from "lucide-react";
 
@@ -46,9 +45,8 @@ const ContactUs = () => {
   const [copied, setCopied] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [showEmailOptions, setShowEmailOptions] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [ setIsMobileMenuOpen] = useState(false);
   const formRef = useRef(null);
-  const isInView = useInView(formRef, { once: true, margin: "-100px" });
 
   // Close mobile menu on resize
   useEffect(() => {
@@ -234,40 +232,128 @@ const ContactUs = () => {
         </div>
       )}
 
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-[55vh] sm:min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/60 to-black/0 z-10"></div>
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600"
-            alt="Contact Hero"
-            className="w-full h-full object-cover scale-110 animate-subtle-zoom"
+      <section className="relative min-h-screen overflow-hidden bg-white flex items-center justify-center">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Orange Gradient */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute -top-48 -left-40 w-[500px] h-[500px] rounded-full bg-orange-400/20 blur-[120px]"
           />
+
+          <motion.div
+            animate={{
+              scale: [1.1, 0.9, 1.1],
+              rotate: [360, 180, 0],
+            }}
+            transition={{
+              duration: 22,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute bottom-0 right-0 w-[450px] h-[450px] rounded-full bg-orange-500/20 blur-[120px]"
+          />
+
+          {/* Grid */}
+          <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(#ff7b0030_1px,transparent_1px),linear-gradient(90deg,#ff7b0030_1px,transparent_1px)] bg-[size:40px_40px]" />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-20">
+        {/* Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto"
+            className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-md rounded-full mb-4 sm:mb-6 border border-white/20">
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-amber-400" />
-              <span className="text-white/90 text-xs sm:text-sm tracking-wide">
-                Get In Touch
+            {/* Badge */}
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 3,
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-5 py-2 mb-8 shadow-lg"
+            >
+              <Sparkles className="text-orange-500 w-4 h-4" />
+
+              <span className="text-orange-600 font-semibold tracking-wide">
+                Let's Connect
               </span>
-            </div>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
-              Let's Start a
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500">
-                Conversation
+            </motion.div>
+
+            {/* Heading */}
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="font-black leading-tight text-5xl sm:text-6xl lg:text-8xl"
+            >
+              Building
+              <br />
+              <span className="bg-gradient-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">
+                Dreams Into
               </span>
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto px-4">
-              Have a project in mind? We'd love to hear about it. Reach out to
-              us and let's create something beautiful together.
-            </p>
+              <br />
+              Reality
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="max-w-3xl mx-auto mt-8 text-gray-600 text-lg md:text-xl leading-8"
+            >
+              Every successful project starts with a conversation.
+            </motion.p>
+
+            {/* Buttons */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-col sm:flex-row justify-center gap-5 mt-12"
+            >
+              <a
+                href={`tel:${companyInfo.phone}`}
+                className="px-8 py-4 rounded-full border-2 border-orange-300 text-orange-400 font-semibold hover:bg-orange-500 hover:text-white transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3"
+              >
+                <PhoneCall className="w-5 h-5" />
+                Contact Us
+              </a>
+            </motion.div>
+
+            {/* Bottom Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto"
+            >
+              <div>
+                <h2 className="text-4xl font-bold text-orange-500">500+</h2>
+                <p className="text-gray-500 mt-2">Projects</p>
+              </div>
+
+              <div>
+                <h2 className="text-4xl font-bold text-orange-500">12+</h2>
+                <p className="text-gray-500 mt-2">Years Experience</p>
+              </div>
+
+              <div>
+                <h2 className="text-4xl font-bold text-orange-500">100%</h2>
+                <p className="text-gray-500 mt-2">Client Satisfaction</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -483,32 +569,27 @@ const ContactUs = () => {
                       icon: <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />,
                       name: "Facebook",
                       color: "hover:bg-blue-600",
-                      href: "#",
+                      href: " https://www.facebook.com/profile.php?id=61590853052566",
                     },
                     {
                       icon: <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />,
                       name: "Instagram",
                       color:
                         "hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600",
-                      href: "#",
+                      href: "https://www.instagram.com/dsignerstudiointeriors/",
                     },
-                    {
-                      icon: <Twitter className="w-4 h-4 sm:w-5 sm:h-5" />,
-                      name: "Twitter",
-                      color: "hover:bg-sky-500",
-                      href: "#",
-                    },
+
                     {
                       icon: <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />,
                       name: "LinkedIn",
                       color: "hover:bg-blue-700",
-                      href: "#",
+                      href: "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
                     },
                     {
                       icon: <Youtube className="w-4 h-4 sm:w-5 sm:h-5" />,
                       name: "YouTube",
                       color: "hover:bg-red-600",
-                      href: "#",
+                      href: " https://www.youtube.com/@DsignerstudioInteriors",
                     },
                   ].map((social, idx) => (
                     <a

@@ -11,7 +11,6 @@ import {
   Sparkles,
   Building,
   ArrowRight,
-  Play,
   Star,
   Quote,
   Target,
@@ -165,27 +164,6 @@ const AboutUs = () => {
               We don't just design spaces — we create premium living experiences
               that feel elegant, warm, and timeless.
             </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap justify-center gap-5 mb-12">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-semibold shadow-2xl flex items-center gap-2 transition-all duration-300"
-              >
-                Start Your Journey
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 border-2 border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm flex items-center gap-2"
-              >
-                <Play className="w-5 h-5" />
-                Watch Our Story
-              </motion.button>
-            </div>
 
             {/* Trust Indicators */}
             <div className="flex flex-wrap justify-center gap-10 border-t border-white/20 pt-4 w-full">

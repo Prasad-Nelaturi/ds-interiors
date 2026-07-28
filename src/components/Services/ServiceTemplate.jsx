@@ -132,17 +132,6 @@ const ServiceTemplate = ({
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </motion.div>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Link
-                      to="/portfolio"
-                      className="inline-flex items-center bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-6 py-2 rounded-full text-lg font-semibold transition-all duration-300 border border-white/20 hover:border-white/40"
-                    >
-                      View Portfolio
-                    </Link>
-                  </motion.div>
                 </div>
               </motion.div>
             </div>
