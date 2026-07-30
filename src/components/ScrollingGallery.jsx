@@ -19,7 +19,7 @@ const HeroCarousel = () => {
 
   const slogans = [
     "Design Without Limits",
-    "Where Dreams Take Shape",
+    "Inspired by You",
     "Elegance Redefined",
   ];
 
