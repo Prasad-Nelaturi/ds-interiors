@@ -8,7 +8,7 @@ const HomeAutomation = () => {
     description:
       "Transform your home with smart technology. Control lighting, security, climate, and entertainment with ease.",
     image:
-      "https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&h=800&fit=crop",
+      "https://cionlabs.com/wp-content/uploads/2025/11/homeautomation.jpg",
     features: [
       {
         icon: <Lightbulb />,

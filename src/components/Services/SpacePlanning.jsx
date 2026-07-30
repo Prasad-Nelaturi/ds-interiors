@@ -8,7 +8,7 @@ const SpacePlanning = () => {
     description:
       "Professional space planning services to optimize your interiors. Efficient layouts that maximize functionality and flow.",
     image:
-      "https://images.unsplash.com/photo-1558403194-611308249627?w=1200&h=800&fit=crop",
+      "/images/services_section/service_space_planning1.jpg",
     features: [
       {
         icon: <Move />,

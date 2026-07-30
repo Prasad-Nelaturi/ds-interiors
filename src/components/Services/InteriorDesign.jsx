@@ -15,7 +15,7 @@ const InteriorDesign = () => {
     description:
       "Transform your space with our expert interior design services. We create beautiful, functional spaces that reflect your style and personality.",
     image:
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?w=1200&h=800&fit=crop",
+      "/images/services_section/service_interior_design.jpg",
     features: [
       {
         icon: <Paintbrush className="w-8 h-8" />,

@@ -15,7 +15,7 @@ const Visualization3D = () => {
     description:
       "Bring your projects to life with stunning 3D visualizations. Experience your design before construction begins.",
     image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop",
+      "/images/services_section/service_3D_views_visualization.avif",
     features: [
       {
         icon: <Cube className="w-8 h-8" />,

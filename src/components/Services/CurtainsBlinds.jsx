@@ -15,7 +15,7 @@ const CurtainsBlinds = () => {
     description:
       "Custom window treatments that combine style and functionality. From elegant curtains to modern blinds.",
     image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop",
+      "/images/services_section/service_curtains_blinds.jpg",
     features: [
       {
         icon: <Bolt />,

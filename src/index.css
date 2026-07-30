@@ -112,9 +112,9 @@
   letter-spacing: clamp(0.15rem, 1.2vw, 0.45rem);
 
   text-transform: uppercase;
-  color: #000;
+  color: #fff;
 
-  background: rgba(255, 255, 255, 0.08);
+  background: rgb(21, 21, 21);
   backdrop-filter: blur(10px);
 
   border: 1px solid rgba(255, 255, 255, 0.18);

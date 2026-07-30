@@ -15,7 +15,7 @@ const InteriorStyling = () => {
     description:
       "Expert interior styling services that bring life to your spaces. From accessories to furniture arrangement.",
     image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop",
+      "/images/services_section/service_interior_styling_decor.png",
     features: [
       {
         icon: <Sparkles />,

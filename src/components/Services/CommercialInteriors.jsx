@@ -15,7 +15,7 @@ const CommercialInteriors = () => {
     description:
       "Professional interior design services for commercial spaces. Create environments that enhance productivity and brand image.",
     image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop",
+      "/images/services_section/service_commercial_interiors1.jpg",
     features: [
       {
         icon: <Briefcase />,

@@ -8,7 +8,7 @@ const ChimneysHobs = () => {
     description:
       "Professional installation and maintenance of chimneys and hobs. Enhance your kitchen with quality appliances.",
     image:
-      "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&h=800&fit=crop",
+      "/images/services_section/service_chimneys_hobs.jpg",
     features: [
       {
         icon: <Flame />,

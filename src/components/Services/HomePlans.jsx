@@ -8,7 +8,7 @@ const HomePlans = () => {
     description:
       "Comprehensive home planning services from concept to completion. We design homes that perfectly match your lifestyle and needs.",
     image:
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&h=800&fit=crop",
+      "/images/services_section/service_home_plans_elevations.png",
     features: [
       {
         icon: <Compass className="w-8 h-8" />,

@@ -5,205 +5,191 @@ import { ArrowLeft, Download } from "lucide-react";
 const ProjectPDFView = () => {
     const location = useLocation();
     const navigate = useNavigate();
+
     const [project, setProject] = useState(null);
 
     useEffect(() => {
         if (location.state?.project) {
             setProject(location.state.project);
+            document.title = location.state.project.title;
         } else {
-            navigate("/projects");
+            navigate("/projects", { replace: true });
         }
-    }, [location, navigate]);
+    }, [location.state, navigate]);
 
     if (!project) {
         return (
-            <div className="h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-full h-screen flex items-center justify-center bg-white">
+                <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="fixed inset-0 z-[9999] bg-white flex flex-col">
-            {/* Modern PDF Header */}
-            <header
-                className="
-        flex-shrink-0
-        sticky top-0
-        z-50
-        bg-white/80
-        backdrop-blur-xl
-        border-b
-        border-gray-200/70
-        shadow-sm
-    "
+        <div
+            className="pdf-viewer-page"
+            style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                width: "100%",
+                height: "100dvh",
+                background: "#f5f5f5",
+                display: "flex",
+                flexDirection: "column",
+                zIndex: 99999,
+            }}
+        >
+            {/* HEADER */}
+            <div
+                style={{
+                    height: "60px",
+                    minHeight: "60px",
+                    background: "#ffffff",
+                    borderBottom: "1px solid #e5e7eb",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 12px",
+                    flexShrink: 0,
+                    zIndex: 10,
+                }}
             >
-                <div
-                    className="
-            flex
-            items-center
-            justify-between
-            w-full
-            px-3
-            sm:px-5
-            lg:px-8
-            py-3
-        "
+                {/* BACK */}
+                <button
+                    onClick={() => navigate("/projects")}
+                    style={{
+                        border: 0,
+                        background: "transparent",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "6px",
+                    }}
                 >
-
-                    {/* Back Button */}
-                    <button
-                        onClick={() => navigate("/projects")}
-                        className="
-                group
-                flex
-                items-center
-                gap-2
-                px-3
-                py-2
-                rounded-xl
-                text-gray-600
-                hover:bg-orange-50
-                hover:text-orange-500
-                transition-all
-                duration-300
-            "
+                    <span
+                        style={{
+                            width: "34px",
+                            height: "34px",
+                            borderRadius: "50%",
+                            background: "#f3f4f6",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
                     >
-                        <div
-                            className="
-                    flex
-                    items-center
-                    justify-center
-                    w-8
-                    h-8
-                    rounded-full
-                    bg-gray-100
-                    group-hover:bg-orange-100
-                    transition
-                "
-                        >
-                            <ArrowLeft
-                                className="
-                        w-4
-                        h-4
-                        sm:w-5
-                        sm:h-5
-                    "
-                            />
-                        </div>
+                        <ArrowLeft size={18} />
+                    </span>
 
-                        <span
-                            className="
-                    hidden
-                    sm:block
-                    text-sm
-                    font-medium
-                "
-                        >
-                            Back
-                        </span>
-                    </button>
+                    <span className="pdf-back-text">
+                        Back
+                    </span>
+                </button>
 
-
-
-                    {/* Center Title */}
+                {/* TITLE */}
+                <div
+                    style={{
+                        minWidth: 0,
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: "0 8px",
+                    }}
+                >
                     <div
-                        className="
-                flex-1
-                flex
-                justify-center
-                px-3
-            "
+                        style={{
+                            maxWidth: "400px",
+                            background: "#f3f4f6",
+                            border: "1px solid #e5e7eb",
+                            borderRadius: "999px",
+                            padding: "8px 16px",
+                        }}
                     >
-                        <div
-                            className="
-                    max-w-[180px]
-                    sm:max-w-[350px]
-                    lg:max-w-[600px]
-                    px-4
-                    py-2
-                    rounded-full
-                    bg-gray-100/80
-                    border
-                    border-gray-200
-                "
+                        <h1
+                            style={{
+                                margin: 0,
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                color: "#1f2937",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                            }}
                         >
-                            <h1
-                                className="
-                        text-xs
-                        sm:text-sm
-                        lg:text-base
-                        font-semibold
-                        text-gray-800
-                        truncate
-                        text-center
-                    "
-                            >
-                                {project.title}
-                            </h1>
-                        </div>
+                            {project.title}
+                        </h1>
                     </div>
-
-
-
-                    {/* Download Button */}
-                    <a
-                        href={project.pdfUrl}
-                        download
-                        className="
-                group
-                flex
-                items-center
-                gap-2
-                px-3
-                py-2
-                rounded-xl
-                bg-orange-500
-                text-white
-                hover:bg-orange-600
-                shadow-md
-                shadow-orange-200
-                transition-all
-                duration-300
-            "
-                        title="Download PDF"
-                    >
-
-                        <Download
-                            className="
-                    w-4
-                    h-4
-                    sm:w-5
-                    sm:h-5
-                    group-hover:translate-y-0.5
-                    transition
-                "
-                        />
-
-                        <span
-                            className="
-                    hidden
-                    sm:inline
-                    text-sm
-                    font-medium
-                "
-                        >
-                            Download
-                        </span>
-
-                    </a>
-
                 </div>
-            </header>
 
-            <div className="flex-1 min-h-0 w-full">
+                {/* DOWNLOAD */}
+                <a
+                    href={project.pdfUrl}
+                    download
+                    style={{
+                        height: "38px",
+                        padding: "0 12px",
+                        background: "#f97316",
+                        color: "#ffffff",
+                        borderRadius: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "7px",
+                        textDecoration: "none",
+                        flexShrink: 0,
+                    }}
+                >
+                    <Download size={17} />
+
+                    <span className="pdf-download-text">
+                        Download
+                    </span>
+                </a>
+            </div>
+
+            {/* PDF */}
+            <div
+                style={{
+                    position: "relative",
+                    width: "100%",
+                    flex: 1,
+                    minHeight: 0,
+                    overflow: "hidden",
+                }}
+            >
                 <iframe
-                    src={`${project.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+                    src={`${project.pdfUrl}#toolbar=0&navpanes=0&statusbar=0&messages=0`}
                     title={project.title}
-                    className="w-full h-full border-0"
-                    style={{ display: 'block' }}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        border: "none",
+                        display: "block",
+                    }}
                 />
             </div>
+
+            <style>
+                {`
+                    .pdf-back-text,
+                    .pdf-download-text {
+                        display: inline;
+                    }
+
+                    @media (max-width: 640px) {
+                        .pdf-back-text,
+                        .pdf-download-text {
+                            display: none;
+                        }
+                    }
+                `}
+            </style>
         </div>
     );
 };

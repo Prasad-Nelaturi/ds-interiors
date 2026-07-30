@@ -8,7 +8,7 @@ const Landscaping = () => {
     description:
       "Create stunning outdoor spaces with our professional landscaping services. From garden design to complete outdoor transformations.",
     image:
-      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1200&h=800&fit=crop",
+      "/images/services_section/service_landscaping.jpg",
     features: [
       {
         icon: <Trees />,

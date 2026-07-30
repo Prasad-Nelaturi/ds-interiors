@@ -8,7 +8,7 @@ const LuxuryVillaDesign = () => {
     description:
       "Premium villa design services for discerning clients. Create magnificent living spaces with unparalleled luxury.",
     image:
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&h=800&fit=crop",
+      "/images/services_section/service_luxury_villa_design.jpg",
     features: [
       {
         icon: <Crown />,

@@ -8,7 +8,7 @@ const ResidentialInteriors = () => {
     description:
       "Complete interior design solutions for homes. Create living spaces that reflect your lifestyle and personality.",
     image:
-      "https://images.unsplash.com/photo-1616137466211-f939a420be84?w=1200&h=800&fit=crop",
+      "/images/services_section/service_residential_interiors1.jpg",
     features: [
       {
         icon: <Bed />,

@@ -66,8 +66,7 @@ const ServiceTemplate = ({
             alt={title}
             className="w-full h-full object-cover transform scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-black/0" />
         </div>
 
         {/* Floating Particles */}
@@ -104,19 +103,19 @@ const ServiceTemplate = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 backdrop-blur-sm rounded-full mb-6 border border-amber-400/30">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 backdrop-blur-sm rounded-full mb-6 border border-amber-400/30">
                   <Zap className="w-4 h-4 text-amber-400" />
-                  <span className="text-amber-400 text-sm font-semibold uppercase tracking-wider">
+                  <span className="text-amber-400 text-xs font-semibold uppercase tracking-wider">
                     Premium Service
                   </span>
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                   {title}
                   <span className="py-2 block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                     Reimagined
                   </span>
                 </h1>
-                <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-xl">
+                <p className="text-sm md:text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
                   {description}
                 </p>
                 <div className="flex flex-wrap gap-4">
@@ -126,7 +125,7 @@ const ServiceTemplate = ({
                   >
                     <Link
                       to={ctaLink}
-                      className="inline-flex items-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-6 py-2 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl"
+                      className="inline-flex items-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl"
                     >
                       {ctaText}
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -235,7 +234,7 @@ const ServiceTemplate = ({
                 whileHover={{ y: -10 }}
                 className="group"
               >
-                <div className="relative h-full bg-white rounded-3xl p-8 shadow-xl hover:shadow-3xl transition-all duration-500 border border-gray-100 hover:border-amber-200 overflow-hidden">
+                <div className="relative h-full bg-white rounded-3xl p-6 shadow-xl hover:shadow-3xl transition-all duration-500 border border-gray-100 hover:border-amber-200 overflow-hidden">
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-orange-50/0 to-amber-50/0 group-hover:from-amber-50/30 group-hover:via-orange-50/20 group-hover:to-amber-50/30 transition-all duration-700" />
 
@@ -550,17 +549,6 @@ const ServiceTemplate = ({
                 >
                   Book Now
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to="/portfolio"
-                  className="inline-flex items-center bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 border border-white/20 hover:border-white/40"
-                >
-                  View Portfolio
                 </Link>
               </motion.div>
             </div>
