@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js`;
 
 const originalWarn = console.warn;
 console.warn = (...args) => {
-  if (args[0]?.includes?.('TT: undefined function')) {
+  if (args[0]?.includes?.('TT: undefined function') || args[0]?.includes?.('Worker')) {
     return;
   }
   originalWarn(...args);
@@ -15,33 +15,9 @@ console.warn = (...args) => {
 
 const OurProjects = () => {
   const navigate = useNavigate();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [containerWidth, setContainerWidth] = useState({});
   const [pdfErrors, setPdfErrors] = useState({});
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    const updateWidths = () => {
-      projectsData.forEach((project) => {
-        const container = document.getElementById(`pdf-container-${project.id}`);
-        if (container) {
-          setContainerWidth(prev => ({
-            ...prev,
-            [project.id]: container.offsetWidth
-          }));
-        }
-      });
-    };
-
-    updateWidths();
-    window.addEventListener('resize', updateWidths);
-    return () => window.removeEventListener('resize', updateWidths);
-  }, []);
+  const containerRefs = useRef({});
 
   const projectsData = [
     {
@@ -76,6 +52,24 @@ const OurProjects = () => {
     },
   ];
 
+  useEffect(() => {
+    const updateWidths = () => {
+      projectsData.forEach((project) => {
+        const container = containerRefs.current[project.id];
+        if (container) {
+          setContainerWidth(prev => ({
+            ...prev,
+            [project.id]: container.offsetWidth
+          }));
+        }
+      });
+    };
+
+    updateWidths();
+    window.addEventListener('resize', updateWidths);
+    return () => window.removeEventListener('resize', updateWidths);
+  }, []);
+
   const viewPDF = (project) => {
     document.title = project.title;
     navigate(`/project/${project.id}`, {
@@ -84,8 +78,24 @@ const OurProjects = () => {
   };
 
   const getPdfUrl = (pdfPath) => {
-    if (pdfPath.startsWith('http')) return pdfPath;
-    return `${window.location.origin}${pdfPath}`;
+    if (process.env.NODE_ENV === 'production') {
+      return `${window.location.origin}${pdfPath}`;
+    }
+    return pdfPath;
+  };
+
+  const renderPDFFallback = (project) => {
+    if (pdfErrors[project.id]) {
+      return (
+        <iframe
+          src={`${getPdfUrl(project.pdfUrl)}#toolbar=0&navpanes=0&scrollbar=0`}
+          title={project.title}
+          className="w-full h-full border-0"
+          style={{ transform: 'scale(1)', transformOrigin: 'top left' }}
+        />
+      );
+    }
+    return null;
   };
 
   return (
@@ -126,11 +136,12 @@ const OurProjects = () => {
             >
               <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-2 border border-stone-100/50">
                 <div
-                  id={`pdf-container-${project.id}`}
+                  ref={(el) => containerRefs.current[project.id] = el}
                   className="relative h-[240px] sm:h-[260px] lg:h-[280px] w-full overflow-hidden bg-stone-50 flex items-center justify-center"
                 >
                   <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
 
+                  {/* PDF.js Preview */}
                   <Document
                     file={getPdfUrl(project.pdfUrl)}
                     loading={
@@ -155,6 +166,9 @@ const OurProjects = () => {
                       renderAnnotationLayer={false}
                     />
                   </Document>
+
+                  {/* Fallback iframe for Vercel */}
+                  {renderPDFFallback(project)}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
