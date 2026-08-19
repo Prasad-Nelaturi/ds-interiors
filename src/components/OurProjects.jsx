@@ -1,9 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
+import { Document, Page, pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
+
+// Suppress PDF.js font warnings
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (args[0]?.includes?.('TT: undefined function')) {
+    return;
+  }
+  originalWarn(...args);
+};
 
 const OurProjects = () => {
   const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [containerWidth, setContainerWidth] = useState({});
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const updateWidths = () => {
+      projectsData.forEach((project) => {
+        const container = document.getElementById(`pdf-container-${project.id}`);
+        if (container) {
+          setContainerWidth(prev => ({
+            ...prev,
+            [project.id]: container.offsetWidth
+          }));
+        }
+      });
+    };
+
+    updateWidths();
+    window.addEventListener('resize', updateWidths);
+    return () => window.removeEventListener('resize', updateWidths);
+  }, []);
 
   const projectsData = [
     {
@@ -47,11 +88,9 @@ const OurProjects = () => {
 
   return (
     <section className="min-h-screen bg-[#faf8f6] py-24 relative">
-      {/* Decorative Background Element */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-amber-50/50 to-transparent rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-stone-50/50 to-transparent rounded-full blur-3xl -z-10" />
 
-      {/* Page Header - New Style */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-14">
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 mb-4 sm:mb-6 shadow-md border border-orange-100">
@@ -72,35 +111,45 @@ const OurProjects = () => {
         </div>
       </div>
 
-      {/* Projects Grid */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
           {projectsData.map((project, index) => (
             <div
               key={project.id}
               onClick={() => viewPDF(project)}
-              className="group cursor-pointer animate-fade-in"
+              className="group cursor-pointer"
               style={{
-                animationDelay: `${index * 100}ms`,
+                animation: `fade-in 0.6s ease-out both ${index * 100}ms`,
               }}
             >
               <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-2 border border-stone-100/50">
-                {/* PDF Preview with Classic Frame */}
-                <div className="relative h-[240px] sm:h-[260px] lg:h-[280px] overflow-hidden bg-stone-50">
-                  {/* Classic Inner Frame */}
+                <div
+                  id={`pdf-container-${project.id}`}
+                  className="relative h-[240px] sm:h-[260px] lg:h-[280px] w-full overflow-hidden bg-stone-50 flex items-center justify-center"
+                >
                   <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
 
-                  <iframe
-                    src={`${project.pdfUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0`}
-                    title={project.title}
-                    className="absolute top-0 left-0 w-full h-[420px] border-0 pointer-events-none"
-                    style={{
-                      transform: "scale(1)",
-                      transformOrigin: "top left",
-                    }}
-                  />
+                  <Document
+                    file={project.pdfUrl}
+                    loading={
+                      <div className="flex items-center justify-center h-full w-full">
+                        <div className="text-gray-400 text-sm">Loading preview...</div>
+                      </div>
+                    }
+                    error={
+                      <div className="flex items-center justify-center h-full w-full">
+                        <div className="text-gray-400 text-sm">Preview not available</div>
+                      </div>
+                    }
+                  >
+                    <Page
+                      pageNumber={1}
+                      width={containerWidth[project.id] || 400}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                    />
+                  </Document>
 
-                  {/* Modern Overlay on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-xl">
@@ -110,9 +159,7 @@ const OurProjects = () => {
                   </div>
                 </div>
 
-                {/* Project Info with Classic Typography */}
                 <div className="px-6 py-5 bg-white relative">
-                  {/* Classic Corner Accent */}
                   <div className="absolute top-0 left-6 w-8 h-px bg-gradient-to-r from-amber-400 to-transparent" />
 
                   <div className="flex items-start justify-between gap-4">
@@ -131,7 +178,6 @@ const OurProjects = () => {
                     </div>
                   </div>
 
-                  {/* Classic Underline */}
                   <div className="mt-3 h-px w-8 bg-gradient-to-r from-orange-300/50 to-transparent group-hover:w-16 transition-all duration-500" />
                 </div>
               </div>
@@ -140,7 +186,6 @@ const OurProjects = () => {
         </div>
       </div>
 
-      {/* Footer Decoration */}
       <div className="mt-16 text-center">
         <div className="inline-flex items-center gap-4 text-stone-300">
           <span className="text-xs tracking-[0.2em] font-light">—</span>
@@ -149,22 +194,29 @@ const OurProjects = () => {
         </div>
       </div>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-                @keyframes fade-in {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .animate-fade-in {
-                    animation: fade-in 0.6s ease-out both;
-                }
-            `}</style>
+      <style>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .react-pdf__Page {
+          width: 100% !important;
+          height: 100% !important;
+        }
+        
+        .react-pdf__Page canvas {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+        }
+      `}</style>
     </section>
   );
 };
