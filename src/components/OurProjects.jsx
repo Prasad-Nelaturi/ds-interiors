@@ -83,11 +83,8 @@ const OurProjects = () => {
     });
   };
 
-  // Helper to get full URL for PDF
   const getPdfUrl = (pdfPath) => {
-    // If it's already a full URL, return it
     if (pdfPath.startsWith('http')) return pdfPath;
-    // For Vercel, use the public URL
     return `${window.location.origin}${pdfPath}`;
   };
 
