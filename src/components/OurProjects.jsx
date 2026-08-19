@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 
+// Use CDN for worker (works on Vercel)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js`;
 
+// Suppress warnings
 const originalWarn = console.warn;
 console.warn = (...args) => {
-  if (args[0]?.includes?.('TT: undefined function') || args[0]?.includes?.('Worker')) {
+  if (args[0]?.includes?.('TT: undefined function') ||
+    args[0]?.includes?.('Worker') ||
+    args[0]?.includes?.('pdf.js')) {
     return;
   }
   originalWarn(...args);
@@ -77,25 +81,14 @@ const OurProjects = () => {
     });
   };
 
+  // Get correct URL for production
   const getPdfUrl = (pdfPath) => {
-    if (process.env.NODE_ENV === 'production') {
-      return `${window.location.origin}${pdfPath}`;
-    }
-    return pdfPath;
-  };
+    // If it's already a full URL, return it
+    if (pdfPath.startsWith('http')) return pdfPath;
 
-  const renderPDFFallback = (project) => {
-    if (pdfErrors[project.id]) {
-      return (
-        <iframe
-          src={`${getPdfUrl(project.pdfUrl)}#toolbar=0&navpanes=0&scrollbar=0`}
-          title={project.title}
-          className="w-full h-full border-0"
-          style={{ transform: 'scale(1)', transformOrigin: 'top left' }}
-        />
-      );
-    }
-    return null;
+    // Get the base URL (works on both local and Vercel)
+    const baseUrl = window.location.origin;
+    return `${baseUrl}${pdfPath}`;
   };
 
   return (
@@ -141,7 +134,6 @@ const OurProjects = () => {
                 >
                   <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
 
-                  {/* PDF.js Preview */}
                   <Document
                     file={getPdfUrl(project.pdfUrl)}
                     loading={
@@ -166,9 +158,6 @@ const OurProjects = () => {
                       renderAnnotationLayer={false}
                     />
                   </Document>
-
-                  {/* Fallback iframe for Vercel */}
-                  {renderPDFFallback(project)}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
