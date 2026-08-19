@@ -1,15 +1,13 @@
 <!doctype html>
+
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-
     <link rel="icon" type="image/jpeg" sizes="32x32" href="/ds-lg.jpeg" />
     <link rel="apple-touch-icon" href="/ds-lg.jpeg" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-
     <meta name="description"
         content="Dsigner Studio Interiors - Premium Interior Design Studio in Hyderabad. Creating beautiful spaces that inspire since 2012." />
 
@@ -22,31 +20,15 @@
     <meta name="developer-phone" content="+91 90109 89991" />
     <meta name="developer-website" content="https://www.dsignerstudiointeriors.com/" />
 
+    <!-- Additional Developer Info -->
     <meta name="og:developer" content="Prasad Nelaturi" />
     <meta name="twitter:developer" content="@prasadnelaturi" />
     <meta name="build-tool" content="React + Tailwind CSS" />
     <meta name="version" content="1.0.0" />
     <meta name="last-updated" content="2026-01-15" />
 
-    <!-- Google Tag Manager -->
-    <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-
-            j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-587MXZT3');
-    </script>
-    <!-- End Google Tag Manager -->
-
     <!-- Google Analytics - GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J64N4CSF16"></script>
-
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -62,13 +44,12 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet" />
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
     <title>Dsigner Studio Interiors - Premium Interior Design Studio</title>
+
+    <!-- Font Awesome for WhatsApp Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
     <style>
         body {
@@ -79,6 +60,7 @@
             background: #f5f5f5;
         }
 
+        /* Content styling */
         .content {
             text-align: center;
             padding: 60px 20px;
@@ -98,7 +80,7 @@
             line-height: 1.6;
         }
 
-        /* SCROLL TO TOP */
+        /* ===== SCROLL TO TOP BUTTON ===== */
         #scrollTopBtn {
             position: fixed;
             bottom: 100px;
@@ -117,6 +99,7 @@
             border-radius: 50%;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 
+            /* ORANGE GRADIENT */
             background: linear-gradient(135deg, #ff7a18, #ffb347);
 
             display: flex;
@@ -129,18 +112,20 @@
             transition: all 0.3s ease;
         }
 
+        /* SHOW BUTTON */
         #scrollTopBtn.show {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
+        /* HOVER EFFECT */
         #scrollTopBtn:hover {
             transform: scale(1.15);
             box-shadow: 0 15px 35px rgba(255, 122, 24, 0.5);
         }
 
-        /* WHATSAPP */
+        /* ===== WHATSAPP BUTTON ===== */
         #whatsappBtn {
             position: fixed;
             bottom: 100px;
@@ -152,7 +137,6 @@
             border-radius: 50%;
 
             background: linear-gradient(135deg, #25d366, #128c7e);
-
             display: flex;
             align-items: center;
             justify-content: center;
@@ -160,15 +144,19 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 
             transition: all 0.3s ease;
+
+            /* NEW: Glow animation */
             animation: whatsappGlow 2s infinite ease-in-out;
         }
 
+        /* ICON */
         #whatsappBtn i {
             font-size: 30px;
             color: white;
             z-index: 2;
         }
 
+        /* OUTER RIPPLE RING */
         #whatsappBtn::before {
             content: "";
             position: absolute;
@@ -180,6 +168,7 @@
             z-index: 1;
         }
 
+        /* SECOND RING FOR DEPTH */
         #whatsappBtn::after {
             content: "";
             position: absolute;
@@ -191,6 +180,7 @@
             z-index: 1;
         }
 
+        /* GLOW EFFECT */
         @keyframes whatsappGlow {
             0% {
                 box-shadow:
@@ -211,6 +201,7 @@
             }
         }
 
+        /* RIPPLE EXPAND */
         @keyframes ripple {
             0% {
                 transform: scale(1);
@@ -223,11 +214,13 @@
             }
         }
 
+        /* HOVER EFFECT */
         #whatsappBtn:hover {
             transform: scale(1.15);
             box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
         }
 
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             #scrollTopBtn {
                 bottom: 80px;
@@ -252,20 +245,16 @@
 </head>
 
 <body>
-
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-587MXZT3" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <div id="root"></div>
+    <div id="root">
+        <div class="content">
+            <h1>Dsigner Studio Interiors</h1>
+            <p>Creating beautiful spaces that inspire and delight. Transforming visions into reality since 2012.</p>
+            <p style="margin-top: 40px; font-size: 14px">↓ Scroll down to see the buttons in action ↓</p>
+        </div>
+    </div>
 
     <!-- SCROLL TO TOP BUTTON -->
-    <button id="scrollTopBtn" aria-label="Scroll to top">
-        ↑
-    </button>
+    <button id="scrollTopBtn" aria-label="Scroll to top">↑</button>
 
     <!-- WHATSAPP BUTTON -->
     <a href="https://wa.me/919010989991?text=Hello%20DS%20Interiors,%20I%20would%20like%20to%20know%20more%20about%20your%20services"
@@ -283,7 +272,16 @@
             } else {
                 scrollBtn.classList.remove("show");
             }
+        });
 
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        });
+
+        window.addEventListener("scroll", () => {
             if (whatsappBtn) {
                 if (window.scrollY > 100) {
                     whatsappBtn.style.opacity = "1";
@@ -293,15 +291,7 @@
                 }
             }
         });
-
-        scrollBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
     </script>
-
 </body>
 
 </html>
