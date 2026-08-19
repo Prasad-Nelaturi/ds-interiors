@@ -21,6 +21,7 @@ const OurProjects = () => {
   const navigate = useNavigate();
   const [containerWidth, setContainerWidth] = useState({});
   const [pdfErrors, setPdfErrors] = useState({});
+  const [pdfLoading, setPdfLoading] = useState({});
   const containerRefs = useRef({});
 
   const projectsData = [
@@ -74,6 +75,26 @@ const OurProjects = () => {
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
+  // Debug: Check if PDF exists
+  useEffect(() => {
+    projectsData.forEach((project) => {
+      const url = getPdfUrl(project.pdfUrl);
+      console.log(`Checking PDF: ${url}`);
+
+      fetch(url, { method: 'HEAD' })
+        .then(response => {
+          console.log(`PDF ${project.title}:`, response.status, response.ok);
+          if (!response.ok) {
+            setPdfErrors(prev => ({ ...prev, [project.id]: true }));
+          }
+        })
+        .catch(error => {
+          console.error(`Failed to fetch PDF ${project.title}:`, error);
+          setPdfErrors(prev => ({ ...prev, [project.id]: true }));
+        });
+    });
+  }, []);
+
   const viewPDF = (project) => {
     document.title = project.title;
     navigate(`/project/${project.id}`, {
@@ -83,12 +104,26 @@ const OurProjects = () => {
 
   // Get correct URL for production
   const getPdfUrl = (pdfPath) => {
-    // If it's already a full URL, return it
     if (pdfPath.startsWith('http')) return pdfPath;
-
-    // Get the base URL (works on both local and Vercel)
     const baseUrl = window.location.origin;
     return `${baseUrl}${pdfPath}`;
+  };
+
+  // Fallback using iframe when PDF.js fails
+  const renderFallback = (project) => {
+    if (pdfErrors[project.id]) {
+      const pdfUrl = getPdfUrl(project.pdfUrl);
+      return (
+        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+          <iframe
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+            title={project.title}
+            className="w-full h-full border-0"
+          />
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -134,30 +169,46 @@ const OurProjects = () => {
                 >
                   <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
 
-                  <Document
-                    file={getPdfUrl(project.pdfUrl)}
-                    loading={
-                      <div className="flex items-center justify-center h-full w-full">
-                        <div className="text-gray-400 text-sm">Loading preview...</div>
-                      </div>
-                    }
-                    error={
-                      <div className="flex items-center justify-center h-full w-full">
-                        <div className="text-gray-400 text-sm">Preview not available</div>
-                      </div>
-                    }
-                    onError={(error) => {
-                      console.error('PDF Error:', error);
-                      setPdfErrors(prev => ({ ...prev, [project.id]: true }));
-                    }}
-                  >
-                    <Page
-                      pageNumber={1}
-                      width={containerWidth[project.id] || 400}
-                      renderTextLayer={false}
-                      renderAnnotationLayer={false}
-                    />
-                  </Document>
+                  {/* PDF.js Document */}
+                  {!pdfErrors[project.id] ? (
+                    <Document
+                      file={getPdfUrl(project.pdfUrl)}
+                      loading={
+                        <div className="flex items-center justify-center h-full w-full">
+                          <div className="text-gray-400 text-sm">Loading preview...</div>
+                        </div>
+                      }
+                      error={(error) => {
+                        console.error('PDF Error for', project.title, error);
+                        setPdfErrors(prev => ({ ...prev, [project.id]: true }));
+                        return (
+                          <div className="flex items-center justify-center h-full w-full">
+                            <div className="text-gray-400 text-sm">Preview not available</div>
+                          </div>
+                        );
+                      }}
+                      onLoadSuccess={() => {
+                        console.log(`PDF loaded successfully: ${project.title}`);
+                        setPdfLoading(prev => ({ ...prev, [project.id]: false }));
+                      }}
+                    >
+                      <Page
+                        pageNumber={1}
+                        width={containerWidth[project.id] || 400}
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                      />
+                    </Document>
+                  ) : (
+                    // Fallback: Google Docs Viewer
+                    <div className="w-full h-full">
+                      <iframe
+                        src={`https://docs.google.com/viewer?url=${encodeURIComponent(getPdfUrl(project.pdfUrl))}&embedded=true`}
+                        title={project.title}
+                        className="w-full h-full border-0"
+                      />
+                    </div>
+                  )}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
