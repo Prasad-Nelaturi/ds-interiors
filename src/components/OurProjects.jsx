@@ -3,12 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-// Suppress PDF.js font warnings
 const originalWarn = console.warn;
 console.warn = (...args) => {
   if (args[0]?.includes?.('TT: undefined function')) {
@@ -21,6 +17,7 @@ const OurProjects = () => {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [containerWidth, setContainerWidth] = useState({});
+  const [pdfErrors, setPdfErrors] = useState({});
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -86,6 +83,14 @@ const OurProjects = () => {
     });
   };
 
+  // Helper to get full URL for PDF
+  const getPdfUrl = (pdfPath) => {
+    // If it's already a full URL, return it
+    if (pdfPath.startsWith('http')) return pdfPath;
+    // For Vercel, use the public URL
+    return `${window.location.origin}${pdfPath}`;
+  };
+
   return (
     <section className="min-h-screen bg-[#faf8f6] py-24 relative">
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-amber-50/50 to-transparent rounded-full blur-3xl -z-10" />
@@ -130,7 +135,7 @@ const OurProjects = () => {
                   <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
 
                   <Document
-                    file={project.pdfUrl}
+                    file={getPdfUrl(project.pdfUrl)}
                     loading={
                       <div className="flex items-center justify-center h-full w-full">
                         <div className="text-gray-400 text-sm">Loading preview...</div>
@@ -141,6 +146,10 @@ const OurProjects = () => {
                         <div className="text-gray-400 text-sm">Preview not available</div>
                       </div>
                     }
+                    onError={(error) => {
+                      console.error('PDF Error:', error);
+                      setPdfErrors(prev => ({ ...prev, [project.id]: true }));
+                    }}
                   >
                     <Page
                       pageNumber={1}
