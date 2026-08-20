@@ -45,7 +45,7 @@ const ContactUs = () => {
   const [copied, setCopied] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [showEmailOptions, setShowEmailOptions] = useState(false);
-  const [ setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const formRef = useRef(null);
 
   // Close mobile menu on resize
@@ -55,8 +55,12 @@ const ContactUs = () => {
         setIsMobileMenuOpen(false);
       }
     };
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const companyInfo = {
@@ -232,7 +236,7 @@ const ContactUs = () => {
         </div>
       )}
 
-      <section className="relative min-h-screen overflow-hidden bg-white flex items-center justify-center">
+      <section className="pt-[90px] relative min-h-screen overflow-hidden bg-white flex items-center justify-center">
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Orange Gradient */}

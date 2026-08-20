@@ -29,6 +29,7 @@ import {
   Radio,
   VenetianMask,
   Shield,
+  FileText
 } from "lucide-react";
 
 const Layout = () => {
@@ -149,6 +150,12 @@ const Layout = () => {
       icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Your privacy & data security",
       path: "/privacy-policy",
+    },
+    {
+      name: "Terms and Conditions",
+      icon: <FileText className="w-5 h-5 sm:w-6 sm:h-6" />,
+      description: "Your privacy & data security",
+      path: "/terms-conditions",
     },
   ];
 
@@ -302,11 +309,10 @@ const Layout = () => {
 
               <Link
                 to="/projects"
-                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${
-                  scrolled
-                    ? "text-gray-700 hover:text-orange-600"
-                    : "text-gray-700 hover:text-orange-600"
-                }`}
+                className={`transition-all duration-300 text-sm font-semibold tracking-wide relative group whitespace-nowrap ${scrolled
+                  ? "text-gray-700 hover:text-orange-600"
+                  : "text-gray-700 hover:text-orange-600"
+                  }`}
               >
                 Our Projects
                 <span
@@ -417,7 +423,7 @@ const Layout = () => {
           {/* Mobile Menu */}
           <div
             className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${isMenuOpen
-              ? "top-[55px] opacity-100 visible"
+              ? "top-[64px] opacity-100 visible z-50"
               : "top-[-100%] opacity-0 invisible"
               }`}
             style={{ maxHeight: "calc(100vh - 60px)" }}
@@ -721,6 +727,12 @@ const Layout = () => {
                     Privacy Policy
                   </Link>
                 </li>
+                <li>
+                  <Link to="/terms-conditions" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
+                    Terms and Conditions
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -780,6 +792,12 @@ const Layout = () => {
                   Privacy Policy
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300"></span>
                 </Link>
+                <span className="text-gray-700">|</span>
+                <Link to="/terms-conditions" className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
+                  Terms and Conditions
+                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+
                 <span className="text-gray-700">|</span>
                 <span className="text-gray-400 flex items-center gap-1.5">
                   Designed with

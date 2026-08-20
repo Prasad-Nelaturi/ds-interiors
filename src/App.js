@@ -33,6 +33,7 @@ import OurProjects from "./components/OurProjects";
 import ProjectPDFView from "./components/ProjectPDFView";
 import GalleryPage from "./components/GalleryPage";
 import ModularFactory from "./components/ModularFactory";
+import TermsConditions from "./components/TermsConditions";
 
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
             <Route path="/projects" element={<OurProjects />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-conditions" element={<TermsConditions />} />
 
             <Route
               path="/modular-factory"
