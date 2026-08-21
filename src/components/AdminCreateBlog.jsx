@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createClient } from "@sanity/client";
 import { Upload, X, Lock, Eye, EyeOff } from "lucide-react";
 
@@ -14,7 +14,6 @@ const sanityClient = createClient({
 const SECURITY_KEY = process.env.REACT_APP_ADMIN_KEY;
 
 const AdminCreateBlog = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [showKey, setShowKey] = useState(false);
@@ -186,7 +185,7 @@ const AdminCreateBlog = () => {
         featured: blog.featured,
         publishedAt: new Date().toISOString(),
         externalImage: finalImageUrl,
-        content: blog.content, 
+        content: blog.content,
       });
 
       console.log("Blog created:", result);
@@ -196,7 +195,7 @@ const AdminCreateBlog = () => {
       });
 
       setTimeout(() => {
-        navigate("/blogs");
+        window.location.href = "/blogs";
       }, 2000);
     } catch (error) {
       console.error("Error:", error);
@@ -245,11 +244,10 @@ const AdminCreateBlog = () => {
 
             {message.text && (
               <div
-                className={`p-3 rounded-lg mb-4 text-sm ${
-                  message.type === "success"
+                className={`p-3 rounded-lg mb-4 text-sm ${message.type === "success"
                     ? "bg-green-100 text-green-700"
                     : "bg-red-100 text-red-700"
-                }`}
+                  }`}
               >
                 {message.text}
               </div>
@@ -284,11 +282,10 @@ const AdminCreateBlog = () => {
         {/* Message */}
         {message.text && (
           <div
-            className={`p-4 rounded-lg mb-6 ${
-              message.type === "success"
+            className={`p-4 rounded-lg mb-6 ${message.type === "success"
                 ? "bg-green-100 text-green-700 border border-green-300"
                 : "bg-red-100 text-red-700 border border-red-300"
-            }`}
+              }`}
           >
             {message.text}
           </div>

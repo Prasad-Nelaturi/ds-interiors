@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Home,
   Building,
@@ -26,8 +26,6 @@ const ServicesSection = ({
   scrollToSection = () => { },
 }) => {
   const [showAll, setShowAll] = useState(false);
-  const navigate = useNavigate();
-
   const servicesList = [
     {
       name: "Interior Design",
@@ -167,8 +165,7 @@ const ServicesSection = ({
         block: "start"
       });
     } else {
-      // Fallback: navigate to contact page if ref is not available
-      navigate('/contact');
+      window.location.href = '/contact';
     }
   };
 

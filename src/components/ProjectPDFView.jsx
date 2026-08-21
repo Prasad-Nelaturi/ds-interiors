@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { ArrowLeft, Download } from "lucide-react";
 
 const ProjectPDFView = () => {
     const location = useLocation();
-    const navigate = useNavigate();
-
     const [project, setProject] = useState(null);
 
     useEffect(() => {
@@ -13,9 +11,9 @@ const ProjectPDFView = () => {
             setProject(location.state.project);
             document.title = location.state.project.title;
         } else {
-            navigate("/projects", { replace: true });
+            window.location.href = "/projects";
         }
-    }, [location.state, navigate]);
+    }, [location.state]);
 
     if (!project) {
         return (
@@ -58,8 +56,8 @@ const ProjectPDFView = () => {
                 }}
             >
                 {/* BACK */}
-                <button
-                    onClick={() => navigate("/projects")}
+                <Link
+                    to="/projects"
                     style={{
                         border: 0,
                         background: "transparent",
@@ -68,6 +66,7 @@ const ProjectPDFView = () => {
                         alignItems: "center",
                         gap: "8px",
                         padding: "6px",
+                        textDecoration: "none",
                     }}
                 >
                     <span
@@ -87,7 +86,7 @@ const ProjectPDFView = () => {
                     <span className="pdf-back-text">
                         Back
                     </span>
-                </button>
+                </Link>
 
                 {/* TITLE */}
                 <div

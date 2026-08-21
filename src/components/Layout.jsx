@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import ConsultationButton from "../components/ConsultationButton";
 import {
   Phone,
@@ -34,7 +34,6 @@ import {
 
 const Layout = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
@@ -175,8 +174,7 @@ const Layout = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleServiceClick = (servicePath) => {
-    navigate(servicePath);
+  const closeAllMenus = () => {
     setIsMenuOpen(false);
     setIsServicesDropdownOpen(false);
     setIsMoreDropdownOpen(false);
@@ -201,15 +199,7 @@ const Layout = () => {
             <Link
               to="/"
               className="flex items-center gap-3 flex-shrink-0 group"
-              onClick={() => {
-                if (isHomePage && heroRef.current) {
-                  heroRef.current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
-                setIsMenuOpen(false);
-              }}
+              onClick={closeAllMenus}
             >
               <div className="relative w-12 h-12 rounded-xl overflow-hidden group-hover:shadow-lg transition-all duration-300">
                 <img
@@ -239,6 +229,7 @@ const Layout = () => {
                   ? "text-gray-700 hover:text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
                   }`}
+                onClick={closeAllMenus}
               >
                 Home
                 <span
@@ -252,6 +243,7 @@ const Layout = () => {
                   ? "text-gray-700 hover:text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
                   }`}
+                onClick={closeAllMenus}
               >
                 About Us
                 <span
@@ -259,7 +251,7 @@ const Layout = () => {
                 ></span>
               </Link>
 
-              {/* Services Dropdown */}
+              {/* Services Dropdown - ✅ Now uses Link */}
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() =>
@@ -272,7 +264,8 @@ const Layout = () => {
                 >
                   Services
                   <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-300 ${isServicesDropdownOpen ? "rotate-180" : ""}`}
+                    className={`w-3 h-3 transition-transform duration-300 ${isServicesDropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                   <span
                     className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
@@ -281,12 +274,13 @@ const Layout = () => {
 
                 {isServicesDropdownOpen && (
                   <div className="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
-                    <div className="py-2 max-h-[70vh] overflow-y-auto">
-
+                    <div className="py-2 max-h-[60vh] overflow-y-auto">
                       {servicesList.map((service, idx) => (
-                        <button
+                        // ✅ CHANGED: button → Link
+                        <Link
                           key={idx}
-                          onClick={() => handleServiceClick(service.path)}
+                          to={service.path}
+                          onClick={closeAllMenus}
                           className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left group"
                         >
                           <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
@@ -300,7 +294,7 @@ const Layout = () => {
                               {service.description}
                             </p>
                           </div>
-                        </button>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -313,6 +307,7 @@ const Layout = () => {
                   ? "text-gray-700 hover:text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
                   }`}
+                onClick={closeAllMenus}
               >
                 Our Projects
                 <span
@@ -326,6 +321,7 @@ const Layout = () => {
                   ? "text-gray-700 hover:text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
                   }`}
+                onClick={closeAllMenus}
               >
                 Gallery
                 <span
@@ -339,6 +335,7 @@ const Layout = () => {
                   ? "text-gray-700 hover:text-orange-600"
                   : "text-gray-700 hover:text-orange-600"
                   }`}
+                onClick={closeAllMenus}
               >
                 Contact Us
                 <span
@@ -346,7 +343,7 @@ const Layout = () => {
                 ></span>
               </Link>
 
-              {/* More Dropdown */}
+              {/* More Dropdown - ✅ Now uses Link */}
               <div className="relative" ref={moreDropdownRef}>
                 <button
                   onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}
@@ -357,7 +354,8 @@ const Layout = () => {
                 >
                   More
                   <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-300 ${isMoreDropdownOpen ? "rotate-180" : ""}`}
+                    className={`w-3 h-3 transition-transform duration-300 ${isMoreDropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                   <span
                     className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full bg-orange-500`}
@@ -368,9 +366,11 @@ const Layout = () => {
                   <div className="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                     <div className="py-2">
                       {moreList.map((item, idx) => (
-                        <button
+                        // ✅ CHANGED: button → Link
+                        <Link
                           key={idx}
-                          onClick={() => handleServiceClick(item.path)}
+                          to={item.path}
+                          onClick={closeAllMenus}
                           className="w-full px-4 py-3 flex items-center gap-3 hover:bg-orange-50 transition-all duration-300 text-left group"
                         >
                           <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
@@ -384,7 +384,7 @@ const Layout = () => {
                               {item.description}
                             </p>
                           </div>
-                        </button>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -420,7 +420,7 @@ const Layout = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - ✅ All converted to Link */}
           <div
             className={`lg:hidden fixed left-0 right-0 bg-white rounded-b-2xl shadow-xl transition-all duration-500 overflow-y-auto ${isMenuOpen
               ? "top-[64px] opacity-100 visible z-50"
@@ -431,7 +431,7 @@ const Layout = () => {
             <div className="py-4 px-4 space-y-2">
               <Link
                 to="/"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Home
@@ -439,13 +439,13 @@ const Layout = () => {
 
               <Link
                 to="/about"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 About Us
               </Link>
 
-              {/* Mobile Services Dropdown */}
+              {/* Mobile Services Dropdown - ✅ uses Link */}
               <div>
                 <button
                   onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
@@ -453,20 +453,23 @@ const Layout = () => {
                 >
                   <span>Services</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
                 {isMobileServicesOpen && (
                   <div className="ml-4 mt-1 space-y-1 border-l-2 border-orange-200 pl-3">
                     {servicesList.map((service, idx) => (
-                      <button
+                      // ✅ CHANGED: button → Link
+                      <Link
                         key={idx}
-                        onClick={() => handleServiceClick(service.path)}
-                        className="w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
+                        to={service.path}
+                        onClick={closeAllMenus}
+                        className="block w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
                       >
                         {service.name}
-                      </button>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -474,7 +477,7 @@ const Layout = () => {
 
               <Link
                 to="/projects"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Our Projects
@@ -482,7 +485,7 @@ const Layout = () => {
 
               <Link
                 to="/gallery"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Gallery
@@ -490,13 +493,13 @@ const Layout = () => {
 
               <Link
                 to="/contact"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="block w-full text-left text-gray-700 py-2.5 px-3 rounded-lg hover:bg-orange-50 font-medium"
               >
                 Contact Us
               </Link>
 
-              {/* Mobile More Dropdown */}
+              {/* Mobile More Dropdown - ✅ uses Link */}
               <div>
                 <button
                   onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
@@ -504,20 +507,23 @@ const Layout = () => {
                 >
                   <span>More</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-300 ${isMobileMoreOpen ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 transition-transform duration-300 ${isMobileMoreOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
                 {isMobileMoreOpen && (
                   <div className="ml-4 mt-1 space-y-1 border-l-2 border-orange-200 pl-3">
                     {moreList.map((item, idx) => (
-                      <button
+                      // ✅ CHANGED: button → Link
+                      <Link
                         key={idx}
-                        onClick={() => handleServiceClick(item.path)}
-                        className="w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
+                        to={item.path}
+                        onClick={closeAllMenus}
+                        className="block w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg"
                       >
                         {item.name}
-                      </button>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -542,7 +548,7 @@ const Layout = () => {
         <Outlet context={{ heroRef, aboutRef, servicesRef, contactRef }} />
       </main>
 
-      {/* Footer */}
+      {/* Footer - ✅ All converted to Link */}
       <footer className="bg-gray-900 text-white border-t border-gray-800 relative overflow-hidden">
         {/* Premium Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800/50"></div>
@@ -558,7 +564,7 @@ const Layout = () => {
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-center md:text-left">
-                <Link to="/" className="inline-block group">
+                <Link to="/" className="inline-block group" onClick={closeAllMenus}>
                   <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 font-bold text-2xl sm:text-3xl md:text-4xl leading-tight tracking-tight">
                     Dsigner Studio Interiors
                   </h3>
@@ -621,31 +627,31 @@ const Layout = () => {
               </h4>
               <ul className="space-y-2.5">
                 <li>
-                  <Link to="/" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link to="/about" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/about" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/gallery" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/gallery" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Gallery
                   </Link>
                 </li>
                 <li>
-                  <Link to="/contact" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/contact" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Contact Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/blogs" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/blogs" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Blogs
                   </Link>
@@ -653,7 +659,7 @@ const Layout = () => {
               </ul>
             </div>
 
-            {/* Column 2 - Services */}
+            {/* Column 2 - Services - ✅ Now uses Link */}
             <div>
               <h4 className="text-white font-semibold text-base sm:text-lg mb-4 relative inline-block">
                 Services
@@ -661,49 +667,54 @@ const Layout = () => {
               </h4>
               <ul className="space-y-2.5">
                 <li>
-                  <button
-                    onClick={() => handleServiceClick('/services/interior-design')}
+                  <Link
+                    to="/services/interior-design"
+                    onClick={closeAllMenus}
                     className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Interior Design
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleServiceClick('/services/residential')}
+                  <Link
+                    to="/services/residential"
+                    onClick={closeAllMenus}
                     className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Residential Interiors
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleServiceClick('/services/commercial')}
+                  <Link
+                    to="/services/commercial"
+                    onClick={closeAllMenus}
                     className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Commercial Interiors
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleServiceClick('/services/luxury-villas')}
+                  <Link
+                    to="/services/luxury-villas"
+                    onClick={closeAllMenus}
                     className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Luxury Villa Design
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleServiceClick('/services/3d-visualization')}
+                  <Link
+                    to="/services/3d-visualization"
+                    onClick={closeAllMenus}
                     className="text-gray-400 hover:text-white transition-all duration-300 text-sm text-left flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     3D Visualization
-                  </button>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -716,19 +727,19 @@ const Layout = () => {
               </h4>
               <ul className="space-y-2.5">
                 <li>
-                  <Link to="/modular-factory" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/modular-factory" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Modular Factory
                   </Link>
                 </li>
                 <li>
-                  <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/privacy-policy" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="/terms-conditions" className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
+                  <Link to="/terms-conditions" onClick={closeAllMenus} className="text-gray-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></span>
                     Terms and Conditions
                   </Link>
@@ -788,12 +799,12 @@ const Layout = () => {
                 &copy; {new Date().getFullYear()} <span className="text-orange-400 font-medium">Dsigner Studio Interiors</span>. All rights reserved.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm">
-                <Link to="/privacy-policy" className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
+                <Link to="/privacy-policy" onClick={closeAllMenus} className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
                   Privacy Policy
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300"></span>
                 </Link>
                 <span className="text-gray-700">|</span>
-                <Link to="/terms-conditions" className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
+                <Link to="/terms-conditions" onClick={closeAllMenus} className="text-gray-400 hover:text-orange-400 transition-all duration-300 relative group">
                   Terms and Conditions
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300"></span>
                 </Link>

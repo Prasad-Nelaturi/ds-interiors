@@ -139,7 +139,7 @@ const TermsConditions = ({ termsRef }) => {
   return (
     <section
       ref={termsRef}
-      className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-slate-50 via-white to-orange-50/30 relative overflow-hidden"
+      className="py-16 sm:py-20 md:py-4 bg-gradient-to-br from-slate-50 via-white to-orange-50/30 relative overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}

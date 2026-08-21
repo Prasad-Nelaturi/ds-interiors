@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -18,7 +18,6 @@ console.warn = (...args) => {
 };
 
 const OurProjects = () => {
-  const navigate = useNavigate();
   const [containerWidth, setContainerWidth] = useState({});
   const [pdfErrors, setPdfErrors] = useState({});
   const [pdfLoading, setPdfLoading] = useState({});
@@ -95,13 +94,6 @@ const OurProjects = () => {
     });
   }, []);
 
-  const viewPDF = (project) => {
-    document.title = project.title;
-    navigate(`/project/${project.id}`, {
-      state: { project },
-    });
-  };
-
   // Get correct URL for production
   const getPdfUrl = (pdfPath) => {
     if (pdfPath.startsWith('http')) return pdfPath;
@@ -154,12 +146,15 @@ const OurProjects = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
           {projectsData.map((project, index) => (
-            <div
-              key={project.id}
-              onClick={() => viewPDF(project)}
-              className="group cursor-pointer"
+            <Link
+              to={`/project/${project.id}`}
+              state={{ project }}
+              className="group cursor-pointer block"
               style={{
                 animation: `fade-in 0.6s ease-out both ${index * 100}ms`,
+              }}
+              onClick={() => {
+                document.title = project.title;
               }}
             >
               <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-2 border border-stone-100/50">
@@ -241,7 +236,7 @@ const OurProjects = () => {
                   <div className="mt-3 h-px w-8 bg-gradient-to-r from-orange-300/50 to-transparent group-hover:w-16 transition-all duration-500" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

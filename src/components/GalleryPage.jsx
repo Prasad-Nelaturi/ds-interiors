@@ -494,21 +494,19 @@ const GalleryPage = () => {
             <div className="flex gap-2 items-center">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === "grid"
-                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                className={`p-2 rounded-lg transition-all duration-300 ${viewMode === "grid"
+                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
               >
                 <Grid className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <button
                 onClick={() => setViewMode("masonry")}
-                className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === "masonry"
-                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                className={`p-2 rounded-lg transition-all duration-300 ${viewMode === "masonry"
+                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
               >
                 <LayoutGrid className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
@@ -522,11 +520,10 @@ const GalleryPage = () => {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`flex-shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                    selectedCategory === category
-                      ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
+                  className={`flex-shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${selectedCategory === category
+                    ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
                 >
                   {category}
                 </button>
@@ -561,11 +558,10 @@ const GalleryPage = () => {
           </div>
         ) : (
           <div
-            className={`grid ${
-              viewMode === "grid"
-                ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6"
-                : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-            }`}
+            className={`grid ${viewMode === "grid"
+              ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6"
+              : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+              }`}
           >
             {filteredImages.map((item, index) => (
               <div
@@ -574,11 +570,10 @@ const GalleryPage = () => {
                 className="group relative cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
                 <div
-                  className={`relative ${
-                    viewMode === "masonry" && index % 3 === 0
-                      ? "h-72 sm:h-80 lg:h-96"
-                      : "h-56 sm:h-64 md:h-72"
-                  }`}
+                  className={`relative ${viewMode === "masonry" && index % 3 === 0
+                    ? "h-72 sm:h-80 lg:h-96"
+                    : "h-56 sm:h-64 md:h-72"
+                    }`}
                 >
                   <img
                     src={item.image}
@@ -608,11 +603,10 @@ const GalleryPage = () => {
                       className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-500 hover:bg-white"
                     >
                       <Heart
-                        className={`w-5 h-5 ${
-                          likedImages.includes(item.id)
-                            ? "fill-red-500 text-red-500"
-                            : "text-orange-500"
-                        }`}
+                        className={`w-5 h-5 ${likedImages.includes(item.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-orange-500"
+                          }`}
                       />
                     </button>
                   </div>
@@ -626,11 +620,10 @@ const GalleryPage = () => {
                   {/* Like Count */}
                   <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-white text-xs flex items-center gap-1">
                     <Heart
-                      className={`w-3 h-3 ${
-                        likedImages.includes(item.id)
-                          ? "fill-red-500 text-red-500"
-                          : ""
-                      }`}
+                      className={`w-3 h-3 ${likedImages.includes(item.id)
+                        ? "fill-red-500 text-red-500"
+                        : ""
+                        }`}
                     />
                     {likedImages.includes(item.id) ? "1" : "0"}
                   </div>
@@ -697,11 +690,10 @@ const GalleryPage = () => {
               e.stopPropagation();
               navigateLightbox(-1);
             }}
-            className={`absolute left-3 sm:left-6 text-white/60 hover:text-white transition-all duration-300 z-20 bg-black/30 hover:bg-black/50 rounded-full p-2 sm:p-3 backdrop-blur-sm ${
-              currentIndex === 0
-                ? "opacity-30 cursor-not-allowed"
-                : "hover:scale-110"
-            }`}
+            className={`absolute left-3 sm:left-6 text-white/60 hover:text-white transition-all duration-300 z-20 bg-black/30 hover:bg-black/50 rounded-full p-2 sm:p-3 backdrop-blur-sm ${currentIndex === 0
+              ? "opacity-30 cursor-not-allowed"
+              : "hover:scale-110"
+              }`}
             disabled={currentIndex === 0}
             aria-label="Previous image"
           >
@@ -713,11 +705,10 @@ const GalleryPage = () => {
               e.stopPropagation();
               navigateLightbox(1);
             }}
-            className={`absolute right-3 sm:right-6 text-white/60 hover:text-white transition-all duration-300 z-20 bg-black/30 hover:bg-black/50 rounded-full p-2 sm:p-3 backdrop-blur-sm ${
-              currentIndex === filteredImages.length - 1
-                ? "opacity-30 cursor-not-allowed"
-                : "hover:scale-110"
-            }`}
+            className={`absolute right-3 sm:right-6 text-white/60 hover:text-white transition-all duration-300 z-20 bg-black/30 hover:bg-black/50 rounded-full p-2 sm:p-3 backdrop-blur-sm ${currentIndex === filteredImages.length - 1
+              ? "opacity-30 cursor-not-allowed"
+              : "hover:scale-110"
+              }`}
             disabled={currentIndex === filteredImages.length - 1}
             aria-label="Next image"
           >
@@ -799,18 +790,16 @@ const GalleryPage = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => toggleLike(selectedImage.id)}
-                      className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm transition-all duration-300 text-sm ${
-                        likedImages.includes(selectedImage.id)
-                          ? "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
-                          : "bg-white/10 text-white/70 border border-white/10 hover:bg-white/20 hover:text-white"
-                      }`}
+                      className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm transition-all duration-300 text-sm ${likedImages.includes(selectedImage.id)
+                        ? "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+                        : "bg-white/10 text-white/70 border border-white/10 hover:bg-white/20 hover:text-white"
+                        }`}
                     >
                       <Heart
-                        className={`w-4 h-4 transition-transform duration-300 ${
-                          likedImages.includes(selectedImage.id)
-                            ? "fill-red-400 text-red-400 scale-110"
-                            : "group-hover:scale-110"
-                        }`}
+                        className={`w-4 h-4 transition-transform duration-300 ${likedImages.includes(selectedImage.id)
+                          ? "fill-red-400 text-red-400 scale-110"
+                          : "group-hover:scale-110"
+                          }`}
                       />
                       <span className="hidden xs:inline">
                         {likedImages.includes(selectedImage.id)
