@@ -1,4 +1,11 @@
+# public/robots.txt
+
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /project/
 
 Sitemap: https://www.dsignerstudiointeriors.com/sitemap.xml
+
+# Crawl-delay: 5
