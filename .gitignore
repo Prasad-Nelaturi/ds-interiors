@@ -1,20 +1,31 @@
-# Node modules
+# Dependencies
 node_modules/
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs/
+*.log
 
 # Build
 /build
 /dist
 *.tsbuildinfo
 
-# Environment
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env*
+
+# Vercel
+.vercel/
+
+# Sanity
+.sanity/
 
 # IDE
 .vscode/
@@ -27,17 +38,8 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Logs
-logs/
-*.log
-
-# Package lock (optional - can ignore or keep)
-# package-lock.json
-
 # Coverage
 coverage/
 
-# Sanity
-.sanity/
-.vercel
-.env*
+# Package lock
+# Keep package-lock.json committed
