@@ -21,13 +21,11 @@ const SEO = ({
     const location = useLocation();
     const pathname = location.pathname;
 
-    // Get SEO data for the current route
     const routeSEO = getSEOForRoute(pathname);
 
-    // Use props if provided, otherwise use route data
     const finalTitle = title || routeSEO.title || defaultSEO.title;
     const finalDescription = description || routeSEO.description || defaultSEO.description;
-    const finalCanonical = canonical || `${defaultSEO.canonical}${pathname.slice(1)}`;
+    const finalCanonical = canonical || `${defaultSEO.canonical}${pathname}`;
     const finalImage = image || defaultSEO.image;
     const finalImageAlt = imageAlt || defaultSEO.imageAlt;
     const finalKeywords = keywords || routeSEO.keywords || defaultSEO.keywords;
