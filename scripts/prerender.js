@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const http = require("http");
-const { exec } = require("child_process");
-const { chromium } = require("playwright");
+const puppeteer = require("puppeteer");
 
 const BUILD_DIR = path.resolve(__dirname, "../build");
 const PORT = 4173;
@@ -34,14 +33,14 @@ const routes = [
 ];
 
 function getFilePath(urlPath) {
-    const cleanPath = decodeURIComponent(urlPath.split("?")[0]);
+    const cleanPath = decodeURIComponent(
+        urlPath.split("?")[0]
+    );
 
-    // Homepage
     if (cleanPath === "/" || cleanPath === "") {
         return path.join(BUILD_DIR, "index.html");
     }
 
-    // Static files
     const directPath = path.join(
         BUILD_DIR,
         cleanPath.replace(/^\/+/, "")
@@ -54,7 +53,6 @@ function getFilePath(urlPath) {
         return directPath;
     }
 
-    // Pre-rendered route or SPA fallback
     const routeIndex = path.join(
         BUILD_DIR,
         cleanPath.replace(/^\/+/, ""),
@@ -79,7 +77,7 @@ function startServer() {
                 return;
             }
 
-            const ext = path.extname(filePath);
+            const ext = path.extname(filePath).toLowerCase();
 
             const contentTypes = {
                 ".html": "text/html; charset=utf-8",
@@ -97,90 +95,87 @@ function startServer() {
                 ".ttf": "font/ttf",
             };
 
-            const contentType =
-                contentTypes[ext] || "application/octet-stream";
-
             res.writeHead(200, {
-                "Content-Type": contentType,
+                "Content-Type":
+                    contentTypes[ext] ||
+                    "application/octet-stream",
             });
 
             fs.createReadStream(filePath).pipe(res);
         });
 
         server.listen(PORT, () => {
-            console.log(`🚀 Preview server running at ${BASE_URL}`);
+            console.log(
+                `Preview server running at ${BASE_URL}`
+            );
+
             resolve(server);
         });
     });
 }
 
-function waitForServer() {
-    return new Promise((resolve, reject) => {
-        const command =
-            process.platform === "win32"
-                ? `powershell -Command "(Invoke-WebRequest -UseBasicParsing http://localhost:${PORT}).StatusCode"`
-                : `curl -s -o /dev/null -w "%{http_code}" http://localhost:${PORT}`;
+function getOutputPath(route) {
+    if (route === "/") {
+        return path.join(BUILD_DIR, "index.html");
+    }
 
-        exec(command, (error) => {
-            if (error) {
-                reject(error);
-                return;
-            }
+    const routeDirectory = path.join(
+        BUILD_DIR,
+        route.replace(/^\/+/, "")
+    );
 
-            resolve();
-        });
+    fs.mkdirSync(routeDirectory, {
+        recursive: true,
     });
+
+    return path.join(routeDirectory, "index.html");
 }
 
 async function prerender() {
     if (!fs.existsSync(BUILD_DIR)) {
-        console.error("❌ build folder does not exist.");
+        console.error(
+            "Build directory does not exist. Run npm run build first."
+        );
         process.exit(1);
     }
+
+    console.log("");
+    console.log("Starting Puppeteer prerender...");
+    console.log("");
 
     const server = await startServer();
 
     try {
-        await waitForServer();
-
-        const browser = await chromium.launch({
+        const browser = await puppeteer.launch({
             headless: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+            ],
         });
 
-        const context = await browser.newContext({
-            viewport: {
-                width: 1440,
-                height: 900,
-            },
+        const page = await browser.newPage();
+
+        await page.setViewport({
+            width: 1440,
+            height: 900,
         });
-
-        const page = await context.newPage();
-
-        page.on("console", (message) => {
-            if (message.type() === "error") {
-                console.log("Browser error:", message.text());
-            }
-        });
-
-        page.on("pageerror", (error) => {
-            console.log("Page error:", error.message);
-        });
-
-        console.log("\n🚀 Starting prerendering...\n");
 
         for (const route of routes) {
             const url = `${BASE_URL}${route}`;
 
-            console.log(`⏳ Rendering ${route}`);
+            console.log(`Rendering: ${route}`);
 
             try {
                 const response = await page.goto(url, {
-                    waitUntil: "networkidle",
+                    waitUntil: "networkidle2",
                     timeout: 120000,
                 });
 
                 if (!response) {
-                    console.error(`❌ No response: ${route}`);
+                    console.error(
+                        `No response received for ${route}`
+                    );
                     continue;
                 }
 
@@ -188,49 +183,32 @@ async function prerender() {
 
                 if (status >= 400) {
                     console.error(
-                        `❌ ${route} returned HTTP ${status}`
+                        `${route} returned HTTP ${status}`
                     );
                     continue;
                 }
 
-                // Give React additional time to finish rendering.
-                await page.waitForTimeout(1000);
-
-                // Get the fully rendered HTML.
-                const html = await page.content();
-
-                const routePath =
-                    route === "/"
-                        ? BUILD_DIR
-                        : path.join(
-                            BUILD_DIR,
-                            route.replace(/^\/+/, "")
-                        );
-
-                fs.mkdirSync(routePath, {
-                    recursive: true,
-                });
-
-                const outputFile = path.join(
-                    routePath,
-                    "index.html"
+                // Give React time to finish rendering dynamic content.
+                await new Promise((resolve) =>
+                    setTimeout(resolve, 1500)
                 );
 
+                const html = await page.content();
+
+                const outputPath = getOutputPath(route);
+
                 fs.writeFileSync(
-                    outputFile,
-                    "<!DOCTYPE html>\n" + html,
+                    outputPath,
+                    html,
                     "utf8"
                 );
 
                 console.log(
-                    `✅ ${route} → ${path.relative(
-                        BUILD_DIR,
-                        outputFile
-                    )}`
+                    `Generated: ${outputPath}`
                 );
             } catch (error) {
                 console.error(
-                    `❌ Failed ${route}:`,
+                    `Failed to render ${route}:`,
                     error.message
                 );
             }
@@ -238,10 +216,18 @@ async function prerender() {
 
         await browser.close();
 
-        console.log("\n🎉 PRE-RENDERING COMPLETED");
+        console.log("");
         console.log(
-            `📁 Output: ${BUILD_DIR}`
+            "Puppeteer prerender completed successfully."
         );
+        console.log("");
+    } catch (error) {
+        console.error(
+            "Puppeteer prerender failed:",
+            error
+        );
+
+        process.exitCode = 1;
     } finally {
         server.close();
     }
