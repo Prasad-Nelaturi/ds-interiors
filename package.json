@@ -2,6 +2,9 @@
   "name": "ds-interiors",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@sanity/client": "^7.22.0",
     "@sparticuz/chromium": "^132.0.0",
