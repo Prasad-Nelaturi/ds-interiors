@@ -1,7 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const http = require("http");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 
 const BUILD_DIR = path.resolve(__dirname, "../build");
 const PORT = 4173;
@@ -147,11 +148,10 @@ async function prerender() {
 
     try {
         const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
             headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-            ],
         });
 
         const page = await browser.newPage();
