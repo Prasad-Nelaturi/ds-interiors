@@ -204,7 +204,7 @@ const HeroCarousel = () => {
     <div className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]">
       {/* ===== LOAD BAR ===== */}
       <div
-        className="absolute top-0 left-0 h-0.5 z-[9000] bg-gradient-to-r from-amber-400 to-amber-600 transition-all duration-300"
+        className="absolute top-0 left-0 h-0.5 z-1 bg-gradient-to-r from-amber-400 to-amber-600 transition-all duration-300"
         style={{
           width: `${(loadedCount / totalSlides) * 100}%`,
           opacity: loadedCount === totalSlides ? 0 : 1,

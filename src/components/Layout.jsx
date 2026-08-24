@@ -191,7 +191,7 @@ const Layout = () => {
       <div className="container mx-auto min-h-screen bg-white overflow-x-hidden">
         {/* Navigation */}
         <nav
-          className={`container mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+          className={`container mx-auto fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${scrolled
             ? "bg-white/10 backdrop-blur-xl shadow-lg shadow-black/5 py-2"
             : "bg-transparent bg-white py-2"
             }`}
