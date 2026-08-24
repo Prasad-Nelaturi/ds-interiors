@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import { getSEOForRoute } from "../config/seo";
+import { getSEOForRoute } from "../lib/seoData";
 
 const SEO = ({
     title,

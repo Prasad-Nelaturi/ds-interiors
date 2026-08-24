@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
-import { getSEOForRoute } from "../../config/seoConfig";
+import { getSEOForRoute } from "../../lib/seoData";
 
 const ServiceTemplate = ({
   title,
@@ -80,15 +80,15 @@ const ServiceTemplate = ({
 
   return (
     <>
-
-      <SEO
-        title={seo.title}
-        description={seo.description}
-        keywords={seo.keywords}
-        canonical={seo.canonical}
-        noIndex={seo.noIndex}
-      />
-
+      {seo && (
+        <SEO
+          title={seo.title}
+          description={seo.description}
+          keywords={seo.keywords}
+          canonical={seo.canonical}
+          noIndex={seo.noIndex}
+        />
+      )}
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">
