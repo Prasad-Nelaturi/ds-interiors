@@ -39,15 +39,6 @@ const ServiceTemplate = ({
     amount: 0.2,
   });
 
-  /*
-   * Get SEO from the current route.
-   *
-   * Example:
-   * /services/styling
-   *
-   * will automatically get:
-   * Interior Styling & Decor | Dsigner Studio Interiors Hyderabad
-   */
   const seo = getSEOForRoute(location.pathname);
 
   const toggleFaq = (index) => {
@@ -89,9 +80,6 @@ const ServiceTemplate = ({
 
   return (
     <>
-      {/* =====================================================
-          SEO
-      ===================================================== */}
 
       <SEO
         title={seo.title}
@@ -101,15 +89,7 @@ const ServiceTemplate = ({
         noIndex={seo.noIndex}
       />
 
-      {/* =====================================================
-          PAGE
-      ===================================================== */}
-
       <div className="min-h-screen bg-white overflow-hidden">
-
-        {/* =====================================================
-            HERO
-        ===================================================== */}
 
         <section className="relative h-screen overflow-hidden">
 
@@ -254,10 +234,6 @@ const ServiceTemplate = ({
 
         </section>
 
-        {/* =====================================================
-            STATS
-        ===================================================== */}
-
         <section className="relative py-8 bg-gradient-to-r from-amber-600 to-orange-600">
 
           <div className="container mx-auto px-6 relative z-10">
@@ -319,10 +295,6 @@ const ServiceTemplate = ({
           </div>
 
         </section>
-
-        {/* =====================================================
-            FEATURES
-        ===================================================== */}
 
         <section
           ref={sectionRef}
@@ -448,10 +420,6 @@ const ServiceTemplate = ({
 
         </section>
 
-        {/* =====================================================
-            BENEFITS
-        ===================================================== */}
-
         <section className="py-24 bg-gradient-to-br from-gray-50 to-amber-50/20">
 
           <div className="container mx-auto px-6">
@@ -502,10 +470,6 @@ const ServiceTemplate = ({
           </div>
 
         </section>
-
-        {/* =====================================================
-            PROCESS
-        ===================================================== */}
 
         <section className="py-24 bg-white">
 
@@ -582,9 +546,6 @@ const ServiceTemplate = ({
 
         </section>
 
-        {/* =====================================================
-            FAQ
-        ===================================================== */}
 
         <section className="py-24 bg-white">
 
@@ -651,10 +612,6 @@ const ServiceTemplate = ({
           </div>
 
         </section>
-
-        {/* =====================================================
-            CTA
-        ===================================================== */}
 
         <section className="relative py-24 overflow-hidden bg-gradient-to-r from-amber-600 to-orange-600">
 
