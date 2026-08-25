@@ -80,6 +80,7 @@ const ServiceTemplate = ({
 
   return (
     <>
+      {seo && (
         <SEO
           title={seo.title}
           description={seo.description}
@@ -87,6 +88,7 @@ const ServiceTemplate = ({
           canonical={seo.canonical}
           noIndex={seo.noIndex}
         />
+      )}
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">
@@ -156,7 +158,7 @@ const ServiceTemplate = ({
 
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
 
-                    {seo.h1 || title}
+                    {title}
 
                     <span className="py-2 block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                       Reimagined
