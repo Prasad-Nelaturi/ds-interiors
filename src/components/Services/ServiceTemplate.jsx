@@ -14,9 +14,6 @@ import {
   Heart,
 } from "lucide-react";
 
-import SEO from "../../components/SEO";
-import { getSEOForRoute } from "../../lib/seoData";
-
 const ServiceTemplate = ({
   title,
   description,
@@ -38,8 +35,6 @@ const ServiceTemplate = ({
     once: true,
     amount: 0.2,
   });
-
-  const seo = getSEOForRoute(location.pathname);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -80,15 +75,7 @@ const ServiceTemplate = ({
 
   return (
     <>
-      {seo && (
-        <SEO
-          title={seo.title}
-          description={seo.description}
-          keywords={seo.keywords}
-          canonical={seo.canonical}
-          noIndex={seo.noIndex}
-        />
-      )}
+
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">

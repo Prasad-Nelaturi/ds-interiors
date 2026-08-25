@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import YouTube from "react-youtube";
-import SEO from '../components/SEO';
 
 import {
   Award,
@@ -115,7 +114,6 @@ const AboutUs = () => {
 
   return (
     <>
-      <SEO />
       <div className="min-h-screen bg-white overflow-x-hidden">
         {/* ===== MODERN HERO BANNER SECTION ===== */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-16">

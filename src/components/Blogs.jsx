@@ -15,7 +15,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { getAllBlogs, getFeaturedBlogs } from "../lib/sanity";
-import SEO from '../components/SEO';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -105,7 +104,6 @@ const Blogs = () => {
 
   return (
     <>
-      <SEO />
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
         {/* Hero Section */}
         <section className="relative min-h-[55vh] flex items-center">
@@ -250,8 +248,8 @@ const Blogs = () => {
                         setCurrentPage(1);
                       }}
                       className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition ${selectedCategory === cat
-                          ? "bg-orange-500 text-white shadow-sm"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        ? "bg-orange-500 text-white shadow-sm"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                         }`}
                     >
                       {cat === "All"
@@ -274,8 +272,8 @@ const Blogs = () => {
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`p-1.5 rounded-md transition ${viewMode === "grid"
-                      ? "bg-white text-amber-600 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
+                    ? "bg-white text-amber-600 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
                     }`}
                 >
                   <Grid3x3 className="w-3.5 h-3.5" />
@@ -283,8 +281,8 @@ const Blogs = () => {
                 <button
                   onClick={() => setViewMode("list")}
                   className={`p-1.5 rounded-md transition ${viewMode === "list"
-                      ? "bg-white text-amber-600 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
+                    ? "bg-white text-amber-600 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
                     }`}
                 >
                   <LayoutList className="w-3.5 h-3.5" />
@@ -331,8 +329,8 @@ const Blogs = () => {
                           setCurrentPage(1);
                         }}
                         className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition ${selectedCategory === cat
-                            ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          ? "bg-orange-500 text-white shadow-md"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                           }`}
                       >
                         {cat === "All"
@@ -355,8 +353,8 @@ const Blogs = () => {
                   <button
                     onClick={() => setViewMode("grid")}
                     className={`p-1.5 rounded-md transition ${viewMode === "grid"
-                        ? "bg-white text-amber-600 shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
+                      ? "bg-white text-amber-600 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                       }`}
                   >
                     <Grid3x3 className="w-4 h-4" />
@@ -364,8 +362,8 @@ const Blogs = () => {
                   <button
                     onClick={() => setViewMode("list")}
                     className={`p-1.5 rounded-md transition ${viewMode === "list"
-                        ? "bg-white text-amber-600 shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
+                      ? "bg-white text-amber-600 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                       }`}
                   >
                     <LayoutList className="w-4 h-4" />
@@ -454,8 +452,8 @@ const Blogs = () => {
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition ${currentPage === 1
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-amber-500 hover:text-white shadow-sm"
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "bg-white text-gray-700 hover:bg-amber-500 hover:text-white shadow-sm"
                         }`}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -478,8 +476,8 @@ const Blogs = () => {
                                 key={pageNum}
                                 onClick={() => goToPage(pageNum)}
                                 className={`w-8 h-8 rounded-full text-sm font-medium transition ${currentPage === pageNum
-                                    ? "bg-amber-500 text-white shadow-sm"
-                                    : "bg-white text-gray-600 hover:bg-gray-100"
+                                  ? "bg-amber-500 text-white shadow-sm"
+                                  : "bg-white text-gray-600 hover:bg-gray-100"
                                   }`}
                               >
                                 {pageNum}
@@ -508,8 +506,8 @@ const Blogs = () => {
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition ${currentPage === totalPages
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-amber-500 hover:text-white shadow-sm"
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "bg-white text-gray-700 hover:bg-amber-500 hover:text-white shadow-sm"
                         }`}
                     >
                       <ChevronRight className="w-4 h-4" />

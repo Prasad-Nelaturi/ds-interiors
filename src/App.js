@@ -3,6 +3,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import StructuredData from './components/StructuredData';
+
 import ScrollToTop from './components/ScrollToTop';
 import Layout from './components/Layout';
 
@@ -42,6 +44,7 @@ const App = () => {
     <HelmetProvider>
       <ConsultationProvider>
         <BrowserRouter>
+          <StructuredData />
           <ScrollToTop />
           <ToastContainer position="top-center" pauseOnHover={false} />
 

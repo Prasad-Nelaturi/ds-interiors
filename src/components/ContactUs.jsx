@@ -26,7 +26,6 @@ import {
   ExternalLink,
   X,
 } from "lucide-react";
-import SEO from '../components/SEO';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -170,7 +169,6 @@ const ContactUs = () => {
   return (
 
     <>
-      <SEO />
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white overflow-x-hidden">
         {/* Email Options Modal */}
         {showEmailOptions && (

@@ -23,7 +23,6 @@ import {
   Crown,
   Ruler,
 } from "lucide-react";
-import SEO from '../components/SEO';
 
 const GalleryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -387,7 +386,6 @@ const GalleryPage = () => {
 
   return (
     <>
-      <SEO />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
         {/* Hero Section */}
         <section className="relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12 md:pb-16 overflow-hidden">
