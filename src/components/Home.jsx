@@ -10,6 +10,7 @@ import ServicesSection from "./ServicesSection";
 import ScrollingGallery from '../components/ScrollingGallery';
 import AwardsCarousel from '../components/AwardsCarousel';
 import SEO from "../components/SEO";
+import StructuredData from '../components/StructuredData';
 
 import {
   Star,
@@ -202,6 +203,7 @@ const DSInteriorsWebsite = () => {
 
     <>
       <SEO />
+      <StructuredData />
 
       <div className="min-h-screen bg-white overflow-x-hidden">
         {/* Hero Section - Smooth Endless Slider */}

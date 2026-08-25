@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
+import StructuredData from '../components/StructuredData';
 
 const ServiceTemplate = ({
   title,
@@ -76,6 +77,8 @@ const ServiceTemplate = ({
   return (
     <>
       <SEO />
+      <StructuredData />
+
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">

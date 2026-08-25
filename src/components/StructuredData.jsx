@@ -7,12 +7,6 @@ const StructuredData = () => {
 
   const baseUrl = 'https://www.dsignerstudiointeriors.com';
 
-  /*
-   * ============================================================
-   * ORGANIZATION / BUSINESS SCHEMA
-   * ============================================================
-   */
-
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'InteriorDesigner',
@@ -21,8 +15,7 @@ const StructuredData = () => {
     url: baseUrl,
     logo: `${baseUrl}/ds-lg.jpeg`,
     image: `${baseUrl}/ds-lg.jpeg`,
-    description:
-      'Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.',
+    description: 'Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.',
     telephone: '+91 90109 89991',
     email: 'info@dsignerstudiointeriors.com',
     priceRange: '₹₹₹',
@@ -56,12 +49,6 @@ const StructuredData = () => {
     ],
   };
 
-  /*
-   * ============================================================
-   * WEBSITE SCHEMA
-   * ============================================================
-   */
-
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -74,16 +61,7 @@ const StructuredData = () => {
     },
   };
 
-  /*
-   * ============================================================
-   * BREADCRUMB SCHEMA
-   * ============================================================
-   */
-
-  const segments = pathname
-    .split('/')
-    .filter(Boolean);
-
+  const segments = pathname.split('/').filter(Boolean);
   const breadcrumbItems = [
     {
       '@type': 'ListItem',
@@ -94,18 +72,12 @@ const StructuredData = () => {
   ];
 
   let currentPath = '';
-
   segments.forEach((segment, index) => {
     currentPath += `/${segment}`;
     const name = segment
       .split('-')
-      .map(
-        (word) =>
-          word.charAt(0).toUpperCase() +
-          word.slice(1)
-      )
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: index + 2,
@@ -121,29 +93,19 @@ const StructuredData = () => {
     itemListElement: breadcrumbItems,
   };
 
-  /*
-   * ============================================================
-   * RETURN STRUCTURED DATA - NO HELMET WRAPPER
-   * ============================================================
-   */
-
+  // Return ONLY scripts - NO Helmet wrapper
   return (
-    <>
-      {/* Organization / Business Schema */}
+    <React.Fragment>
       <script type="application/ld+json">
         {JSON.stringify(organizationSchema)}
       </script>
-
-      {/* Website Schema */}
       <script type="application/ld+json">
         {JSON.stringify(websiteSchema)}
       </script>
-
-      {/* Breadcrumb Schema */}
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
       </script>
-    </>
+    </React.Fragment>
   );
 };
 

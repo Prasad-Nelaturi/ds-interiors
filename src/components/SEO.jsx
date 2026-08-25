@@ -33,6 +33,10 @@ const SEO = ({
 
     return (
         <Helmet>
+            {/* Force single title */}
+            <title>{finalTitle}</title>
+
+            {/* Remove any existing titles */}
             <title>{finalTitle}</title>
 
             <meta

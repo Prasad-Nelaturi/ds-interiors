@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { getAllBlogs, getFeaturedBlogs } from "../lib/sanity";
 import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -105,7 +106,9 @@ const Blogs = () => {
 
   return (
     <>
-      <SEO />
+       <SEO />
+      <StructuredData />
+      
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
         {/* Hero Section */}
         <section className="relative min-h-[55vh] flex items-center">

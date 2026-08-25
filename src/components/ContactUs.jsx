@@ -27,6 +27,7 @@ import {
   X,
 } from "lucide-react";
 import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -170,7 +171,9 @@ const ContactUs = () => {
   return (
 
     <>
-      <SEO />
+       <SEO />
+      <StructuredData />
+      
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white overflow-x-hidden">
         {/* Email Options Modal */}
         {showEmailOptions && (
