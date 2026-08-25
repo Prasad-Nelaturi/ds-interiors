@@ -1,7 +1,7 @@
 export const SITE_URL = "https://www.dsignerstudiointeriors.com";
 
 export const defaultSEO = {
-    title: "Interior Designers in Hyderabad | Dsigner Studio Interiors",
+    // title: "Interior Designers in Hyderabad | Dsigner Studio Interiors",
     description:
         "Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.",
     image: `${SITE_URL}/ds-lg.jpeg`,
@@ -200,6 +200,7 @@ export const getSEOForRoute = (pathname = "/") => {
         return {
             ...defaultSEO,
             ...route,
+            title: route.title,
             canonical:
                 cleanPath === "/"
                     ? `${SITE_URL}/`
@@ -224,6 +225,12 @@ export const getSEOForRoute = (pathname = "/") => {
 
     return {
         ...defaultSEO,
+        title: `${cleanPath
+                .split("/")
+                .filter(Boolean)
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" | ")
+            } | Dsigner Studio Interiors`,
         canonical:
             cleanPath === "/"
                 ? `${SITE_URL}/`
