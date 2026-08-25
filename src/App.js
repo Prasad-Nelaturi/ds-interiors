@@ -41,7 +41,7 @@ import { ConsultationProvider } from './components/context/ConsultationContext';
 
 const App = () => {
   return (
-    // <HelmetProvider>
+    <HelmetProvider>
       <ConsultationProvider>
         <BrowserRouter>
           {/* <StructuredData /> */}
@@ -81,7 +81,7 @@ const App = () => {
           <ConsultationModal />
         </BrowserRouter>
       </ConsultationProvider>
-    // </HelmetProvider>
+    </HelmetProvider>
   );
 };
 
