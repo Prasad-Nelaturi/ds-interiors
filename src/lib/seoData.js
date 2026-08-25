@@ -2,267 +2,183 @@ export const SITE_URL = "https://www.dsignerstudiointeriors.com";
 
 export const defaultSEO = {
     title: "Interior Designers in Hyderabad | Dsigner Studio Interiors",
-
     description:
         "Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.",
-
     image: `${SITE_URL}/ds-lg.jpeg`,
-
     imageAlt:
         "Dsigner Studio Interiors - Interior Design Studio in Hyderabad",
-
     type: "website",
-
     locale: "en_IN",
-
     keywords:
         "interior designers Hyderabad, residential interiors, commercial interiors, luxury villa design, 3D visualization, home automation",
-
     noIndex: false,
 };
 
 export const routeSEO = {
     "/": {
-        title:
-            "Interior Designers in Hyderabad | Dsigner Studio Interiors",
-
+        title: "Best Interior Designers in Hyderabad | Dsigner Studio",
         description:
-            "Transform your space with Dsigner Studio Interiors - Hyderabad's leading interior design studio. Expert residential and commercial interiors, luxury villas, and 3D visualization.",
-
-        keywords:
-            "interior designers Hyderabad, residential interiors, commercial interiors, luxury villa design, 3D visualization, home automation, Hyderabad interior designers",
+            "Looking for the best interior designers in Hyderabad? Dsigner Studio creates customized home, apartment, villa, office, and commercial interiors with expert craftsmanship.",
+        keywords: "best interior designers in hyderabad",
+        h1: "best interior designers in hyderabad",
     },
 
     "/about": {
-        title:
-            "About Dsigner Studio Interiors | Interior Designers in Hyderabad",
-
+        title: "About Dsigner Studio | Interior Designers in Hyderabad",
         description:
-            "Learn about Dsigner Studio Interiors - Hyderabad's premium interior design studio. Our expertise in residential, commercial, and luxury interior design.",
-
-        keywords:
-            "about interior designers Hyderabad, interior design studio, best interior designers, Dsigner Studio",
-    },
-
-    "/contact": {
-        title:
-            "Contact Dsigner Studio Interiors | Interior Designers in Hyderabad",
-
-        description:
-            "Get in touch with Hyderabad's top interior designers. Book a consultation for residential, commercial, or luxury interior design projects.",
-
-        keywords:
-            "contact interior designers Hyderabad, interior design consultation, book interior designer, interior design quotes",
-    },
-
-    "/blogs": {
-        title:
-            "Interior Design Blogs & Articles | Dsigner Studio Interiors",
-
-        description:
-            "Explore interior design tips, trends, and inspiration. Expert advice on home interiors, commercial spaces, luxury villa designs, and more.",
-
-        keywords:
-            "interior design blog, home decor tips, interior design trends, Hyderabad interior design blog",
+            "Learn about Dsigner Studio, trusted interior designers in Hyderabad with 12+ years of experience delivering residential and commercial interiors.",
+        keywords: "Interior Designers in Hyderabad",
+        h1: "Interior Designers in Hyderabad",
     },
 
     "/projects": {
-        title:
-            "Our Interior Design Projects | Dsigner Studio Interiors Hyderabad",
-
+        title: "Interior Design Projects | Homes, Offices & Villas",
         description:
-            "Browse our portfolio of residential, commercial, and luxury interior design projects in Hyderabad. See our quality work and design expertise.",
-
-        keywords:
-            "interior design portfolio, interior design projects Hyderabad, residential interior projects, commercial interior projects",
+            "Explore our completed interior design projects for homes, offices, villas, and commercial spaces showcasing quality craftsmanship and creative designs.",
+        keywords: "",
+        h1: "",
     },
 
     "/gallery": {
-        title:
-            "Interior Design Gallery | Dsigner Studio Interiors Hyderabad",
-
+        title: "Interior Design Gallery | Inspiring Interior Designs",
         description:
-            "Explore our interior design gallery featuring beautiful residential, commercial, and luxury spaces designed by Dsigner Studio Interiors.",
+            "Browse our interior design gallery showcasing stylish home, office, villa, apartment, and commercial interior designs to inspire your next project.",
+        keywords: "",
+        h1: "",
+    },
 
-        keywords:
-            "interior design gallery, home interior photos, commercial interior images, luxury interiors Hyderabad",
+    "/contact": {
+        title: "Interior Companies in Hyderabad | Contact Our Experts",
+        description:
+            "Looking for interior companies in Hyderabad? Contact our experts for residential and commercial interior solutions. Schedule your consultation today.",
+        keywords: "Interior Companies in Hyderabad",
+        h1: "",
+    },
+
+    "/blogs": {
+        title: "Interior Design Blogs | Expert Tips, Trends & Ideas",
+        description:
+            "Explore expert interior design blogs featuring home décor ideas, design trends, space planning tips, renovation guides, and inspiration for every space.",
+        keywords: "",
+        h1: "",
     },
 
     "/modular-factory": {
-        title:
-            "Modular Factory | Dsigner Studio Interiors Hyderabad",
-
+        title: "Modular Furniture Factory in Hyderabad | Premium Quality",
         description:
-            "Discover our state-of-the-art modular factory for custom interior solutions. We manufacture premium modular furniture and interiors.",
-
-        keywords:
-            "modular factory Hyderabad, custom modular furniture, kitchen cabinets, wardrobes, modular interiors",
+            "Explore our modular furniture factory in Hyderabad, delivering precision-crafted kitchens, wardrobes, and custom interiors with premium quality.",
+        keywords: "",
+        h1: "",
     },
 
     "/privacy-policy": {
-        title:
-            "Privacy Policy | Dsigner Studio Interiors Hyderabad",
-
+        title: "Privacy Policy | Dsigner Studio Interiors",
         description:
-            "Read our privacy policy to understand how Dsigner Studio Interiors collects, uses, and protects your personal information.",
-
-        keywords:
-            "privacy policy, data protection, Dsigner Studio Interiors privacy policy",
-    },
-
-    "/terms-conditions": {
-        title:
-            "Terms & Conditions | Dsigner Studio Interiors Hyderabad",
-
-        description:
-            "Review the terms and conditions for using Dsigner Studio Interiors website and services.",
-
-        keywords:
-            "terms and conditions, website terms, service terms, Dsigner Studio Interiors terms",
+            "Learn how Dsigner Studio Interiors collects, uses, stores, and protects your personal information while using our website and services.",
+        keywords: "",
+        h1: "",
     },
 
     "/services/interior-design": {
-        title:
-            "Interior Design Services | Dsigner Studio Interiors Hyderabad",
-
+        title: "Interior Design Services in Hyderabad | Dsigner Studio",
         description:
-            "Professional interior design services in Hyderabad. Residential, commercial, and luxury design solutions tailored to your needs.",
-
-        keywords:
-            "interior design services Hyderabad, professional interior designers, interior design solutions",
-    },
-
-    "/services/residential": {
-        title:
-            "Residential Interior Designers Hyderabad | Dsigner Studio Interiors",
-
-        description:
-            "Expert residential interior design services in Hyderabad. Transform your home with our professional interior designers.",
-
-        keywords:
-            "residential interior designers Hyderabad, home interior design, apartment interiors, villa interiors",
-    },
-
-    "/services/commercial": {
-        title:
-            "Commercial Interior Designers Hyderabad | Dsigner Studio Interiors",
-
-        description:
-            "Professional commercial interior design services in Hyderabad. Create inspiring workspaces with Dsigner Studio Interiors.",
-
-        keywords:
-            "commercial interior designers Hyderabad, office interiors, retail store design, corporate interiors",
-    },
-
-    "/services/luxury-villas": {
-        title:
-            "Luxury Villa Interior Designers Hyderabad | Dsigner Studio Interiors",
-
-        description:
-            "Premium luxury villa interior design services in Hyderabad. Elegant, sophisticated designs for your dream villa.",
-
-        keywords:
-            "luxury villa interior designers Hyderabad, premium villa interiors, luxury home design, high-end interiors",
-    },
-
-    "/services/3d-visualization": {
-        title:
-            "3D Visualization Services | Dsigner Studio Interiors Hyderabad",
-
-        description:
-            "High-quality 3D visualization and rendering services. See your interior designs before implementation with our 3D visualization experts.",
-
-        keywords:
-            "3D visualization Hyderabad, interior rendering, 3D interior design, architectural visualization",
+            "Transform your space with professional interior design services in Hyderabad. Get stylish, functional interiors tailored to your lifestyle, needs and budget.",
+        keywords: "interior design services hyderabad",
+        h1: "interior design services hyderabad",
     },
 
     "/services/home-plans": {
-        title:
-            "Home Plans & Layout Design | Dsigner Studio Interiors",
-
+        title: "Home Planning Services in Hyderabad | Custom Home Plans",
         description:
-            "Expert home planning and layout design services in Hyderabad. Optimize your space with professional floor plans.",
+            "Explore professional home planning services in Hyderabad with customized home plans designed for your space, lifestyle and functional needs.",
+        keywords: "Home Planning Services in Hyderabad",
+        h1: "Home Planning Services in Hyderabad",
+    },
 
-        keywords:
-            "home plans Hyderabad, floor plan design, house layout design, space planning, residential planning",
+    "/services/3d-visualization": {
+        title: "3D Visualization Services in Hyderabad | Interior Designs",
+        description:
+            "Looking for 3D visualization services in Hyderabad? We create realistic 3D interior designs to help you visualize your home or commercial space.",
+        keywords: "3D Visualization Services in Hyderabad",
+        h1: "3D Visualization Services in Hyderabad",
     },
 
     "/services/landscaping": {
-        title:
-            "Landscaping & Outdoor Design | Dsigner Studio Interiors Hyderabad",
-
+        title: "Landscaping Services in Hyderabad | Dsigner Studio",
         description:
-            "Professional landscaping and outdoor design services in Hyderabad. Create beautiful outdoor spaces for your home or business.",
-
-        keywords:
-            "landscaping Hyderabad, garden design, outdoor spaces, landscape architecture, exterior design",
+            "Transform your outdoor space with professional landscaping services in Hyderabad. Dsigner Studio creates beautiful, functional landscapes tailored to your space and style.",
+        keywords: "Landscaping Services in Hyderabad",
+        h1: "Landscaping Services in Hyderabad",
     },
 
     "/services/home-automation": {
-        title:
-            "Home Automation Solutions Hyderabad | Dsigner Studio Interiors",
-
-        description:
-            "Smart home automation solutions in Hyderabad. Integrate technology seamlessly into your interior design.",
-
-        keywords:
-            "home automation Hyderabad, smart home, automated lighting, home security, smart interiors",
+        title: "Home Automation in Hyderabad | Smart Home Solutions",
+        description: "home automation in hyderabad",
+        keywords: "home automation in hyderabad",
+        h1: "home automation in hyderabad",
     },
 
     "/services/curtains-blinds": {
-        title:
-            "Curtains & Blinds Design | Dsigner Studio Interiors Hyderabad",
-
+        title: "Curtains & Blinds Services in Hyderabad | Dsigner Studio",
         description:
-            "Custom curtains and blinds design services in Hyderabad. Enhance your interiors with premium window treatments.",
-
-        keywords:
-            "curtains Hyderabad, blinds Hyderabad, window treatments, custom curtains, designer blinds",
+            "Get custom curtains and blinds in Hyderabad from Dsigner Studio. Enhance your interiors with stylish, functional window treatments tailored to your space.",
+        keywords: "Curtains & Blinds Services in Hyderabad",
+        h1: "Curtains & Blinds Services in Hyderabad",
     },
 
     "/services/chimneys-hobs": {
-        title:
-            "Chimneys & Hobs Installation | Dsigner Studio Interiors",
-
+        title: "Kitchen Chimney & Hob Design in Hyderabad | Dsigner Studio",
         description:
-            "Professional chimneys and hobs installation services in Hyderabad. Modern kitchen solutions for your home.",
-
-        keywords:
-            "chimneys Hyderabad, hobs installation, kitchen chimneys, modular kitchen accessories",
+            "Discover kitchen chimney and hob design solutions in Hyderabad by Dsigner Studio. Create stylish, functional kitchens with thoughtfully integrated appliances.",
+        keywords: "Kitchen Chimney & Hob Design in Hyderabad",
+        h1: "Kitchen Chimney & Hob Design in Hyderabad",
     },
 
-    "/services/space-planning": {
-        title:
-            "Space Planning & Optimization | Dsigner Studio Interiors",
-
+    "/services/residential": {
+        title: "Residential Interior Designers in Hyderabad | Home Interiors",
         description:
-            "Expert space planning and optimization services in Hyderabad. Maximize your space with professional design solutions.",
+            "Looking for residential interior designers in Hyderabad? We create custom interiors for apartments, villas, and independent homes with quality craftsmanship.",
+        keywords: "residential interior designers in hyderabad",
+        h1: "residential interior designers in hyderabad",
+    },
 
-        keywords:
-            "space planning Hyderabad, space optimization, interior layout design, efficient space design",
+    "/services/commercial": {
+        title: "Commercial Interior Designers in Hyderabad | Office Design",
+        description:
+            "Looking for commercial interior designers in Hyderabad? We design offices, retail stores, restaurants, clinics, and commercial spaces with quality execution.",
+        keywords: "commercial interior designers in hyderabad",
+        h1: "commercial interior designers in hyderabad",
     },
 
     "/services/styling": {
-        title:
-            "Interior Styling & Decor | Dsigner Studio Interiors Hyderabad",
-
+        title: "Interior Styling Services in Hyderabad | Dsigner Studio",
         description:
-            "Professional interior styling and decor services in Hyderabad. Elevate your space with our expert design team.",
+            "Transform your home with professional interior styling services in Hyderabad. Create beautiful, functional spaces with personalized décor, furniture, and finishes.",
+        keywords: "Interior Styling Services in Hyderabad",
+        h1: "Interior Styling Services in Hyderabad",
+    },
 
-        keywords:
-            "interior styling Hyderabad, home decor, interior decoration, furniture styling, accessorizing",
+    "/services/luxury-villas": {
+        title: "Villa Interior Designers in Hyderabad | Luxury Villa Designs",
+        description:
+            "Discover luxury villa interiors in Hyderabad with elegant designs, premium finishes and functional spaces tailored to your lifestyle and taste.",
+        keywords: "villa interior designers in hyderabad",
+        h1: "villa interior designers in hyderabad",
+    },
+
+    "/services/space-planning": {
+        title: "Space Planning Services in Hyderabad | Dsigner Studio",
+        description:
+            "Professional space planning services in Hyderabad by Dsigner Studio. Create functional layouts, maximize space utilization, and design interiors that work for you.",
+        keywords: "Space Planning Services in Hyderabad",
+        h1: "Space Planning Services in Hyderabad",
     },
 
     "/admin/create-blog": {
-        title:
-            "Create Blog Post | Dsigner Studio Interiors Admin",
-
+        title: "Create Blog Post | Dsigner Studio Interiors Admin",
         description:
             "Admin dashboard for creating and managing blog posts for Dsigner Studio Interiors.",
-
-        keywords:
-            "admin dashboard, create blog, interior design blog admin",
-
+        keywords: "admin dashboard, create blog, interior design blog admin",
         noIndex: true,
     },
 };
@@ -295,23 +211,19 @@ export const getSEOForRoute = (pathname = "/") => {
     if (cleanPath.startsWith("/project/")) {
         return {
             ...defaultSEO,
-
             title:
                 "Interior Design Project Portfolio | Dsigner Studio Interiors",
-
             description:
                 "View our interior design project portfolio. Professional residential, commercial, and luxury design projects by Dsigner Studio Interiors.",
-
             keywords:
                 "interior design project, portfolio, residential project, commercial project, Hyderabad interiors",
-
+            h1: "Interior Design Project Portfolio",
             canonical: `${SITE_URL}${cleanPath}`,
         };
     }
 
     return {
         ...defaultSEO,
-
         canonical:
             cleanPath === "/"
                 ? `${SITE_URL}/`

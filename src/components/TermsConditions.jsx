@@ -23,7 +23,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
 
 const TermsConditions = ({ termsRef }) => {
   const termsSections = [
@@ -140,8 +139,7 @@ const TermsConditions = ({ termsRef }) => {
 
   return (
     <>
-       <SEO />
-      <StructuredData />
+      <SEO />
       <section
         ref={termsRef}
         className="py-16 sm:py-20 md:py-4 bg-gradient-to-br from-slate-50 via-white to-orange-50/30 relative overflow-hidden"

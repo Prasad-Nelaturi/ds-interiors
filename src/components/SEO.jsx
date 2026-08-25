@@ -15,14 +15,9 @@ const SEO = ({
 
     const routeSEO = getSEOForRoute(location.pathname);
 
-    if (!routeSEO) {
-        return (
-            <Helmet>
-                <title>Page Not Found | Dsigner Studio Interiors</title>
-                <meta name="robots" content="noindex, nofollow" />
-            </Helmet>
-        );
-    }
+    return (
+        <h1>{routeSEO.h1}</h1>
+    );
 
     const finalTitle = title || routeSEO.title;
     const finalDescription = description || routeSEO.description;
@@ -33,10 +28,6 @@ const SEO = ({
 
     return (
         <Helmet>
-            {/* Force single title */}
-            <title>{finalTitle}</title>
-
-            {/* Remove any existing titles */}
             <title>{finalTitle}</title>
 
             <meta

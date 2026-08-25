@@ -17,7 +17,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
 
 const PrivacyPolicy = ({
   privacyRef,
@@ -166,8 +165,7 @@ const PrivacyPolicy = ({
 
   return (
     <>
-       <SEO />
-      <StructuredData />
+      <SEO />
       <section
         ref={privacyRef}
         className="py-8 sm:py-10 md:py-12 bg-gradient-to-br from-slate-50 via-white to-orange-50 relative overflow-hidden"

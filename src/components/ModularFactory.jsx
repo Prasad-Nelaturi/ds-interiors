@@ -30,7 +30,6 @@ import {
   VolumeX
 } from "lucide-react";
 import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
 
 const ModularFactory = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -397,8 +396,7 @@ const ModularFactory = () => {
 
   return (
     <>
-       <SEO />
-      <StructuredData />
+      <SEO />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
         {/* Hero Section */}
         <section className="relative pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 overflow-hidden">

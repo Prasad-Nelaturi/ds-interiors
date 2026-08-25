@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Eye, ChevronRight, Sparkles } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
 
 // Use CDN for worker (works on Vercel)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js`;
@@ -122,8 +121,7 @@ const OurProjects = () => {
 
   return (
     <>
-       <SEO />
-      <StructuredData />
+      <SEO />
       <section className="min-h-screen bg-[#faf8f6] py-24 relative">
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-amber-50/50 to-transparent rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-stone-50/50 to-transparent rounded-full blur-3xl -z-10" />

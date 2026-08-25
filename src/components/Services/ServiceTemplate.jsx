@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   ArrowRight,
   CheckCircle,
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
-import StructuredData from '../../components/StructuredData';
+import { getSEOForRoute } from "../../lib/seoData";
 
 const ServiceTemplate = ({
   title,
@@ -28,6 +28,8 @@ const ServiceTemplate = ({
   ctaText = "Get a Free Consultation",
   ctaLink = "/contact",
 }) => {
+  const location = useLocation();
+
   const [openFaq, setOpenFaq] = useState(null);
 
   const sectionRef = useRef(null);
@@ -36,6 +38,8 @@ const ServiceTemplate = ({
     once: true,
     amount: 0.2,
   });
+
+  const seo = getSEOForRoute(location.pathname);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -76,9 +80,13 @@ const ServiceTemplate = ({
 
   return (
     <>
-      <SEO />
-      <StructuredData />
-
+        <SEO
+          title={seo.title}
+          description={seo.description}
+          keywords={seo.keywords}
+          canonical={seo.canonical}
+          noIndex={seo.noIndex}
+        />
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">
@@ -148,7 +156,7 @@ const ServiceTemplate = ({
 
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
 
-                    {title}
+                    {seo.h1 || title}
 
                     <span className="py-2 block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                       Reimagined
@@ -383,15 +391,19 @@ const ServiceTemplate = ({
                           <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-xs font-bold text-amber-600 shadow-md">
                             {String(index + 1).padStart(2, "0")}
                           </div>
+
                         </div>
+
                       </div>
 
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
                         {feature.title}
                       </h3>
+
                       <p className="text-gray-600 leading-relaxed">
                         {feature.description}
                       </p>
+
                     </div>
 
                   </div>
