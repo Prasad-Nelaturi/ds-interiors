@@ -16,24 +16,26 @@ const SEO = ({
 
     const routeSEO = getSEOForRoute(location.pathname);
 
+    // Log to debug - remove after fixing
+    console.log("📍 Route:", location.pathname);
+    console.log("📝 Final Title:", title || routeSEO.title);
+    console.log("📦 Full SEO Data:", routeSEO);
+
+
+    // Use explicitly passed props first, then route SEO
     const finalTitle = title || routeSEO.title;
-    const finalDescription =
-        description || routeSEO.description;
+    const finalDescription = description || routeSEO.description;
+    const finalKeywords = keywords || routeSEO.keywords;
+    const finalImage = image || routeSEO.image;
+    const finalImageAlt = imageAlt || routeSEO.imageAlt;
+    const finalCanonical = canonical || routeSEO.canonical;
+    const finalNoIndex = noIndex ?? routeSEO.noIndex ?? false;
 
-    const finalKeywords =
-        keywords || routeSEO.keywords;
-
-    const finalImage =
-        image || routeSEO.image;
-
-    const finalImageAlt =
-        imageAlt || routeSEO.imageAlt;
-
-    const finalCanonical =
-        canonical || routeSEO.canonical;
-
-    const finalNoIndex =
-        noIndex ?? routeSEO.noIndex ?? false;
+    // Don't render Helmet if no title is available
+    if (!finalTitle) {
+        console.warn("No title available for route:", location.pathname);
+        return null;
+    }
 
     return (
         <Helmet>
