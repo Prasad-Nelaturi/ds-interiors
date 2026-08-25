@@ -115,7 +115,7 @@ const AboutUs = () => {
 
   return (
     <>
-      <SEO />
+      {/* <SEO /> */}
       <div className="min-h-screen bg-white overflow-x-hidden">
         {/* ===== MODERN HERO BANNER SECTION ===== */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-16">
