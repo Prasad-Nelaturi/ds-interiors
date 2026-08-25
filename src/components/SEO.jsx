@@ -16,13 +16,6 @@ const SEO = ({
 
     const routeSEO = getSEOForRoute(location.pathname);
 
-    // Log to debug - remove after fixing
-    console.log("📍 Route:", location.pathname);
-    console.log("📝 Final Title:", title || routeSEO.title);
-    console.log("📦 Full SEO Data:", routeSEO);
-
-
-    // Use explicitly passed props first, then route SEO
     const finalTitle = title || routeSEO.title;
     const finalDescription = description || routeSEO.description;
     const finalKeywords = keywords || routeSEO.keywords;
@@ -30,97 +23,39 @@ const SEO = ({
     const finalImageAlt = imageAlt || routeSEO.imageAlt;
     const finalCanonical = canonical || routeSEO.canonical;
     const finalNoIndex = noIndex ?? routeSEO.noIndex ?? false;
-
-    // Don't render Helmet if no title is available
-    if (!finalTitle) {
-        console.warn("No title available for route:", location.pathname);
-        return null;
-    }
+    const finalType = routeSEO.type || "website";
+    const finalLocale = routeSEO.locale || "en_IN";
 
     return (
         <Helmet>
+
             <title>{finalTitle}</title>
 
-            <meta
-                name="description"
-                content={finalDescription}
-            />
+            <meta name="description" content={finalDescription} />
 
             {finalKeywords && (
-                <meta
-                    name="keywords"
-                    content={finalKeywords}
-                />
+                <meta name="keywords" content={finalKeywords} />
             )}
 
-            <link
-                rel="canonical"
-                href={finalCanonical}
-            />
+            <link rel="canonical" href={finalCanonical} />
 
             <meta
                 name="robots"
-                content={
-                    finalNoIndex
-                        ? "noindex, nofollow"
-                        : "index, follow"
-                }
+                content={finalNoIndex ? "noindex, nofollow" : "index, follow"}
             />
 
-            <meta
-                property="og:title"
-                content={finalTitle}
-            />
+            <meta property="og:title" content={finalTitle} />
+            <meta property="og:description" content={finalDescription} />
+            <meta property="og:url" content={finalCanonical} />
+            <meta property="og:type" content={finalType} />
+            <meta property="og:image" content={finalImage} />
+            <meta property="og:image:alt" content={finalImageAlt} />
+            <meta property="og:locale" content={finalLocale} />
 
-            <meta
-                property="og:description"
-                content={finalDescription}
-            />
-
-            <meta
-                property="og:url"
-                content={finalCanonical}
-            />
-
-            <meta
-                property="og:type"
-                content={routeSEO.type || "website"}
-            />
-
-            <meta
-                property="og:image"
-                content={finalImage}
-            />
-
-            <meta
-                property="og:image:alt"
-                content={finalImageAlt}
-            />
-
-            <meta
-                property="og:locale"
-                content={routeSEO.locale || "en_IN"}
-            />
-
-            <meta
-                name="twitter:card"
-                content="summary_large_image"
-            />
-
-            <meta
-                name="twitter:title"
-                content={finalTitle}
-            />
-
-            <meta
-                name="twitter:description"
-                content={finalDescription}
-            />
-
-            <meta
-                name="twitter:image"
-                content={finalImage}
-            />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={finalTitle} />
+            <meta name="twitter:description" content={finalDescription} />
+            <meta name="twitter:image" content={finalImage} />
         </Helmet>
     );
 };
