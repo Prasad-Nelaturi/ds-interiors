@@ -1,3 +1,4 @@
+// SEO.js - Combined with structured data
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
@@ -25,9 +26,7 @@ const SEO = ({
     const finalType = routeSEO.type || "website";
     const finalLocale = routeSEO.locale || "en_IN";
 
-    // ============================================================
-    // STRUCTURED DATA SCHEMAS
-    // ============================================================
+    // ===== STRUCTURED DATA =====
     const baseUrl = 'https://www.dsignerstudiointeriors.com';
 
     const organizationSchema = {
@@ -84,7 +83,6 @@ const SEO = ({
         },
     };
 
-    // Breadcrumb Schema
     const segments = location.pathname.split('/').filter(Boolean);
     const breadcrumbItems = [
         {
@@ -148,7 +146,7 @@ const SEO = ({
             <meta name="twitter:description" content={finalDescription} />
             <meta name="twitter:image" content={finalImage} />
 
-            {/* ✅ Structured Data Scripts - Only here, no title tags */}
+            {/* ✅ Structured Data Scripts - NO title tags here */}
             <script type="application/ld+json">
                 {JSON.stringify(organizationSchema)}
             </script>
