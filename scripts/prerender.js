@@ -325,62 +325,53 @@ async function prerender() {
 
         const page = await browser.newPage();
 
-        await page.setViewport({
-            width: 1440,
-            height: 900,
-            deviceScaleFactor: 1,
-        });
-
         // Render every route
         for (const route of routes) {
-            const url = `${BASE_URL}${route}`;
+            console.log(`Rendering: ${route}`);
 
-            console.log(
-                `Rendering: ${route}`
-            );
+            let page = null;
 
             try {
-                const response =
-                    await page.goto(url, {
-                        waitUntil: "networkidle2",
-                        timeout: 120000,
-                    });
+                // NEW PAGE FOR EVERY ROUTE
+                page = await browser.newPage();
+
+                await page.setViewport({
+                    width: 1440,
+                    height: 900,
+                    deviceScaleFactor: 1,
+                });
+
+                const url = `${BASE_URL}${route}`;
+
+                const response = await page.goto(url, {
+                    waitUntil: "networkidle2",
+                    timeout: 120000,
+                });
 
                 if (!response) {
                     console.error(
                         `No response received for ${route}`
                     );
-
                     continue;
                 }
 
-                const status =
-                    response.status();
+                const status = response.status();
 
                 if (status >= 400) {
                     console.error(
                         `${route} returned HTTP ${status}`
                     );
-
                     continue;
                 }
 
-                // Allow React components,
-                // Sanity data and SEO metadata
-                // to finish rendering.
-                await new Promise(
-                    (resolve) =>
-                        setTimeout(
-                            resolve,
-                            1500
-                        )
+                // Allow React + Helmet + Sanity to finish
+                await new Promise((resolve) =>
+                    setTimeout(resolve, 1500)
                 );
 
-                const html =
-                    await page.content();
+                const html = await page.content();
 
-                const outputPath =
-                    getOutputPath(route);
+                const outputPath = getOutputPath(route);
 
                 fs.writeFileSync(
                     outputPath,
@@ -391,11 +382,19 @@ async function prerender() {
                 console.log(
                     `Generated: ${outputPath}`
                 );
+
             } catch (error) {
+
                 console.error(
                     `Failed to render ${route}:`,
                     error.message
                 );
+
+            } finally {
+
+                if (page) {
+                    await page.close();
+                }
             }
         }
 
