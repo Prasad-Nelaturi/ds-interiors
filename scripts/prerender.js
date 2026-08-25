@@ -376,8 +376,18 @@ async function prerender() {
                         )
                 );
 
-                const html =
-                    await page.content();
+                const html = await page.evaluate(() => {
+                    const titles = document.head.querySelectorAll("title");
+
+                    titles.forEach((title, index) => {
+                        if (index > 0) {
+                            title.remove();
+                        }
+                    });
+
+                    return "<!DOCTYPE html>\n" +
+                        document.documentElement.outerHTML;
+                });
 
                 const outputPath =
                     getOutputPath(route);
