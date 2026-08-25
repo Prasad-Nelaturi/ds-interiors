@@ -41,10 +41,10 @@ import { ConsultationProvider } from './components/context/ConsultationContext';
 
 const App = () => {
   return (
-    <HelmetProvider>
+    // <HelmetProvider>
       <ConsultationProvider>
         <BrowserRouter>
-          <StructuredData />
+          {/* <StructuredData /> */}
           <ScrollToTop />
           <ToastContainer position="top-center" pauseOnHover={false} />
 
@@ -81,7 +81,7 @@ const App = () => {
           <ConsultationModal />
         </BrowserRouter>
       </ConsultationProvider>
-    </HelmetProvider>
+    // </HelmetProvider>
   );
 };
 
