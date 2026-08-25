@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   CheckCircle,
@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
-import { getSEOForRoute } from "../../lib/seoData";
 
 const ServiceTemplate = ({
   title,
@@ -28,8 +27,6 @@ const ServiceTemplate = ({
   ctaText = "Get a Free Consultation",
   ctaLink = "/contact",
 }) => {
-  const location = useLocation();
-
   const [openFaq, setOpenFaq] = useState(null);
 
   const sectionRef = useRef(null);
@@ -38,8 +35,6 @@ const ServiceTemplate = ({
     once: true,
     amount: 0.2,
   });
-
-  const seo = getSEOForRoute(location.pathname);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -80,15 +75,7 @@ const ServiceTemplate = ({
 
   return (
     <>
-      {seo && (
-        <SEO
-          title={seo.title}
-          description={seo.description}
-          keywords={seo.keywords}
-          canonical={seo.canonical}
-          noIndex={seo.noIndex}
-        />
-      )}
+      <SEO />
       <div className="min-h-screen bg-white overflow-hidden">
 
         <section className="relative h-screen overflow-hidden">

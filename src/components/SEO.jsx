@@ -18,6 +18,7 @@ const SEO = ({
     if (!routeSEO) {
         return (
             <Helmet>
+                <title>Page Not Found | Dsigner Studio Interiors</title>
                 <meta name="robots" content="noindex, nofollow" />
             </Helmet>
         );
