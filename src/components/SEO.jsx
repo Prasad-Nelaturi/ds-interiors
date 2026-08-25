@@ -1,116 +1,126 @@
-import { useEffect } from "react";
+import React from "react";
+import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
+import { getSEOForRoute } from "../lib/seoData";
 
 const SEO = ({
-  title,
-  description,
-  keywords,
-  canonical,
-  noIndex = false,
-}) => {
-  useEffect(() => {
-    // =========================
-    // TITLE
-    // =========================
-
-    const finalTitle =
-      title || "Interior Designers in Hyderabad | Dsigner Studio Interiors";
-
-    document.title = finalTitle;
-
-    // =========================
-    // DESCRIPTION
-    // =========================
-
-    let descriptionTag = document.querySelector(
-      'meta[name="description"]'
-    );
-
-    if (!descriptionTag) {
-      descriptionTag = document.createElement("meta");
-      descriptionTag.setAttribute("name", "description");
-      document.head.appendChild(descriptionTag);
-    }
-
-    descriptionTag.setAttribute(
-      "content",
-      description || ""
-    );
-
-    // =========================
-    // KEYWORDS
-    // =========================
-
-    let keywordsTag = document.querySelector(
-      'meta[name="keywords"]'
-    );
-
-    if (!keywordsTag) {
-      keywordsTag = document.createElement("meta");
-      keywordsTag.setAttribute("name", "keywords");
-      document.head.appendChild(keywordsTag);
-    }
-
-    keywordsTag.setAttribute(
-      "content",
-      keywords || ""
-    );
-
-    // =========================
-    // CANONICAL
-    // =========================
-
-    let canonicalTag = document.querySelector(
-      'link[rel="canonical"]'
-    );
-
-    if (!canonicalTag) {
-      canonicalTag = document.createElement("link");
-      canonicalTag.setAttribute("rel", "canonical");
-      document.head.appendChild(canonicalTag);
-    }
-
-    if (canonical) {
-      canonicalTag.setAttribute("href", canonical);
-    }
-
-    // =========================
-    // ROBOTS
-    // =========================
-
-    let robotsTag = document.querySelector(
-      'meta[name="robots"]'
-    );
-
-    if (!robotsTag) {
-      robotsTag = document.createElement("meta");
-      robotsTag.setAttribute("name", "robots");
-      document.head.appendChild(robotsTag);
-    }
-
-    robotsTag.setAttribute(
-      "content",
-      noIndex
-        ? "noindex, nofollow"
-        : "index, follow"
-    );
-
-    // =========================
-    // CLEANUP
-    // =========================
-
-    return () => {
-      // Don't remove the title.
-      // React Router will update it on the next page.
-    };
-  }, [
     title,
     description,
     keywords,
+    image,
+    imageAlt,
     canonical,
     noIndex,
-  ]);
+}) => {
+    const location = useLocation();
 
-  return null;
+    const routeSEO = getSEOForRoute(location.pathname);
+
+    const finalTitle = title || routeSEO.title;
+    const finalDescription =
+        description || routeSEO.description;
+
+    const finalKeywords =
+        keywords || routeSEO.keywords;
+
+    const finalImage =
+        image || routeSEO.image;
+
+    const finalImageAlt =
+        imageAlt || routeSEO.imageAlt;
+
+    const finalCanonical =
+        canonical || routeSEO.canonical;
+
+    const finalNoIndex =
+        noIndex ?? routeSEO.noIndex ?? false;
+
+    return (
+        <Helmet>
+            <title>{finalTitle}</title>
+
+            <meta
+                name="description"
+                content={finalDescription}
+            />
+
+            {finalKeywords && (
+                <meta
+                    name="keywords"
+                    content={finalKeywords}
+                />
+            )}
+
+            <link
+                rel="canonical"
+                href={finalCanonical}
+            />
+
+            <meta
+                name="robots"
+                content={
+                    finalNoIndex
+                        ? "noindex, nofollow"
+                        : "index, follow"
+                }
+            />
+
+            <meta
+                property="og:title"
+                content={finalTitle}
+            />
+
+            <meta
+                property="og:description"
+                content={finalDescription}
+            />
+
+            <meta
+                property="og:url"
+                content={finalCanonical}
+            />
+
+            <meta
+                property="og:type"
+                content={routeSEO.type || "website"}
+            />
+
+            <meta
+                property="og:image"
+                content={finalImage}
+            />
+
+            <meta
+                property="og:image:alt"
+                content={finalImageAlt}
+            />
+
+            <meta
+                property="og:locale"
+                content={routeSEO.locale || "en_IN"}
+            />
+
+            <meta
+                name="twitter:card"
+                content="summary_large_image"
+            />
+
+            <meta
+                name="twitter:title"
+                content={finalTitle}
+            />
+
+            <meta
+                name="twitter:description"
+                content={finalDescription}
+            />
+
+            <meta
+                name="twitter:image"
+                content={finalImage}
+            />
+        </Helmet>
+    );
 };
 
 export default SEO;
