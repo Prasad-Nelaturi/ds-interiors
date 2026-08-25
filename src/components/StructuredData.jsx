@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 
 const StructuredData = () => {
@@ -18,36 +17,25 @@ const StructuredData = () => {
     '@context': 'https://schema.org',
     '@type': 'InteriorDesigner',
     '@id': `${baseUrl}/#business`,
-
     name: 'Dsigner Studio Interiors',
-
     url: baseUrl,
-
     logo: `${baseUrl}/ds-lg.jpeg`,
-
     image: `${baseUrl}/ds-lg.jpeg`,
-
     description:
       'Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.',
-
     telephone: '+91 90109 89991',
-
     email: 'info@dsignerstudiointeriors.com',
-
     priceRange: '₹₹₹',
-
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Hyderabad',
       addressRegion: 'Telangana',
       addressCountry: 'IN',
     },
-
     areaServed: {
       '@type': 'City',
       name: 'Hyderabad',
     },
-
     serviceType: [
       'Interior Design',
       'Residential Interior Design',
@@ -60,9 +48,7 @@ const StructuredData = () => {
       'Curtains and Blinds',
       'Chimneys and Hobs',
     ],
-
     openingHours: ['Mo-Sa 09:00-19:00'],
-
     sameAs: [
       'https://www.instagram.com/dsignerstudiointeriors/',
       'https://www.facebook.com/dsignerstudiointeriors/',
@@ -80,14 +66,9 @@ const StructuredData = () => {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${baseUrl}/#website`,
-
     url: baseUrl,
-
     name: 'Dsigner Studio Interiors',
-
-    description:
-      'Premium interior design studio in Hyderabad',
-
+    description: 'Premium interior design studio in Hyderabad',
     publisher: {
       '@id': `${baseUrl}/#business`,
     },
@@ -96,24 +77,6 @@ const StructuredData = () => {
   /*
    * ============================================================
    * BREADCRUMB SCHEMA
-   * ============================================================
-   *
-   * Example:
-   *
-   * /services/interior-design
-   *
-   * Home
-   *   ↓
-   * Services
-   *   ↓
-   * Interior Design
-   *
-   * URLs:
-   *
-   * /
-   * /services
-   * /services/interior-design
-   *
    * ============================================================
    */
 
@@ -134,7 +97,6 @@ const StructuredData = () => {
 
   segments.forEach((segment, index) => {
     currentPath += `/${segment}`;
-
     const name = segment
       .split('-')
       .map(
@@ -161,32 +123,27 @@ const StructuredData = () => {
 
   /*
    * ============================================================
-   * RETURN STRUCTURED DATA
+   * RETURN STRUCTURED DATA - NO HELMET WRAPPER
    * ============================================================
    */
 
   return (
-    <Helmet>
-
+    <>
       {/* Organization / Business Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(organizationSchema)}
       </script>
 
       {/* Website Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(websiteSchema)}
       </script>
 
       {/* Breadcrumb Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
       </script>
-
-    </Helmet>
+    </>
   );
 };
 
