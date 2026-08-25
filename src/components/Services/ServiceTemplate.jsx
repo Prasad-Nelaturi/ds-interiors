@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
-import StructuredData from '../components/StructuredData';
+import StructuredData from '../../components/StructuredData';
 
 const ServiceTemplate = ({
   title,

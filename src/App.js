@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,6 +40,8 @@ import { ConsultationProvider } from './components/context/ConsultationContext';
 const App = () => {
   return (
     <HelmetProvider>
+      <Helmet defaultTitle="Interior Designers in Hyderabad | Dsigner Studio Interiors" />
+
       <ConsultationProvider>
         <BrowserRouter>
           <ScrollToTop />
