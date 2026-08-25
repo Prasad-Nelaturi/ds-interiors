@@ -31,7 +31,6 @@ import {
   Shield,
   FileText
 } from "lucide-react";
-import StructuredData from './StructuredData';
 
 const Layout = () => {
   const location = useLocation();
@@ -187,7 +186,6 @@ const Layout = () => {
 
   return (
     <>
-      <StructuredData />
       <div className="container mx-auto min-h-screen bg-white overflow-x-hidden">
         {/* Navigation */}
         <nav
