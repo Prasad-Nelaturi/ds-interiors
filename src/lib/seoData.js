@@ -1,9 +1,6 @@
 export const SITE_URL = "https://www.dsignerstudiointeriors.com";
 
 export const defaultSEO = {
-    title: "Interior Designers in Hyderabad | Dsigner Studio Interiors",
-    description:
-        "Premium interior design studio in Hyderabad offering residential interiors, commercial interiors, luxury villa design, 3D visualization and complete interior solutions.",
     image: `${SITE_URL}/ds-lg.jpeg`,
     imageAlt:
         "Dsigner Studio Interiors - Interior Design Studio in Hyderabad",
