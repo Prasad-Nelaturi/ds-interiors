@@ -42,6 +42,8 @@ const SEO = () => {
             <meta property="og:url" content={seo.canonical} />
             <meta property="og:type" content={seo.type || "website"} />
             <meta property="og:image" content={seo.image} />
+            <meta property="og:image:alt" content={seo.imageAlt} />
+            <meta property="og:locale" content={seo.locale || "en_IN"} />
 
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={seo.title} />
