@@ -380,19 +380,15 @@ const ServiceTemplate = ({
                           <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-xs font-bold text-amber-600 shadow-md">
                             {String(index + 1).padStart(2, "0")}
                           </div>
-
                         </div>
-
                       </div>
 
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
                         {feature.title}
                       </h3>
-
                       <p className="text-gray-600 leading-relaxed">
                         {feature.description}
                       </p>
-
                     </div>
 
                   </div>
