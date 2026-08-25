@@ -1,117 +1,88 @@
-import React from "react";
-import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
-import { getSEOForRoute } from "../lib/seoData";
+import { useEffect } from "react";
 
 const SEO = ({
     title,
     description,
     keywords,
-    image,
-    imageAlt,
-    noIndex,
+    canonical,
+    noIndex = false,
 }) => {
-    const location = useLocation();
+    useEffect(() => {
+        // TITLE
+        document.title = title || "Dsigner Studio Interiors";
 
-    const routeSEO = getSEOForRoute(location.pathname);
+        // DESCRIPTION
+        let descriptionTag = document.querySelector(
+            'meta[name="description"]'
+        );
 
-    return (
-        <h1>{routeSEO.h1}</h1>
-    );
+        if (!descriptionTag) {
+            descriptionTag = document.createElement("meta");
+            descriptionTag.setAttribute("name", "description");
+            document.head.appendChild(descriptionTag);
+        }
 
-    const finalTitle = title || routeSEO.title;
-    const finalDescription = description || routeSEO.description;
-    const finalKeywords = keywords || routeSEO.keywords;
-    const finalImage = image || routeSEO.image;
-    const finalImageAlt = imageAlt || routeSEO.imageAlt;
-    const finalCanonical = routeSEO.canonical;
+        descriptionTag.setAttribute(
+            "content",
+            description || ""
+        );
 
-    return (
-        <Helmet>
-            <title>{finalTitle}</title>
+        // KEYWORDS
+        if (keywords) {
+            let keywordsTag = document.querySelector(
+                'meta[name="keywords"]'
+            );
 
-            <meta
-                name="description"
-                content={finalDescription}
-            />
+            if (!keywordsTag) {
+                keywordsTag = document.createElement("meta");
+                keywordsTag.setAttribute("name", "keywords");
+                document.head.appendChild(keywordsTag);
+            }
 
-            {finalKeywords && (
-                <meta
-                    name="keywords"
-                    content={finalKeywords}
-                />
-            )}
+            keywordsTag.setAttribute("content", keywords);
+        }
 
-            <link
-                rel="canonical"
-                href={finalCanonical}
-            />
+        // CANONICAL
+        if (canonical) {
+            let canonicalTag = document.querySelector(
+                'link[rel="canonical"]'
+            );
 
-            <meta
-                name="robots"
-                content={
-                    noIndex || routeSEO.noIndex
-                        ? "noindex, nofollow"
-                        : "index, follow"
-                }
-            />
+            if (!canonicalTag) {
+                canonicalTag = document.createElement("link");
+                canonicalTag.setAttribute("rel", "canonical");
+                document.head.appendChild(canonicalTag);
+            }
 
-            <meta
-                property="og:title"
-                content={finalTitle}
-            />
+            canonicalTag.setAttribute("href", canonical);
+        }
 
-            <meta
-                property="og:description"
-                content={finalDescription}
-            />
+        // ROBOTS
+        let robotsTag = document.querySelector(
+            'meta[name="robots"]'
+        );
 
-            <meta
-                property="og:url"
-                content={finalCanonical}
-            />
+        if (!robotsTag) {
+            robotsTag = document.createElement("meta");
+            robotsTag.setAttribute("name", "robots");
+            document.head.appendChild(robotsTag);
+        }
 
-            <meta
-                property="og:type"
-                content={routeSEO.type || "website"}
-            />
+        robotsTag.setAttribute(
+            "content",
+            noIndex
+                ? "noindex, nofollow"
+                : "index, follow"
+        );
+    }, [
+        title,
+        description,
+        keywords,
+        canonical,
+        noIndex,
+    ]);
 
-            <meta
-                property="og:image"
-                content={finalImage}
-            />
-
-            <meta
-                property="og:image:alt"
-                content={finalImageAlt}
-            />
-
-            <meta
-                property="og:locale"
-                content={routeSEO.locale || "en_IN"}
-            />
-
-            <meta
-                name="twitter:card"
-                content="summary_large_image"
-            />
-
-            <meta
-                name="twitter:title"
-                content={finalTitle}
-            />
-
-            <meta
-                name="twitter:description"
-                content={finalDescription}
-            />
-
-            <meta
-                name="twitter:image"
-                content={finalImage}
-            />
-        </Helmet>
-    );
+    return null;
 };
 
 export default SEO;
