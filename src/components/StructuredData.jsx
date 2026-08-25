@@ -97,24 +97,6 @@ const StructuredData = () => {
    * ============================================================
    * BREADCRUMB SCHEMA
    * ============================================================
-   *
-   * Example:
-   *
-   * /services/interior-design
-   *
-   * Home
-   *   ↓
-   * Services
-   *   ↓
-   * Interior Design
-   *
-   * URLs:
-   *
-   * /
-   * /services
-   * /services/interior-design
-   *
-   * ============================================================
    */
 
   const segments = pathname
@@ -161,27 +143,32 @@ const StructuredData = () => {
 
   /*
    * ============================================================
-   * RETURN STRUCTURED DATA
+   * RETURN STRUCTURED DATA - REMOVED ANY TITLE TAGS
    * ============================================================
    */
 
   return (
     <Helmet>
+      {/* 
+        ============================================================
+        ⚠️ CRITICAL: DO NOT PUT ANY <title> TAGS HERE
+        ============================================================
+        The title is managed by the SEO component in each page.
+        This component is only for structured data (JSON-LD).
+        ============================================================
+      */}
 
       {/* Organization / Business Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(organizationSchema)}
       </script>
 
       {/* Website Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(websiteSchema)}
       </script>
 
       {/* Breadcrumb Schema */}
-
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
       </script>
