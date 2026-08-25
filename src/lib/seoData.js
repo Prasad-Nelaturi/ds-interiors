@@ -200,7 +200,7 @@ export const getSEOForRoute = (pathname = "/") => {
         return {
             ...defaultSEO,
             ...route,
-            title: route.title,
+            title: route.title || defaultSEO.title,
             canonical:
                 cleanPath === "/"
                     ? `${SITE_URL}/`
@@ -225,12 +225,6 @@ export const getSEOForRoute = (pathname = "/") => {
 
     return {
         ...defaultSEO,
-        title: `${cleanPath
-                .split("/")
-                .filter(Boolean)
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" | ")
-            } | Dsigner Studio Interiors`,
         canonical:
             cleanPath === "/"
                 ? `${SITE_URL}/`
