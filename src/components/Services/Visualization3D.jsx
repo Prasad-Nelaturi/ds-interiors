@@ -16,6 +16,7 @@ const Visualization3D = () => {
       "Bring your projects to life with stunning 3D visualizations. Experience your design before construction begins.",
     image:
       "/images/services_section/service_3D_views_visualization.avif",
+    imageAlt: "Split image showing a hand-drawn architectural sketch with measurements on the left transitioning into a fully rendered 3D visualization of a modern villa with a pool, palm trees, and red outdoor furniture on the right.",
     features: [
       {
         icon: <Cube className="w-8 h-8" />,

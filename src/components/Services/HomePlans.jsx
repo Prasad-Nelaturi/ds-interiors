@@ -9,6 +9,7 @@ const HomePlans = () => {
       "Comprehensive home planning services from concept to completion. We design homes that perfectly match your lifestyle and needs.",
     image:
       "/images/services_section/service_home_plans_elevations.png",
+      imageAlt: "Infographic titled 'Home Plans & Elevations' showing a two-story modern house exterior, ground and first floor plans labeled with room dimensions (bedrooms, kitchen, living, dining, lounge, balcony), four elevation views (front, left, rear, right), and icons highlighting smart layout, natural light, modern design, and quality construction.",
     features: [
       {
         icon: <Compass className="w-8 h-8" />,

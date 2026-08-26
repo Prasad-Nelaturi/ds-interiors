@@ -9,6 +9,7 @@ const ResidentialInteriors = () => {
       "Complete interior design solutions for homes. Create living spaces that reflect your lifestyle and personality.",
     image:
       "/images/services_section/service_residential_interiors1.jpg",
+    imageAlt: "Moody navy-blue living room with built-in display shelving, colorful abstract wall art, a burnt-orange sofa, mustard and grey accent chairs, and round dark blue ottomans on a patterned rug.",
     features: [
       {
         icon: <Bed />,

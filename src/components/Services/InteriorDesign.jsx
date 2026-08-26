@@ -16,6 +16,7 @@ const InteriorDesign = () => {
       "Transform your space with our expert interior design services. We create beautiful, functional spaces that reflect your style and personality.",
     image:
       "/images/services_section/service_interior_design.jpg",
+    imageAlt: "Elegant living room with grey upholstered armchairs, a round glass coffee table with a floral centerpiece, sheer curtains, and a white staircase with under-stair storage shelving in the background.",
     features: [
       {
         icon: <Paintbrush className="w-8 h-8" />,

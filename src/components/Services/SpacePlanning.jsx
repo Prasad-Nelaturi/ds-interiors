@@ -9,6 +9,7 @@ const SpacePlanning = () => {
       "Professional space planning services to optimize your interiors. Efficient layouts that maximize functionality and flow.",
     image:
       "/images/services_section/service_space_planning1.jpg",
+    imageAlt: "Open-plan living and dining space with modular white sofas, a leather Barcelona-style lounge chair, wooden coffee table, and floor-to-ceiling glass doors opening onto an outdoor patio with plants.",
     features: [
       {
         icon: <Move />,

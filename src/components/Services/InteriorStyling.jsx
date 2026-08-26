@@ -16,6 +16,7 @@ const InteriorStyling = () => {
       "Expert interior styling services that bring life to your spaces. From accessories to furniture arrangement.",
     image:
       "/images/services_section/service_interior_styling_decor.png",
+    imageAlt: "Warm, textured living room with a grey sectional sofa, wooden sculptural side tables, a woven pendant lamp, carved wood wall panel, potted plants, and a view into a lush garden through glass doors.",
     features: [
       {
         icon: <Sparkles />,

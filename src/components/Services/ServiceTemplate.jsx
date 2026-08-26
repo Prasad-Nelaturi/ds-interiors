@@ -18,6 +18,7 @@ const ServiceTemplate = ({
   title,
   description,
   image,
+  imageAlt,
   features = [],
   benefits = [],
   process = [],
@@ -73,6 +74,8 @@ const ServiceTemplate = ({
     delay: Math.random() * 5,
   }));
 
+  const defaultAlt = `${title} services by Dsigner Studio Interiors - Professional interior design services in Hyderabad`;
+
   return (
     <>
 
@@ -84,7 +87,7 @@ const ServiceTemplate = ({
 
             <img
               src={image}
-              alt={`${title} services by Dsigner Studio Interiors`}
+              alt={imageAlt || defaultAlt}
               className="w-full h-full object-cover transform scale-105"
             />
 

@@ -32,8 +32,8 @@ const ServicesSection = ({
       icon: <Layers className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Complete interior solutions on turnkey & consultant basis",
       category: "DESIGN",
-      image:
-        "/images/services_section/service_interior_design.jpg",
+      image: "/images/services_section/service_interior_design.jpg",
+      alt: "Elegant living room with grey upholstered armchairs, a round glass coffee table with a floral centerpiece, sheer curtains, and a white staircase with under-stair storage shelving in the background.",
       features: ["Custom Layouts", "3D Visualizations", "Material Selection"],
       path: "/services/interior-design",
     },
@@ -42,8 +42,8 @@ const ServicesSection = ({
       icon: <DraftingCompass className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Detailed floor plans & architectural elevations",
       category: "ARCHITECTURE",
-      image:
-        "/images/services_section/service_home_plans_elevations.png",
+      image: "/images/services_section/service_home_plans_elevations.png",
+      alt: "Infographic titled 'Home Plans & Elevations' showing a two-story modern house exterior, ground and first floor plans labeled with room dimensions (bedrooms, kitchen, living, dining, lounge, balcony), four elevation views (front, left, rear, right), and icons highlighting smart layout, natural light, modern design, and quality construction.",
       features: ["Floor Plans", "Elevations", "Structural Design"],
       path: "/services/home-plans",
     },
@@ -52,8 +52,8 @@ const ServicesSection = ({
       icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Realistic 3D renderings of your dream space",
       category: "TECHNOLOGY",
-      image:
-        "/images/services_section/service_3D_views_visualization.avif",
+      image: "/images/services_section/service_3D_views_visualization.avif",
+      alt: "Split image showing a hand-drawn architectural sketch with measurements on the left transitioning into a fully rendered 3D visualization of a modern villa with a pool, palm trees, and red outdoor furniture on the right.",
       features: ["3D Renderings", "Virtual Tours", "Material Previews"],
       path: "/services/3d-visualization",
     },
@@ -62,8 +62,8 @@ const ServicesSection = ({
       icon: <TreeDeciduous className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Beautiful outdoor spaces & garden designs",
       category: "OUTDOOR",
-      image:
-        "/images/services_section/service_landscaping.jpg",
+      image: "/images/services_section/service_landscaping.jpg",
+      alt: "Front yard of a house with a curving flagstone pathway lined with colorful flower beds, manicured lawn, path lighting, and a bright orange front door.",
       features: ["Garden Design", "Outdoor Lighting", "Irrigation Systems"],
       path: "/services/landscaping",
     },
@@ -72,8 +72,8 @@ const ServicesSection = ({
       icon: <Cctv className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Smart home solutions for modern living",
       category: "TECHNOLOGY",
-      image:
-        "/images/services_section/service_home_automation.jpg",
+      image: "/images/services_section/service_home_automation.jpg",
+      alt: "Illuminated modern house with a pool at dusk, overlaid with icons for smart home features including heating, lighting, hot water, camera, motion sensor, temperature, and plug controls, plus a smartphone showing a home automation app.",
       features: ["Smart Lighting", "Security Systems", "Voice Control"],
       path: "/services/home-automation",
     },
@@ -82,8 +82,8 @@ const ServicesSection = ({
       icon: <VenetianMask className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Premium window treatments & furnishings",
       category: "FURNISHINGS",
-      image:
-        "/images/services_section/service_curtains_blinds.jpg",
+      image: "/images/services_section/service_curtains_blinds.jpg",
+      alt: "Luxurious living room with floor-to-ceiling beige and sheer drapery, a green accent armchair, tufted cream sofas, and a decorative mirrored console table with candles and vases.",
       features: ["Custom Curtains", "Motorized Blinds", "Fabric Selection"],
       path: "/services/curtains-blinds",
     },
@@ -92,8 +92,8 @@ const ServicesSection = ({
       icon: <Radio className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Modern kitchen ventilation & cooking solutions",
       category: "KITCHEN",
-      image:
-        "/images/services_section/service_chimneys_hobs.avif",
+      image: "/images/services_section/service_chimneys_hobs.avif",
+      alt: "Woman giving a thumbs-up while cooking at a gas hob in a modern kitchen, with steam rising into a black chimney hood, built-in oven and microwave, marble backsplash, and pendant lights overhead.",
       features: [
         "Chimney Installation",
         "Hob Selection",
@@ -106,8 +106,8 @@ const ServicesSection = ({
       icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Complete home interiors on turnkey basis",
       category: "POPULAR",
-      image:
-        "/images/services_section/service_residential_interiors.jpg",
+      image: "/images/services_section/service_residential_interiors.jpg",
+      alt: "Moody navy-blue living room with built-in display shelving, colorful abstract wall art, a burnt-orange sofa, mustard and grey accent chairs, and round dark blue ottomans on a patterned rug.",
       features: [
         "Full Home Design",
         "Furniture Selection",
@@ -120,8 +120,8 @@ const ServicesSection = ({
       icon: <Building className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Office spaces, retail & commercial interiors",
       category: "BUSINESS",
-      image:
-        "/images/services_section/service_commercial_interiors.jpg",
+      image: "/images/services_section/service_commercial_interiors.jpg",
+      alt: "Contemporary restaurant interior with beige booth seating, white dome pendant lights, a curved feature wall with illuminated circular light fixtures, and floor-to-ceiling windows overlooking city buildings.",
       features: ["Office Planning", "Retail Design", "Brand Integration"],
       path: "/services/commercial",
     },
@@ -130,8 +130,8 @@ const ServicesSection = ({
       icon: <Palette className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Curated furniture & decor solutions",
       category: "STYLING",
-      image:
-        "/images/services_section/service_interior_styling_decor.png",
+      image: "/images/services_section/service_interior_styling_decor.png",
+      alt: "Warm, textured living room with a grey sectional sofa, wooden sculptural side tables, a woven pendant lamp, carved wood wall panel, potted plants, and a view into a lush garden through glass doors.",
       features: ["Furniture Curation", "Art Selection", "Accessories"],
       path: "/services/styling",
     },
@@ -140,8 +140,8 @@ const ServicesSection = ({
       icon: <Crown className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Premium villa interiors with exquisite finishes",
       category: "PREMIUM",
-      image:
-        "/images/services_section/service_luxury_villa_design.jpg",
+      image: "/images/services_section/service_luxury_villa_design.jpg",
+      alt: "Illustrated rendering of a modern two-story villa with orange and white facades, glass walls, and wraparound balconies, surrounded by tropical palm trees and rocks beside an infinity pool.",
       features: ["Luxury Finishes", "Smart Home", "Landscape Design"],
       path: "/services/luxury-villas",
     },
@@ -150,13 +150,12 @@ const ServicesSection = ({
       icon: <Ruler className="w-5 h-5 sm:w-6 sm:h-6" />,
       description: "Optimized layouts for maximum functionality",
       category: "PLANNING",
-      image:
-        "/images/services_section/service_space_planning.jpg",
+      image: "/images/services_section/service_space_planning.jpg",
+      alt: "Open-plan living and dining space with modular white sofas, a leather Barcelona-style lounge chair, wooden coffee table, and floor-to-ceiling glass doors opening onto an outdoor patio with plants.",
       features: ["Floor Planning", "Traffic Flow", "Zoning Strategy"],
       path: "/services/space-planning",
     },
   ];
-
   // Function to handle scroll to contact section
   const handleScrollToContact = () => {
     if (contactRef && contactRef.current) {
@@ -286,7 +285,7 @@ const ServicesSection = ({
                   <div className="relative h-48 sm:h-56 md:h-64 flex-shrink-0 overflow-hidden">
                     <img
                       src={service.image}
-                      alt={service.name}
+                      alt={service.alt}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent"></div>

@@ -207,7 +207,7 @@ const Layout = () => {
                 <div className="relative w-12 h-12 rounded-xl overflow-hidden group-hover:shadow-lg transition-all duration-300">
                   <img
                     src="/ds-lg.jpeg"
-                    alt="Dsigner Studio Interiors"
+                    alt="Gold 'DS' monogram logo on a dark background for Dsigner Studio Interiors."
                     className="w-full h-full object-cover rounded-lg"
                   />
                 </div>

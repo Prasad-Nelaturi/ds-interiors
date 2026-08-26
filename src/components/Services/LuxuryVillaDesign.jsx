@@ -9,6 +9,7 @@ const LuxuryVillaDesign = () => {
       "Premium villa design services for discerning clients. Create magnificent living spaces with unparalleled luxury.",
     image:
       "/images/services_section/service_luxury_villa_design.jpg",
+    imageAlt: "Illustrated rendering of a modern two-story villa with orange and white facades, glass walls, and wraparound balconies, surrounded by tropical palm trees and rocks beside an infinity pool.",
     features: [
       {
         icon: <Crown />,

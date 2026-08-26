@@ -18,8 +18,8 @@ const KitchenAppliances = () => {
       title: "Smart Modular Kitchen",
       category: "Luxury Kitchen",
       icon: <ChefHat className="w-4 h-4" />,
-      image:
-        "https://mir-s3-cdn-cf.behance.net/project_modules/hd/e73fbd127166603.613c3c5346de6.gif",
+      image: "/images/kitchen/smart-modular-kitchen.gif",
+      alt: "Smart modular luxury kitchen interior design",
       description:
         "Elegant modular kitchens crafted for premium functionality.",
     },
@@ -28,36 +28,40 @@ const KitchenAppliances = () => {
       title: "Built-In Microwave",
       category: "Modern Appliance",
       icon: <Microwave className="w-4 h-4" />,
-      image:
-        "https://img.magnific.com/free-vector/household-appliances-realistic-composition_1284-65307.jpg",
-      description: "Seamlessly integrated microwaves for modern living.",
+      image: "/images/kitchen/built-in-microwave.jpg",
+      alt: "Built-in microwave in a modern kitchen",
+      description:
+        "Seamlessly integrated microwaves for modern living.",
     },
     {
       id: 3,
       title: "Luxury Refrigerators",
       category: "Smart Cooling",
       icon: <Refrigerator className="w-4 h-4" />,
-      image:
-        "https://images.squarespace-cdn.com/content/v1/5ff4fea9352e1a2ded7fe932/c9b6db2d-f7a1-4454-88ec-88d07b0b1f6c/Screen+Shot+2021-09-27+at+6.04.18+PM.png",
-      description: "Energy-efficient refrigerators with smart storage.",
+      image: "/images/kitchen/luxury-refrigerators.png",
+      alt: "Modern dark kitchen with built-in Miele wall ovens and coffee maker, an open refrigerator stocked with fresh produce, and a marble-and-wood kitchen island with a gas cooktop.",
+      description:
+        "Energy-efficient refrigerators with smart storage.",
     },
     {
       id: 4,
       title: "Premium Cooktops",
       category: "Cooking Essentials",
       icon: <Flame className="w-4 h-4" />,
-      image:
-        "https://cdn.shopify.com/s/files/1/0104/9211/7092/files/cooktop_m_1.jpg?v=1737117141",
-      description: "High-performance cooktops for precision cooking.",
+      image: "/images/kitchen/premium-cooktops.jpg",
+      alt: "Premium kitchen cooktop for modern cooking",
+      description:
+        "High-performance cooktops for precision cooking.",
     },
     {
       id: 5,
       title: "Coffee & Beverage",
       category: "Lifestyle Appliance",
       icon: <Coffee className="w-4 h-4" />,
-      image:
-        "https://www.goodhomesmagazine.com/wp-content/uploads/2022/03/coffee-station-new.jpg",
-      description: "Create café-style experiences at home.",
+      image: "/images/kitchen/coffee-beverage.jpg",
+      alt: "Built-in kitchen coffee station with open cabinet doors revealing a pink-paneled backsplash, glassware, crockery, and a espresso machine, next to a black wall oven and microwave, with a tan leather chair at a marble-topped island in the foreground.",
+      description:
+        "Create café-style experiences at home.",
     },
   ];
 
@@ -160,7 +164,7 @@ const KitchenAppliances = () => {
               </div>
 
               {/* CTA */}
-              <ConsultationButton/>
+              <ConsultationButton />
             </div>
           </motion.div>
         </div>

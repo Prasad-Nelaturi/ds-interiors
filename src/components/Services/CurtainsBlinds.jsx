@@ -16,6 +16,7 @@ const CurtainsBlinds = () => {
       "Custom window treatments that combine style and functionality. From elegant curtains to modern blinds.",
     image:
       "/images/services_section/service_curtains_blinds.jpg",
+    imageAlt: "Luxurious living room with floor-to-ceiling beige and sheer drapery, a green accent armchair, tufted cream sofas, and a decorative mirrored console table with candles and vases.",
     features: [
       {
         icon: <Bolt />,

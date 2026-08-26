@@ -5,15 +5,15 @@ const HeroCarousel = () => {
   const slides = [
     {
       image: "/sl1.png",
-      mobileImage: "/m-sl1.0.jfif",
+      mobileImage: "/m-sl1.0.jpg",
     },
     {
       image: "/sl2.jpg",
-      mobileImage: "/m-sl1.1.jfif",
+      mobileImage: "/m-sl1.1.jpg",
     },
     {
       image: "/sl3.jpg",
-      mobileImage: "/m-sl1.2.jfif",
+      mobileImage: "/m-sl1.2.jpg",
     },
   ];
 
@@ -246,7 +246,7 @@ const HeroCarousel = () => {
       </div>
 
       {/* ===== SLOGAN - Bottom Left ===== */}
-      <div className="absolute inset-x-0 bottom-0 z-50 py-6 sm:py-8 md:py-10 lg:py-12 px-6 sm:px-8 md:px-12 lg:px-20 bg-black/80">
+      <div className="absolute inset-x-0 bottom-0 z-10 py-4 sm:py-6 md:py-8 lg:py-10 px-4 sm:px-6 md:px-10 lg:px-16 bg-black/80">
         <div className="max-w-7xl mx-auto">
           <AnimatePresence mode="popLayout" custom={direction}>
             <motion.div
@@ -301,7 +301,7 @@ const HeroCarousel = () => {
 
       {/* ===== NAVIGATION ARROWS ===== */}
       <motion.button
-        className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-[300] p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
+        className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
         onClick={prevSlide}
         aria-label="Previous slide"
         whileHover={{ scale: 1.1 }}
@@ -323,7 +323,7 @@ const HeroCarousel = () => {
       </motion.button>
 
       <motion.button
-        className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-[300] p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
+        className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 bg-white/5 hover:bg-white/15 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 group"
         onClick={nextSlide}
         aria-label="Next slide"
         whileHover={{ scale: 1.1 }}

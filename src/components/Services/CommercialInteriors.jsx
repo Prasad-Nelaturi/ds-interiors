@@ -16,6 +16,7 @@ const CommercialInteriors = () => {
       "Professional interior design services for commercial spaces. Create environments that enhance productivity and brand image.",
     image:
       "/images/services_section/service_commercial_interiors1.jpg",
+    imageAlt: "Contemporary restaurant interior with beige booth seating, white dome pendant lights, a curved feature wall with illuminated circular light fixtures, and floor-to-ceiling windows overlooking city buildings.",
     features: [
       {
         icon: <Briefcase />,

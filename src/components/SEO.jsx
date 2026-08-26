@@ -17,19 +17,27 @@ const SEO = () => {
                 titles[i].remove();
             }
         }
-        
+
         // Also check if there's a title in the head that's not from Helmet
         const headTitle = document.querySelector('head > title');
         if (headTitle && headTitle.textContent !== seo.title) {
             headTitle.textContent = seo.title;
         }
+
+        const gtmScripts = document.querySelectorAll('script[src*="googletagmanager.com/gtm.js"]');
+        if (gtmScripts.length > 1) {
+            for (let i = 1; i < gtmScripts.length; i++) {
+                gtmScripts[i].remove();
+            }
+        }
+
     }, [seo.title]);
 
     return (
         <Helmet>
             {/* Force override with current route title */}
             <title>{seo.title}</title>
-            
+
             {/* Add a unique identifier to ensure this is the only title */}
             <title data-seo="true">{seo.title}</title>
 

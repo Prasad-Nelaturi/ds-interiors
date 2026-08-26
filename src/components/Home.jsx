@@ -772,7 +772,7 @@ const DSInteriorsWebsite = () => {
                   <div className="absolute -bottom-4 sm:-bottom-6 -right-4 sm:-right-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 border-b-4 border-r-4 border-amber-300"></div>
                   <img
                     src="/dsv1.jpeg"
-                    alt="Sarah Dsigner - Interior Designer"
+                    alt="Man in a navy blue suit smiling and holding a trophy and certificate on stage at the India Design Awards event, in front of a step-and-repeat backdrop with sponsor logos including Blindwink, TAJ, and Brandz Magazine."
                     className="rounded-2xl w-full h-auto object-cover"
                     loading="lazy"
                   />

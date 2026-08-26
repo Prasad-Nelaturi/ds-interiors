@@ -9,6 +9,7 @@ const Landscaping = () => {
       "Create stunning outdoor spaces with our professional landscaping services. From garden design to complete outdoor transformations.",
     image:
       "/images/services_section/service_landscaping.jpg",
+    imageAlt: "Front yard of a house with a curving flagstone pathway lined with colorful flower beds, manicured lawn, path lighting, and a bright orange front door.",
     features: [
       {
         icon: <Trees />,
