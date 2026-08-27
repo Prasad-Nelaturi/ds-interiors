@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import SchemaMarkup from "../SchemaMarkup";
 import {
   ArrowRight,
   CheckCircle,
@@ -25,6 +26,10 @@ const ServiceTemplate = ({
   faqs = [],
   ctaText = "Get a Free Consultation",
   ctaLink = "/contact",
+  serviceType,
+  priceRange,
+  rating,
+  reviewCount
 }) => {
   const location = useLocation();
 
@@ -39,6 +44,30 @@ const ServiceTemplate = ({
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const currentUrl = `https://www.dsignerstudiointeriors.com${location.pathname}`;
+
+  // Breadcrumb items
+  const breadcrumbItems = [
+    { name: "Home", url: "https://www.dsignerstudiointeriors.com" },
+    { name: "Services", url: "https://www.dsignerstudiointeriors.com/services" },
+    { name: title, url: currentUrl }
+  ];
+
+  // Service data for schema
+  const serviceData = {
+    title,
+    description,
+    image,
+    features,
+    benefits,
+    process,
+    faqs,
+    serviceType: serviceType || title,
+    priceRange,
+    rating,
+    reviewCount
   };
 
   const stats = [
@@ -78,6 +107,12 @@ const ServiceTemplate = ({
 
   return (
     <>
+
+      <SchemaMarkup
+        serviceData={serviceData}
+        pageUrl={currentUrl}
+        breadcrumbItems={breadcrumbItems}
+      />
 
       <div className="min-h-screen bg-white overflow-hidden">
 
