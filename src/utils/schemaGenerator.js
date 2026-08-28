@@ -25,22 +25,23 @@ export const generateServiceSchema = (serviceData, pageUrl) => {
             "name": "Dsigner Studio Interiors",
             "image": "https://www.dsignerstudiointeriors.com/images/logo.png",
             "url": "https://www.dsignerstudiointeriors.com",
-            "telephone": "+91-XXXXXXXXXX",
-            "email": "info@dsignerstudiointeriors.com",
+            "telephone": "+91-9010989991",
+            "email": "dsinteriorshyd1@gmail.com",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Your Street Address",
+                "streetAddress": "Door No 1-31/1, Raja Ram Enclave, Kondapur",
                 "addressLocality": "Hyderabad",
                 "addressRegion": "Telangana",
-                "postalCode": "500001",
+                "postalCode": "500084",
                 "addressCountry": "IN"
             },
             "priceRange": priceRange,
-            "openingHours": "Mo-Sa 09:00-18:00",
+            "openingHours": "Mo-Sa 09:00-19:00",
             "sameAs": [
-                "https://www.facebook.com/dsignerstudiointeriors",
-                "https://www.instagram.com/dsignerstudiointeriors",
-                "https://www.youtube.com/dsignerstudiointeriors"
+                "https://www.facebook.com/profile.php?id=61590853052566",
+                "https://www.instagram.com/dsignerstudiointeriors/",
+                "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
+                "https://www.youtube.com/@DsignerstudioInteriors"
             ]
         },
         "serviceType": serviceType || title,
@@ -149,23 +150,176 @@ export const generateOrganizationSchema = () => {
         "description": "Premium interior design services in Hyderabad offering residential, commercial, and luxury interior design solutions.",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Your Street Address",
+            "streetAddress": "Door No 1-31/1, Raja Ram Enclave, Kondapur",
             "addressLocality": "Hyderabad",
             "addressRegion": "Telangana",
-            "postalCode": "500001",
+            "postalCode": "500084",
             "addressCountry": "IN"
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+91-XXXXXXXXXX",
+            "telephone": "+91-9010989991",
             "contactType": "Sales",
             "availableLanguage": ["English", "Telugu", "Hindi"]
         },
         "sameAs": [
-            "https://www.facebook.com/dsignerstudiointeriors",
-            "https://www.instagram.com/dsignerstudiointeriors",
-            "https://www.youtube.com/dsignerstudiointeriors",
-            "https://www.linkedin.com/company/dsignerstudiointeriors"
+            "https://www.facebook.com/profile.php?id=61590853052566",
+            "https://www.instagram.com/dsignerstudiointeriors/",
+            "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
+            "https://www.youtube.com/@DsignerstudioInteriors"
         ]
+    };
+};
+
+// ===== HOMEPAGE SCHEMAS =====
+
+// Homepage Website Schema
+export const generateHomepageSchema = (homepageData) => {
+    const {
+        title = "Dsigner Studio Interiors - Premium Interior Design in Hyderabad",
+        description = "Dsigner Studio Interiors offers premium residential, commercial, and luxury interior design services in Hyderabad. Transform your space with our expert designers.",
+        image = "/images/logo.png"
+    } = homepageData;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Dsigner Studio Interiors",
+        "url": "https://www.dsignerstudiointeriors.com",
+        "description": description,
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.dsignerstudiointeriors.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    };
+};
+
+// LocalBusiness Schema for Homepage
+export const generateLocalBusinessSchema = (businessData) => {
+    const {
+        name = "Dsigner Studio Interiors",
+        description = "Premium interior design services in Hyderabad offering residential, commercial, and luxury interior design solutions.",
+        image = "/images/logo.png",
+        telephone = "+91-9010989991",
+        email = "dsinteriorshyd1@gmail.com",
+        address = {
+            streetAddress: "Door No 1-31/1, Raja Ram Enclave, Kondapur",
+            addressLocality: "Hyderabad",
+            addressRegion: "Telangana",
+            postalCode: "500084",
+            addressCountry: "IN"
+        },
+        geo = {
+            latitude: "17.4341",
+            longitude: "78.3942"
+        },
+        priceRange = "₹₹₹",
+        openingHours = "Mo-Sa 09:00-19:00",
+        sameAs = [
+            "https://www.facebook.com/profile.php?id=61590853052566",
+            "https://www.instagram.com/dsignerstudiointeriors/",
+            "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
+            "https://www.youtube.com/@DsignerstudioInteriors"
+        ],
+        services = [],
+        awards = [],
+        aggregateRating = {
+            ratingValue: "4.8",
+            reviewCount: "128",
+            bestRating: "5"
+        }
+    } = businessData;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": name,
+        "description": description,
+        "url": "https://www.dsignerstudiointeriors.com",
+        "logo": `https://www.dsignerstudiointeriors.com${image}`,
+        "image": `https://www.dsignerstudiointeriors.com${image}`,
+        "telephone": telephone,
+        "email": email,
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": address.streetAddress,
+            "addressLocality": address.addressLocality,
+            "addressRegion": address.addressRegion,
+            "postalCode": address.postalCode,
+            "addressCountry": address.addressCountry
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": geo.latitude,
+            "longitude": geo.longitude
+        },
+        "priceRange": priceRange,
+        "openingHours": openingHours,
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "09:00",
+                "closes": "19:00"
+            }
+        ],
+        "sameAs": sameAs,
+        "aggregateRating": aggregateRating,
+        "hasOfferCatalog": services.length > 0 ? {
+            "@type": "OfferCatalog",
+            "name": "Interior Design Services",
+            "itemListElement": services.map((service, index) => ({
+                "@type": "Offer",
+                "position": index + 1,
+                "name": service.name || service.title,
+                "description": service.description || service.subtitle,
+                "url": service.url || `https://www.dsignerstudiointeriors.com/services/${service.slug || service.name?.toLowerCase().replace(/\s+/g, '-')}`
+            }))
+        } : undefined,
+        "award": awards.length > 0 ? awards.map(award => award.name || award).join(", ") : undefined
+    };
+};
+
+// FAQ Schema for Homepage
+export const generateFAQSchema = (faqs) => {
+    if (!faqs || faqs.length === 0) return null;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+            }
+        }))
+    };
+};
+
+// HowTo Schema for Process
+export const generateHowToSchema = (processData) => {
+    const {
+        name = "Our Interior Design Process",
+        description = "Step-by-step guide to our interior design process",
+        steps = []
+    } = processData;
+
+    if (!steps || steps.length === 0) return null;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": name,
+        "description": description,
+        "step": steps.map((step, index) => ({
+            "@type": "HowToStep",
+            "position": index + 1,
+            "name": step.title,
+            "text": step.description,
+            "image": step.image ? `https://www.dsignerstudiointeriors.com${step.image}` : undefined
+        }))
     };
 };

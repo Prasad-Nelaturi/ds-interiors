@@ -9,6 +9,7 @@ import GallerySection from "../components/GallerySection";
 import ServicesSection from "./ServicesSection";
 import ScrollingGallery from '../components/ScrollingGallery';
 import AwardsCarousel from '../components/AwardsCarousel';
+import SchemaMarkup from '../components/SchemaMarkup';
 
 import {
   Star,
@@ -197,9 +198,159 @@ const DSInteriorsWebsite = () => {
     </div>
   );
 
+
+  // Homepage Data
+  const homepageData = {
+    title: "Dsigner Studio Interiors - Premium Interior Design in Hyderabad",
+    description: "Dsigner Studio Interiors offers premium residential, commercial, and luxury interior design services in Hyderabad. Transform your space with our expert designers.",
+    image: "/images/logo.png"
+  };
+
+  // Business Data
+  const businessData = {
+    name: "Dsigner Studio Interiors",
+    description: "Premium interior design services in Hyderabad offering residential, commercial, and luxury interior design solutions.",
+    image: "/images/logo.png",
+    telephone: "+91-9010989991",
+    email: "dsinteriorshyd1@gmail.com",
+    address: {
+      streetAddress: "Door No 1-31/1, Raja Ram Enclave, Kondapur",
+      addressLocality: "Hyderabad",
+      addressRegion: "Telangana",
+      postalCode: "500084",
+      addressCountry: "IN"
+    },
+    geo: {
+      latitude: "17.4341",
+      longitude: "78.3942"
+    },
+    priceRange: "₹₹₹",
+    openingHours: "Mo-Sa 09:00-19:00",
+    sameAs: [
+      "https://www.facebook.com/profile.php?id=61590853052566",
+      "https://www.instagram.com/dsignerstudiointeriors/",
+      "https://www.linkedin.com/in/dsigner-studio-interiors-889670417/",
+      "https://www.youtube.com/@DsignerstudioInteriors"
+    ],
+    services: [
+      {
+        name: "Residential Interior Design",
+        description: "Custom home interiors with personalized designs",
+        slug: "residential-interior-design"
+      },
+      {
+        name: "Commercial Interior Design",
+        description: "Office & retail spaces designed for productivity",
+        slug: "commercial-interior-design"
+      },
+      {
+        name: "Luxury Interior Design",
+        description: "Premium & luxury spaces with high-end finishes",
+        slug: "luxury-interior-design"
+      },
+      {
+        name: "Kitchen Design",
+        description: "Modern kitchen solutions with smart storage",
+        slug: "kitchen-design"
+      },
+      {
+        name: "Bathroom Design",
+        description: "Luxury bathroom designs with premium fittings",
+        slug: "bathroom-design"
+      },
+      {
+        name: "Office Interior Design",
+        description: "Professional workspace with ergonomic designs",
+        slug: "office-interior-design"
+      }
+    ],
+    awards: [
+      { name: "Best Design Studio 2023" },
+      { name: "India Design Award 2023" },
+      { name: "Top Interior Designer Hyderabad 2023" }
+    ],
+    aggregateRating: {
+      ratingValue: "4.8",
+      reviewCount: "128",
+      bestRating: "5"
+    }
+  };
+
+  // FAQs
+  const faqs = [
+    {
+      question: "What services does Dsigner Studio Interiors offer?",
+      answer: "We offer residential, commercial, luxury interior design, kitchen design, bathroom design, and office interior design services in Hyderabad."
+    },
+    {
+      question: "How much does interior design cost?",
+      answer: "Our pricing varies based on project scope, size, and materials. We offer competitive rates starting from ₹₹₹. Contact us for a free consultation and detailed quote."
+    },
+    {
+      question: "Do you offer free consultation?",
+      answer: "Yes, we offer free initial consultation to understand your requirements, vision, and provide preliminary design ideas and budget estimates."
+    },
+    {
+      question: "How long does an interior design project take?",
+      answer: "Project timelines vary based on scope and complexity. Typically, residential projects take 4-8 weeks, while commercial projects may take 8-16 weeks."
+    },
+    {
+      question: "Do you work with clients outside Hyderabad?",
+      answer: "Yes, we serve clients across Telangana and Andhra Pradesh. We also take on projects pan-India for select commercial and luxury residential projects."
+    },
+    {
+      question: "What areas in Hyderabad do you serve?",
+      answer: "We serve all areas of Hyderabad including Kondapur, Gachibowli, Jubilee Hills, Banjara Hills, HITEC City, Madhapur, Kukatpally, and all surrounding areas."
+    }
+  ];
+
+  // Process Data
+  const processData = {
+    name: "Our Interior Design Process",
+    description: "Step-by-step guide to our interior design process from consultation to delivery",
+    steps: [
+      {
+        title: "Initial Consultation",
+        description: "We understand your vision, requirements, and budget. We discuss your style preferences and project goals."
+      },
+      {
+        title: "Design & Planning",
+        description: "Our team creates detailed design plans, 3D renderings, and material selections based on your preferences."
+      },
+      {
+        title: "Material Selection",
+        description: "We help you choose the perfect materials, finishes, furniture, and decor elements for your space."
+      },
+      {
+        title: "Execution & Installation",
+        description: "Our skilled team executes the design with precision, ensuring quality craftsmanship and attention to detail."
+      },
+      {
+        title: "Final Walkthrough & Handover",
+        description: "We conduct a thorough walkthrough, address any concerns, and handover your beautifully transformed space."
+      }
+    ]
+  };
+
+  // Breadcrumb Items
+  const breadcrumbItems = [
+    { name: "Home", url: "https://www.dsignerstudiointeriors.com" }
+  ];
+
   return (
 
     <>
+
+      <SchemaMarkup
+        homepageData={homepageData}
+        businessData={businessData}
+        faqs={faqs}
+        processData={processData}
+        breadcrumbItems={breadcrumbItems}
+        includeOrganization={true}
+        isHomepage={true}
+      />
+
       <div className="min-h-screen bg-white overflow-x-hidden">
         {/* Hero Section - Smooth Endless Slider */}
         <ScrollingGallery />
