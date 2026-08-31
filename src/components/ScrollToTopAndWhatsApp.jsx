@@ -379,7 +379,7 @@ const ScrollToTopAndWhatsApp = () => {
             {/* ========================================================= */}
             {/* CSS ANIMATIONS                                            */}
             {/* ========================================================= */}
-            <style jsx>{`
+             <style>{`
                 @keyframes slide-up {
                     0% {
                         opacity: 0;

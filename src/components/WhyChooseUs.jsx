@@ -128,7 +128,7 @@ const WhyChooseUs = ({ scrollToContact }) => {
         </div>
       </div>
 
-      <style jsx>{`
+       <style>{`
         @keyframes pulse-slow {
           0%, 100% {
             transform: scale(1);

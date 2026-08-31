@@ -983,7 +983,7 @@ const ContactUs = () => {
           </div>
         </section>
 
-        <style jsx>{`
+         <style>{`
         @keyframes subtle-zoom {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }

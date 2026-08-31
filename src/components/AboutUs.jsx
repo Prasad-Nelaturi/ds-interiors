@@ -740,7 +740,7 @@ const AboutUs = () => {
           </div>
         </div>
 
-        <style jsx>{`
+         <style>{`
   /* Hide scrollbar for Chrome, Safari and Opera */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -820,7 +820,7 @@ const AboutUs = () => {
           </div>
         </section>
 
-        <style jsx>{`
+         <style>{`
         @keyframes subtle-zoom {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }

@@ -470,7 +470,7 @@ const DSInteriorsWebsite = () => {
           </div>
         </div>
 
-        <style jsx>{`
+         <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
@@ -480,7 +480,7 @@ const DSInteriorsWebsite = () => {
         }
       `}</style>
 
-        <style jsx>{`
+         <style>{`
         @keyframes scaleIn {
           from {
             opacity: 0;
@@ -642,7 +642,7 @@ const DSInteriorsWebsite = () => {
             </div>
           </div>
 
-          <style jsx>{`
+           <style>{`
           @keyframes ripple {
             0% {
               width: 30px;

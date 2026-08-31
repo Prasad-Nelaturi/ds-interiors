@@ -83,7 +83,7 @@ const ScrollingText = () => {
         </div>
       </div>
 
-      <style jsx>{`
+       <style>{`
         .marquee-wrapper {
           overflow: hidden;
           width: 100%;
