@@ -39,7 +39,7 @@ const SEO = () => {
             <title>{seo.title}</title>
 
             {/* Add a unique identifier to ensure this is the only title */}
-            <title data-seo="true">{seo.title}</title>
+            {/* <title data-seo="true">{seo.title}</title> */}
 
             <meta
                 name="description"
