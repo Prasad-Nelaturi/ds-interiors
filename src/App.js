@@ -30,7 +30,6 @@ import SpacePlanning from './components/Services/SpacePlanning';
 
 // Other Components
 import OurProjects from './components/OurProjects';
-import ProjectPDFView from './components/ProjectPDFView';
 import GalleryPage from './components/GalleryPage';
 import ModularFactory from './components/ModularFactory';
 import TermsConditions from './components/TermsConditions';
@@ -72,7 +71,6 @@ const App = () => {
               <Route path="/services/luxury-villas" element={<LuxuryVillaDesign />} />
               <Route path="/services/space-planning" element={<SpacePlanning />} />
             </Route>
-            <Route path="/project/:id" element={<ProjectPDFView />} />
           </Routes>
 
           <ConsultationModal />

@@ -1,26 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Eye, ChevronRight, Sparkles } from "lucide-react";
-import { Document, Page, pdfjs } from 'react-pdf';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Eye,
+  ChevronRight,
+  Sparkles,
+  ArrowLeft,
+  Download,
+} from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
 
-// Use CDN for worker (works on Vercel)
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js`;
-
-// Suppress warnings
-const originalWarn = console.warn;
-console.warn = (...args) => {
-  if (args[0]?.includes?.('TT: undefined function') ||
-    args[0]?.includes?.('Worker') ||
-    args[0]?.includes?.('pdf.js')) {
-    return;
-  }
-  originalWarn(...args);
-};
+// PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js";
 
 const OurProjects = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
   const [containerWidth, setContainerWidth] = useState({});
   const [pdfErrors, setPdfErrors] = useState({});
-  const [pdfLoading, setPdfLoading] = useState({});
   const containerRefs = useRef({});
 
   const projectsData = [
@@ -56,225 +51,344 @@ const OurProjects = () => {
     },
   ];
 
+  const getPdfUrl = (pdfPath) => {
+    if (pdfPath.startsWith("http")) {
+      return pdfPath;
+    }
+
+    return `${window.location.origin}${pdfPath}`;
+  };
+
+  // Update PDF preview widths
   useEffect(() => {
     const updateWidths = () => {
+      const widths = {};
+
       projectsData.forEach((project) => {
         const container = containerRefs.current[project.id];
+
         if (container) {
-          setContainerWidth(prev => ({
-            ...prev,
-            [project.id]: container.offsetWidth
-          }));
+          widths[project.id] = container.offsetWidth;
         }
       });
+
+      setContainerWidth(widths);
     };
 
     updateWidths();
-    window.addEventListener('resize', updateWidths);
-    return () => window.removeEventListener('resize', updateWidths);
+
+    window.addEventListener("resize", updateWidths);
+
+    return () => {
+      window.removeEventListener("resize", updateWidths);
+    };
   }, []);
 
-  // Debug: Check if PDF exists
+  // Open PDF viewer
+  const openProject = (project) => {
+    setSelectedProject(project);
+    document.title = project.title;
+
+    // Prevent background page from scrolling
+    document.body.style.overflow = "hidden";
+  };
+
+  // Close PDF viewer
+  const closeProject = () => {
+    setSelectedProject(null);
+
+    document.title = "Our Projects";
+
+    document.body.style.overflow = "";
+  };
+
+  // Browser back button
   useEffect(() => {
-    projectsData.forEach((project) => {
-      const url = getPdfUrl(project.pdfUrl);
-      console.log(`Checking PDF: ${url}`);
+    const handlePopState = () => {
+      if (selectedProject) {
+        closeProject();
+      }
+    };
 
-      fetch(url, { method: 'HEAD' })
-        .then(response => {
-          console.log(`PDF ${project.title}:`, response.status, response.ok);
-          if (!response.ok) {
-            setPdfErrors(prev => ({ ...prev, [project.id]: true }));
-          }
-        })
-        .catch(error => {
-          console.error(`Failed to fetch PDF ${project.title}:`, error);
-          setPdfErrors(prev => ({ ...prev, [project.id]: true }));
-        });
-    });
-  }, []);
+    window.addEventListener("popstate", handlePopState);
 
-  // Get correct URL for production
-  const getPdfUrl = (pdfPath) => {
-    if (pdfPath.startsWith('http')) return pdfPath;
-    const baseUrl = window.location.origin;
-    return `${baseUrl}${pdfPath}`;
-  };
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      document.body.style.overflow = "";
+    };
+  }, [selectedProject]);
 
-  // Fallback using iframe when PDF.js fails
-  const renderFallback = (project) => {
-    if (pdfErrors[project.id]) {
-      const pdfUrl = getPdfUrl(project.pdfUrl);
-      return (
-        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-          <iframe
-            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-            title={project.title}
-            className="w-full h-full border-0"
-          />
-        </div>
-      );
-    }
-    return null;
-  };
+  // Escape key
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && selectedProject) {
+        closeProject();
+      }
+    };
 
-  return (
-    <>
-      <section className="min-h-screen bg-[#faf8f6] py-24 relative">
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-amber-50/50 to-transparent rounded-full blur-3xl -z-10" />
-        <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-stone-50/50 to-transparent rounded-full blur-3xl -z-10" />
+    window.addEventListener("keydown", handleEscape);
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-14">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 mb-4 sm:mb-6 shadow-md border border-orange-100">
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
-              <span className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                Our Projects
-              </span>
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [selectedProject]);
+
+  /*
+   * FULL SCREEN PDF VIEWER
+   */
+  if (selectedProject) {
+    const pdfUrl = getPdfUrl(selectedProject.pdfUrl);
+
+    return (
+      <div className="fixed inset-0 z-[99999] flex h-[100dvh] w-full flex-col bg-[#f5f5f5]">
+        {/* HEADER */}
+        <header className="flex h-[60px] min-h-[60px] w-full shrink-0 items-center border-b border-gray-200 bg-white px-2 sm:px-4">
+          {/* BACK BUTTON */}
+          <button
+            type="button"
+            onClick={closeProject}
+            className="flex shrink-0 items-center gap-2 rounded-lg p-1.5 transition hover:bg-gray-100 sm:p-2"
+            aria-label="Back to projects"
+          >
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100">
+              <ArrowLeft size={19} />
+            </span>
+
+            <span className="hidden text-sm font-medium text-gray-700 sm:inline">
+              Back
+            </span>
+          </button>
+
+          {/* TITLE */}
+          <div className="min-w-0 flex-1 px-2 sm:px-4">
+            <div className="mx-auto w-fit max-w-full rounded-full border border-gray-200 bg-gray-100 px-3 py-2 sm:px-5">
+              <h1 className="max-w-[180px] truncate text-center text-xs font-semibold text-gray-800 sm:max-w-[450px] sm:text-sm md:max-w-[600px]">
+                {selectedProject.title}
+              </h1>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 sm:mb-4">
-              Our{" "}
-              <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                Projects
-              </span>
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-              Where timeless elegance meets contemporary vision
-            </p>
           </div>
+
+          {/* DOWNLOAD */}
+          <a
+            href={selectedProject.pdfUrl}
+            download
+            className="flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-orange-500 px-3 text-white transition hover:bg-orange-600 sm:px-4"
+            aria-label={`Download ${selectedProject.title}`}
+          >
+            <Download size={17} />
+
+            <span className="hidden text-sm font-medium sm:inline">
+              Download
+            </span>
+          </a>
+        </header>
+
+        {/* PDF AREA */}
+        <main className="relative min-h-0 flex-1 overflow-hidden">
+          <iframe
+            src={`${pdfUrl}#toolbar=0&navpanes=0&statusbar=0&messages=0`}
+            title={selectedProject.title}
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        </main>
+      </div>
+    );
+  }
+
+  /*
+   * PROJECT LIST
+   */
+  return (
+    <section className="relative min-h-screen bg-[#faf8f6] py-20 sm:py-24">
+      {/* Background decoration */}
+      <div className="absolute right-0 top-0 -z-0 h-1/3 w-1/3 rounded-full bg-gradient-to-bl from-amber-50/50 to-transparent blur-3xl" />
+
+      <div className="absolute bottom-0 left-0 -z-0 h-1/4 w-1/4 rounded-full bg-gradient-to-tr from-stone-50/50 to-transparent blur-3xl" />
+
+      {/* HEADER */}
+      <div className="relative z-10 mx-auto mb-12 max-w-7xl px-4 sm:mb-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Badge */}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-100 bg-gradient-to-r from-amber-50 to-orange-50 px-3 py-1.5 shadow-md sm:mb-6 sm:px-5 sm:py-2">
+            <Sparkles className="h-3 w-3 text-orange-500 sm:h-4 sm:w-4" />
+
+            <span className="text-xs font-semibold uppercase tracking-wide text-gray-700 sm:text-sm">
+              Our Projects
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="mb-3 text-3xl font-bold text-gray-900 sm:mb-4 sm:text-4xl md:text-5xl lg:text-6xl">
+            Our{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
+              Projects
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p className="mx-auto max-w-2xl text-sm text-gray-600 sm:text-base md:text-lg">
+            Where timeless elegance meets contemporary vision
+          </p>
         </div>
+      </div>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-            {projectsData.map((project, index) => (
-              <Link
-                to={`/project/${project.id}`}
-                state={{ project }}
-                className="group cursor-pointer block"
-                style={{
-                  animation: `fade-in 0.6s ease-out both ${index * 100}ms`,
-                }}
-                onClick={() => {
-                  document.title = project.title;
-                }}
-              >
-                <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-2 border border-stone-100/50">
-                  <div
-                    ref={(el) => containerRefs.current[project.id] = el}
-                    className="relative h-[240px] sm:h-[260px] lg:h-[280px] w-full overflow-hidden bg-stone-50 flex items-center justify-center"
-                  >
-                    <div className="absolute inset-2 border border-stone-200/30 rounded-lg z-10 pointer-events-none" />
+      {/* PROJECT GRID */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
+          {projectsData.map((project, index) => (
+            <button
+              key={project.id}
+              type="button"
+              onClick={() => openProject(project)}
+              className="group block w-full cursor-pointer text-left focus:outline-none"
+              style={{
+                animation: `fade-in 0.6s ease-out both ${index * 100
+                  }ms`,
+              }}
+            >
+              <div className="overflow-hidden rounded-2xl border border-stone-100/50 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+                {/* PDF PREVIEW */}
+                <div
+                  ref={(el) => {
+                    containerRefs.current[project.id] = el;
+                  }}
+                  className="relative flex h-[220px] w-full items-center justify-center overflow-hidden bg-stone-50 sm:h-[260px] lg:h-[280px]"
+                >
+                  {/* Border */}
+                  <div className="pointer-events-none absolute inset-2 z-10 rounded-lg border border-stone-200/30" />
 
-                    {/* PDF.js Document */}
-                    {!pdfErrors[project.id] ? (
-                      <Document
-                        file={getPdfUrl(project.pdfUrl)}
-                        loading={
-                          <div className="flex items-center justify-center h-full w-full">
-                            <div className="text-gray-400 text-sm">Loading preview...</div>
+                  {/* PDF */}
+                  {!pdfErrors[project.id] ? (
+                    <Document
+                      file={getPdfUrl(project.pdfUrl)}
+                      loading={
+                        <div className="flex h-full w-full items-center justify-center">
+                          <div className="text-sm text-gray-400">
+                            Loading preview...
                           </div>
-                        }
-                        error={(error) => {
-                          console.error('PDF Error for', project.title, error);
-                          setPdfErrors(prev => ({ ...prev, [project.id]: true }));
-                          return (
-                            <div className="flex items-center justify-center h-full w-full">
-                              <div className="text-gray-400 text-sm">Preview not available</div>
-                            </div>
-                          );
-                        }}
-                        onLoadSuccess={() => {
-                          console.log(`PDF loaded successfully: ${project.title}`);
-                          setPdfLoading(prev => ({ ...prev, [project.id]: false }));
-                        }}
-                      >
-                        <Page
-                          pageNumber={1}
-                          width={containerWidth[project.id] || 400}
-                          renderTextLayer={false}
-                          renderAnnotationLayer={false}
-                        />
-                      </Document>
-                    ) : (
-                      // Fallback: Google Docs Viewer
-                      <div className="w-full h-full">
-                        <iframe
-                          src={`https://docs.google.com/viewer?url=${encodeURIComponent(getPdfUrl(project.pdfUrl))}&embedded=true`}
-                          title={project.title}
-                          className="w-full h-full border-0"
-                        />
-                      </div>
-                    )}
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-xl">
-                          <Eye className="w-6 h-6 text-stone-800" />
                         </div>
+                      }
+                      error={(error) => {
+                        console.error(
+                          "PDF Error:",
+                          project.title,
+                          error
+                        );
+
+                        setPdfErrors((prev) => ({
+                          ...prev,
+                          [project.id]: true,
+                        }));
+
+                        return (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <span className="text-sm text-gray-400">
+                              Preview not available
+                            </span>
+                          </div>
+                        );
+                      }}
+                    >
+                      <Page
+                        pageNumber={1}
+                        width={containerWidth[project.id] || 400}
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                      />
+                    </Document>
+                  ) : (
+                    <iframe
+                      src={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                        getPdfUrl(project.pdfUrl)
+                      )}&embedded=true`}
+                      title={project.title}
+                      className="h-full w-full border-0"
+                    />
+                  )}
+
+                  {/* HOVER OVERLAY */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-stone-900/60 via-stone-900/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="translate-y-4 transition-transform duration-500 group-hover:translate-y-0">
+                      <div className="rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm">
+                        <Eye className="h-6 w-6 text-stone-800" />
                       </div>
                     </div>
-                  </div>
-
-                  <div className="px-6 py-5 bg-white relative">
-                    <div className="absolute top-0 left-6 w-8 h-px bg-gradient-to-r from-amber-400 to-transparent" />
-
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <h2 className="text-lg text-orange-500 font-bold group-hover:text-orange-500 transition-colors duration-300 line-clamp-2">
-                          {project.title}
-                        </h2>
-                        <p className="mt-1.5 text-xs text-gray-800 font-light tracking-widest uppercase">
-                          View Project
-                        </p>
-                      </div>
-                      <div className="flex-shrink-0 mt-0.5">
-                        <div className="w-8 h-8 rounded-full border border-stone-200 group-hover:border-orange-400 group-hover:bg-orange-50 flex items-center justify-center transition-all duration-300">
-                          <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-orange-500 transition-colors duration-300" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 h-px w-8 bg-gradient-to-r from-orange-300/50 to-transparent group-hover:w-16 transition-all duration-500" />
                   </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
 
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-4 text-stone-300">
-            <span className="text-xs tracking-[0.2em] font-light">—</span>
-            <span className="text-orange-300/30 text-sm">◆</span>
-            <span className="text-xs tracking-[0.2em] font-light">—</span>
-          </div>
-        </div>
+                {/* PROJECT INFO */}
+                <div className="relative bg-white px-5 py-5 sm:px-6">
+                  {/* Accent */}
+                  <div className="absolute left-6 top-0 h-px w-8 bg-gradient-to-r from-amber-400 to-transparent" />
 
-        <style>{`
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <h2 className="line-clamp-2 text-base font-bold text-orange-500 transition-colors duration-300 sm:text-lg">
+                        {project.title}
+                      </h2>
+
+                      <p className="mt-1.5 text-xs font-light uppercase tracking-widest text-gray-800">
+                        View Project
+                      </p>
+                    </div>
+
+                    {/* Arrow */}
+                    <div className="mt-0.5 shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 transition-all duration-300 group-hover:border-orange-400 group-hover:bg-orange-50">
+                        <ChevronRight className="h-4 w-4 text-stone-400 transition-colors duration-300 group-hover:text-orange-500" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom accent */}
+                  <div className="mt-3 h-px w-8 bg-gradient-to-r from-orange-300/50 to-transparent transition-all duration-500 group-hover:w-16" />
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom decoration */}
+      <div className="mt-16 text-center">
+        <div className="inline-flex items-center gap-4 text-stone-300">
+          <span className="text-xs font-light tracking-[0.2em]">
+            —
+          </span>
+
+          <span className="text-sm text-orange-300/30">◆</span>
+
+          <span className="text-xs font-light tracking-[0.2em]">
+            —
+          </span>
+        </div>
+      </div>
+
+      <style>{`
         @keyframes fade-in {
           from {
             opacity: 0;
             transform: translateY(20px);
           }
+
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
-        
+
         .react-pdf__Page {
           width: 100% !important;
           height: 100% !important;
         }
-        
+
         .react-pdf__Page canvas {
           width: 100% !important;
           height: 100% !important;
           object-fit: cover !important;
         }
       `}</style>
-      </section>
-    </>
+    </section>
   );
 };
 
